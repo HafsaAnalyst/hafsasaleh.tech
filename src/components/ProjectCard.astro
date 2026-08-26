@@ -1,0 +1,26 @@
+---
+import type { Project } from '../data/projects';
+import { kindLabel } from '../data/projects';
+
+interface Props { project: Project }
+const { project } = Astro.props;
+---
+
+<article class="card">
+  <span class="meta">{kindLabel[project.kind]} · {project.year}</span>
+  <h3>{project.title}</h3>
+  <p>{project.summary}</p>
+  {project.outcome && (
+    <p style="color: var(--accent); font-weight: 500; font-size: .9rem;">{project.outcome}</p>
+  )}
+  {project.links && project.links.length > 0 && (
+    <div class="links-row">
+      {project.links.map((l) => (
+        <a href={l.href} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label} →</a>
+      ))}
+    </div>
+  )}
+  <div class="tags">
+    {project.tags.map((t) => <span class="tag">{t}</span>)}
+  </div>
+</article>

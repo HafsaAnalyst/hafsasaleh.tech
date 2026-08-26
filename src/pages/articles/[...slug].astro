@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('articles', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-AU', { year: 'numeric', month: 'long', day: 'numeric' });
+
+// Rough reading time from the raw markdown body
+const words = post.body?.trim().split(/\s+/).length ?? 0;
+const readingTime = words ? `${Math.max(1, Math.round(words / 200))} min read` : null;
+---
+
+<BaseLayout
+  title={post.data.title}
+  description={post.data.description}
+  article={true}
+  publishedDate={post.data.pubDate}
+>
+  <article class="section">
+    <div class="wrap prose-wrap">
+      <p class="meta">
+        {fmt(post.data.pubDate)}
+        {readingTime && ` · ${readingTime}`}
+      </p>
+      <h1 style="margin-top:.7rem;">{post.data.title}</h1>
+      <p class="lead" style="margin-top:1rem;">{post.data.description}</p>
+
+      {post.data.tags.length > 0 && (
+        <div class="tags" style="margin-top:1.2rem;">
+          {post.data.tags.map((t: string) => <span class="tag">{t}</span>)}
+        </div>
+      )}
+
+      {post.data.updatedDate && (
+        <p class="meta" style="margin-top:.8rem;">Updated {fmt(post.data.updatedDate)}</p>
+      )}
+
+      <hr style="border:0; border-top:1px solid var(--line); margin-block:2.5rem;" />
+
+      <div class="prose">
+        <Content />
+      </div>
+
+      <hr style="border:0; border-top:1px solid var(--line); margin-block:3rem;" />
+      <a class="btn btn-ghost" href="/articles/">← All articles</a>
+    </div>
+  </article>
+</BaseLayout>

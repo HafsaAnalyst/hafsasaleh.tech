@@ -1,0 +1,72 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { site } from '../site';
+import { projects } from '../data/projects';
+import { getCollection } from 'astro:content';
+
+const featured = projects.filter((p) => p.featured).slice(0, 3);
+
+const posts = (await getCollection('articles', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' });
+---
+
+<BaseLayout>
+  <!-- Hero -->
+  <section class="section">
+    <div class="wrap">
+      <div style="max-width: 46rem;">
+        <p class="eyebrow">{site.role}</p>
+        <h1>{site.name}</h1>
+        <p class="lead" style="margin-top: 1.1rem;">{site.tagline}</p>
+        <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem;">
+          <a class="btn btn-primary" href="/projects/">View my work</a>
+          <a class="btn btn-ghost" href={site.cv}>Download CV</a>
+          <a class="btn btn-ghost" href="/contact/">Get in touch</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured projects -->
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Selected work</p>
+      <h2>Projects</h2>
+      <p class="lead" style="margin-top:.6rem; max-width:38rem;">
+        A few things I've built recently — models, dashboards and analyses, each with the
+        outcome it produced.
+      </p>
+      <div class="grid grid-2" style="margin-top:2.2rem;">
+        {featured.map((p) => <ProjectCard project={p} />)}
+      </div>
+      <p style="margin-top:2rem;"><a class="btn btn-ghost" href="/projects/">All projects →</a></p>
+    </div>
+  </section>
+
+  <!-- Latest articles -->
+  {posts.length > 0 && (
+    <section class="section">
+      <div class="wrap">
+        <p class="eyebrow">Writing</p>
+        <h2>Latest articles</h2>
+        <ul class="post-list" style="margin-top:1.8rem;">
+          {posts.map((post) => (
+            <li>
+              <a class="post-link" href={`/articles/${post.id}/`}>
+                <span class="meta">{fmt(post.data.pubDate)}</span>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p style="margin-top:2rem;"><a class="btn btn-ghost" href="/articles/">All articles →</a></p>
+      </div>
+    </section>
+  )}
+</BaseLayout>

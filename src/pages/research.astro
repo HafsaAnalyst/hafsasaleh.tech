@@ -1,0 +1,38 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { publications } from '../data/research';
+---
+
+<BaseLayout
+  title="Research"
+  description="Published research, papers and preprints by Hafsa Saleh."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Publications</p>
+      <h1>Research</h1>
+      <p class="lead" style="margin-top:1rem; max-width:40rem;">
+        Peer-reviewed work, preprints and theses. Each entry links to the full text
+        and, where available, the code behind it.
+      </p>
+
+      <div style="margin-top:2.5rem; display:flex; flex-direction:column; gap:1.25rem;">
+        {publications.map((pub) => (
+          <article class="card">
+            <span class="meta">{pub.venue} · {pub.year}</span>
+            <h3>{pub.title}</h3>
+            <p style="color:var(--muted); font-size:.88rem;">{pub.authors}</p>
+            <p>{pub.abstract}</p>
+            {pub.links && pub.links.length > 0 && (
+              <div class="links-row" style="margin-top:.4rem;">
+                {pub.links.map((l) => (
+                  <a href={l.href} rel={l.href.startsWith('http') ? 'noopener' : undefined}>{l.label} →</a>
+                ))}
+              </div>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

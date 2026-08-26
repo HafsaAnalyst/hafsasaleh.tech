@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="Projects"
+  description="Data science portfolio — machine learning models, dashboards, and analyses by Hafsa Saleh."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Portfolio</p>
+      <h1>Projects</h1>
+      <p class="lead" style="margin-top:1rem; max-width:40rem;">
+        Each project below states the problem, what I built, and what changed as a result.
+        Code and dashboards are linked where they're public.
+      </p>
+
+      <div class="grid grid-2" style="margin-top:2.5rem;">
+        {projects.map((p) => <ProjectCard project={p} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

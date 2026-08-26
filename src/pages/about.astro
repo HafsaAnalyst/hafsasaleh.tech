@@ -1,0 +1,123 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site';
+
+// ---------------------------------------------------------------------------
+// Replace everything below with your real details from your CV.
+// ---------------------------------------------------------------------------
+
+const skills = [
+  { group: 'Languages', items: ['Python', 'SQL', 'R'] },
+  { group: 'ML & Stats', items: ['scikit-learn', 'XGBoost', 'PyTorch', 'Time series', 'A/B testing'] },
+  { group: 'Data & BI', items: ['pandas', 'Power BI', 'Tableau', 'dbt', 'Airflow'] },
+  { group: 'Platform', items: ['PostgreSQL', 'BigQuery', 'Git', 'Docker', 'Azure'] },
+];
+
+const experience = [
+  {
+    role: 'Your Job Title',
+    org: 'Company Name',
+    period: '2024 — Present',
+    points: [
+      'What you owned, and the measurable result. Lead every bullet with a verb.',
+      'Second achievement, ideally with a number attached.',
+    ],
+  },
+  {
+    role: 'Previous Job Title',
+    org: 'Previous Company',
+    period: '2022 — 2024',
+    points: ['What you delivered and its impact.'],
+  },
+];
+
+const education = [
+  {
+    award: 'Your Degree, e.g. MSc Data Science',
+    org: 'University Name',
+    period: '2020 — 2022',
+    note: 'Thesis or notable focus area.',
+  },
+];
+---
+
+<BaseLayout title="About" description={`About ${site.name} — background, skills and experience.`}>
+  <section class="section">
+    <div class="wrap">
+      <div class="prose-wrap">
+        <p class="eyebrow">About</p>
+        <h1>Hi, I'm {site.name.split(' ')[0]}.</h1>
+
+        <div class="prose" style="margin-top:1.6rem;">
+          <p class="lead">
+            Write your story here in three short paragraphs. This is the page people read
+            right before they decide to email you, so make it human rather than a second
+            copy of your CV.
+          </p>
+          <p>
+            <strong>Paragraph one — where you are now.</strong> What you do, who you do it
+            for, and the kind of problems you like. One or two sentences.
+          </p>
+          <p>
+            <strong>Paragraph two — how you got here.</strong> Your background, your training,
+            the turn that got you into data. Keep it concrete.
+          </p>
+          <p>
+            <strong>Paragraph three — what you're after.</strong> The work you want next,
+            and what you do when you're not working. A little personality goes a long way.
+          </p>
+        </div>
+
+        <p style="margin-top:2rem;">
+          <a class="btn btn-primary" href={site.cv}>Download my CV</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Skills</h2>
+      <div class="grid grid-3" style="margin-top:1.8rem;">
+        {skills.map((s) => (
+          <div class="card">
+            <h3>{s.group}</h3>
+            <div class="tags" style="margin-top:.2rem;">
+              {s.items.map((i) => <span class="tag">{i}</span>)}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose-wrap">
+        <h2>Experience</h2>
+        <div style="margin-top:1.8rem; display:flex; flex-direction:column; gap:2rem;">
+          {experience.map((job) => (
+            <div>
+              <span class="meta">{job.period}</span>
+              <h3 style="margin-top:.3rem;">{job.role} · {job.org}</h3>
+              <ul style="margin-top:.6rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
+                {job.points.map((p) => <li>{p}</li>)}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <h2 style="margin-top:3rem;">Education</h2>
+        <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:1.5rem;">
+          {education.map((e) => (
+            <div>
+              <span class="meta">{e.period}</span>
+              <h3 style="margin-top:.3rem;">{e.award}</h3>
+              <p style="color:var(--ink-2); font-size:.95rem;">{e.org} — {e.note}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
