@@ -2,69 +2,131 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 
-// ---------------------------------------------------------------------------
-// Replace everything below with your real details from your CV.
-// ---------------------------------------------------------------------------
-
 const skills = [
-  { group: 'Languages', items: ['Python', 'SQL', 'R'] },
-  { group: 'ML & Stats', items: ['scikit-learn', 'XGBoost', 'PyTorch', 'Time series', 'A/B testing'] },
-  { group: 'Data & BI', items: ['pandas', 'Power BI', 'Tableau', 'dbt', 'Airflow'] },
-  { group: 'Platform', items: ['PostgreSQL', 'BigQuery', 'Git', 'Docker', 'Azure'] },
+  {
+    group: 'Marketing Analytics & BI',
+    items: ['GA4', 'Google Search Console', 'Meta Ads Manager', 'GoHighLevel', 'Streamlit', 'Power BI', 'Multi-Touch Attribution', 'Funnel Analytics', 'KPI Tracking'],
+  },
+  {
+    group: 'AI & Automation',
+    items: ['LLMs', 'Agentic AI', 'Claude Code', 'Prompt Engineering', 'Meta Graph API', 'GHL API', 'Google Cloud Console', 'Workflow Automation'],
+  },
+  {
+    group: 'Programming & Data Engineering',
+    items: ['Python', 'Pandas', 'NumPy', 'OpenPyXL', 'Requests', 'SQL', 'R', 'ETL Architecture', 'Data Wrangling'],
+  },
+  {
+    group: 'CRM Architecture & Governance',
+    items: ['GoHighLevel Workflows', 'Pipelines & Opportunities', 'SSOT Design', 'Lead Lifecycle Management', 'Data Governance'],
+  },
+  {
+    group: 'Statistical & Predictive',
+    items: ['SPSS', 'Multiple Linear Regression', 'Hypothesis Testing', 'Time Series', 'Predictive Modelling', 'Revenue Reconciliation'],
+  },
+  {
+    group: 'Enterprise & Project Management',
+    items: ['SAP / ERP (Sapphire)', 'Agile', 'ClickUp (OKRs, API)', 'Google Workspace', 'Excel (Pivot Tables, Power Query)'],
+  },
 ];
 
 const experience = [
   {
-    role: 'Your Job Title',
-    org: 'Company Name',
-    period: '2024 — Present',
+    role: 'Marketing Intelligence Analyst',
+    org: 'The Migration — Australian Migration & Visa Consultancy',
+    period: 'Dec 2025 — Present',
     points: [
-      'What you owned, and the measurable result. Lead every bullet with a verb.',
-      'Second achievement, ideally with a number attached.',
+      'Engineered a custom ETL pipeline and centralised Streamlit application performing cross-platform data integration across Meta Ads, GoHighLevel, GA4 and Google Search Console APIs — replacing siloed marketing and CRM data with an enterprise single source of truth.',
+      'Delivered multi-touch attribution mapping across 5,200+ leads, 3,300+ appointments and 395 conversions for a USD 10,000/month media budget — driving cost-per-lead to USD 7.45 and cost-per-appointment to USD 11.58 through real-time budget reallocation recommendations.',
+      'Architected the CRM environment in GoHighLevel, enforcing data governance and cleaning protocols across workflows, automations, pipelines, opportunities and custom fields.',
+      'Designed automated revenue reconciliation reports identifying funnel leakages and tracking ROI per acquisition channel, consolidating multi-source KPI data into board-ready executive packages.',
+      'Acted as strategic data advisor to C-suite executives — delivering predictive modelling, trend analyses and Meta campaign forecasts that catalysed major budget and growth decisions.',
+      'Provided cross-functional leadership as acting line manager for a 12-person marketing department spanning performance, content & media, and SEO.',
     ],
   },
   {
-    role: 'Previous Job Title',
-    org: 'Previous Company',
-    period: '2022 — 2024',
-    points: ['What you delivered and its impact.'],
+    role: 'Data Analyst',
+    org: 'Sapphire Finishing Mills Ltd.',
+    period: 'Sep 2023 — Nov 2025',
+    points: [
+      'Architected an automated ETL pipeline compressing a recurring 1-hour analysis cycle to 14 seconds — eliminating manual transcription errors and reclaiming 4+ team hours per iteration.',
+      'Built a Python-based predictive scheduling system for monthly fabric-dyeing operations, forecasting job completion via Z-test modelling; delivered a 20% gain in operational planning efficiency.',
+      'Owned end-to-end order lifecycle monitoring within the Sapphire SAP/ERP environment, surfacing operational KPI deviations directly to production leadership.',
+      'Designed Excel pivot-based BI dashboards for weekly reprocess, packed orders and shortfall tracking — adopted by floor management as the operational reporting standard.',
+    ],
+  },
+  {
+    role: 'Freelance Data Analyst',
+    org: 'Various Research Clients',
+    period: 'Dec 2022 — Present',
+    points: [
+      'Delivered SPSS-based statistical analysis using parametric and non-parametric methods on research datasets including plant species trend modelling and academic article quality assessment.',
+    ],
+  },
+  {
+    role: 'Data Analyst Intern',
+    org: 'Bureau of Statistics, Punjab',
+    period: 'Jun 2022 — Aug 2022',
+    points: [
+      'Analysed MICS survey data on early marriage, HIV/AIDS awareness, neonatal tetanus and birth registration — findings published in official provincial statistical reports.',
+    ],
   },
 ];
 
 const education = [
   {
-    award: 'Your Degree, e.g. MSc Data Science',
-    org: 'University Name',
-    period: '2020 — 2022',
-    note: 'Thesis or notable focus area.',
+    award: 'Bachelor (Honours) — Statistics',
+    org: 'College of Statistical Sciences, University of the Punjab, Lahore',
+    period: '2019 — 2023',
+    note: 'CGPA 3.45 / 4.0. Coursework: Probability, Time Series, Applied Econometrics, Statistical Inference, Experimental Design, Categorical Analysis, Programming.',
   },
+];
+
+const training = [
+  'AI Workshop — LLMs and Agentic AI fundamentals',
+  'Claude Code Workshop — AI-assisted development workflows',
 ];
 ---
 
-<BaseLayout title="About" description={`About ${site.name} — background, skills and experience.`}>
+<BaseLayout
+  title="About"
+  description="Marketing Intelligence Analyst with 2.5+ years engineering ETL pipelines, multi-touch attribution platforms and AI-assisted reporting systems."
+>
   <section class="section">
     <div class="wrap">
       <div class="prose-wrap">
         <p class="eyebrow">About</p>
-        <h1>Hi, I'm {site.name.split(' ')[0]}.</h1>
+        <h1>Hi, I'm Hafsa.</h1>
 
         <div class="prose" style="margin-top:1.6rem;">
           <p class="lead">
-            Write your story here in three short paragraphs. This is the page people read
-            right before they decide to email you, so make it human rather than a second
-            copy of your CV.
+            I'm a Marketing Intelligence Analyst with 2.5+ years spent building the
+            unglamorous infrastructure that decisions rest on — ETL pipelines,
+            attribution platforms and reporting systems that people at the top of an
+            organisation actually open.
           </p>
           <p>
-            <strong>Paragraph one — where you are now.</strong> What you do, who you do it
-            for, and the kind of problems you like. One or two sentences.
+            Right now I'm at <strong>The Migration</strong>, an Australian migration and visa
+            consultancy, where I engineered the cross-platform data integration layer that
+            unifies Meta Ads, GoHighLevel, GA4 and Google Search Console into a single
+            Streamlit source of truth. It tracks 5,200+ leads against a USD 10K/month media
+            budget, and the CEO uses it as the primary strategic decision tool. Alongside the
+            analytics work I act as line manager for a 12-person marketing department and sit
+            in C-level strategy forums as the embedded data voice.
           </p>
           <p>
-            <strong>Paragraph two — how you got here.</strong> Your background, your training,
-            the turn that got you into data. Keep it concrete.
+            I came to this from statistics rather than marketing. My degree is in Statistics
+            from the University of the Punjab, and my first analyst role was on a factory
+            floor at Sapphire Finishing Mills — where I learned that the fastest way to earn
+            trust is to take something that takes an hour and make it take fourteen seconds.
+            I've also published peer-reviewed research modelling air quality in Islamabad,
+            which is where the statistical rigour comes from.
           </p>
           <p>
-            <strong>Paragraph three — what you're after.</strong> The work you want next,
-            and what you do when you're not working. A little personality goes a long way.
+            The thread running through all of it: <strong>a model nobody deploys is a hobby</strong>.
+            I care about the gap between technically correct and actually used — which usually
+            means data governance, clean pipelines and reporting that answers the question
+            someone was really asking. Increasingly that also means AI-assisted development;
+            a good chunk of my recent integration work was built with Claude Code.
           </p>
         </div>
 
@@ -95,28 +157,35 @@ const education = [
     <div class="wrap">
       <div class="prose-wrap">
         <h2>Experience</h2>
-        <div style="margin-top:1.8rem; display:flex; flex-direction:column; gap:2rem;">
+        <div style="margin-top:1.8rem; display:flex; flex-direction:column; gap:2.4rem;">
           {experience.map((job) => (
             <div>
               <span class="meta">{job.period}</span>
-              <h3 style="margin-top:.3rem;">{job.role} · {job.org}</h3>
-              <ul style="margin-top:.6rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
-                {job.points.map((p) => <li>{p}</li>)}
+              <h3 style="margin-top:.3rem;">{job.role}</h3>
+              <p style="color:var(--muted); font-size:.9rem;">{job.org}</p>
+              <ul style="margin-top:.8rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
+                {job.points.map((p) => <li style="margin-bottom:.45rem;">{p}</li>)}
               </ul>
             </div>
           ))}
         </div>
 
-        <h2 style="margin-top:3rem;">Education</h2>
+        <h2 style="margin-top:3.5rem;">Education</h2>
         <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:1.5rem;">
           {education.map((e) => (
             <div>
               <span class="meta">{e.period}</span>
               <h3 style="margin-top:.3rem;">{e.award}</h3>
-              <p style="color:var(--ink-2); font-size:.95rem;">{e.org} — {e.note}</p>
+              <p style="color:var(--ink-2); font-size:.95rem;">{e.org}</p>
+              <p style="color:var(--muted); font-size:.9rem; margin-top:.3rem;">{e.note}</p>
             </div>
           ))}
         </div>
+
+        <h2 style="margin-top:3.5rem;">Training</h2>
+        <ul style="margin-top:1.2rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
+          {training.map((t) => <li style="margin-bottom:.4rem;">{t}</li>)}
+        </ul>
       </div>
     </div>
   </section>

@@ -9,6 +9,7 @@ const { project } = Astro.props;
 <article class="card">
   <span class="meta">{kindLabel[project.kind]} · {project.year}</span>
   <h3>{project.title}</h3>
+  {project.org && <p style="color:var(--muted); font-size:.85rem; margin-top:-.35rem;">{project.org}</p>}
   <p>{project.summary}</p>
   {project.outcome && (
     <p style="color: var(--accent); font-weight: 500; font-size: .9rem;">{project.outcome}</p>

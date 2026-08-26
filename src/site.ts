@@ -1,29 +1,30 @@
 // ---------------------------------------------------------------------------
-// EDIT ME FIRST. Everything on the site reads from this one file.
+// Central config. Everything on the site reads from this one file.
 // ---------------------------------------------------------------------------
 
 export const site = {
   name: 'Hafsa Saleh',
-  // Shown in the browser tab after the page title
   shortName: 'Hafsa Saleh',
   domain: 'hafsasaleh.tech',
   url: 'https://hafsasaleh.tech',
 
-  // One line under your name on the home page
-  role: 'Data Scientist & Analytics Professional',
+  role: 'Marketing Intelligence Analyst',
 
-  // 2-3 sentences. This is your positioning statement - the single most
-  // important paragraph on the whole site. Say who you help and how.
+  // Your positioning statement — the most important sentence on the site.
   tagline:
-    'I turn messy, real-world data into decisions people actually act on — building models, dashboards and analyses that move the number that matters.',
+    'I build the data layer marketing teams actually run on — unifying ad platforms, CRM and analytics into one source of truth that leadership uses to decide where the money goes.',
 
   // Used for SEO meta descriptions and social sharing previews
   description:
-    'Hafsa Saleh is a data scientist working across machine learning, analytics engineering and data visualisation. Portfolio, research and writing on turning data into decisions.',
+    'Hafsa Saleh is a Marketing Intelligence Analyst specialising in ETL pipelines, multi-touch attribution and AI-assisted reporting systems. Portfolio, research and writing on turning marketing data into decisions.',
 
-  email: 'hello@hafsasaleh.tech',
+  // TODO: swap to hello@hafsasaleh.tech once you set up domain email (Zoho is free).
+  email: 'hafsa.saleh1821@gmail.com',
 
-  // Set to '' to hide a link. Add your real handles here.
+  // Phone deliberately omitted — a public number on a personal site attracts spam.
+  // People who need it will get it from your CV.
+
+  // TODO: add your real GitHub and LinkedIn URLs. Set to '' to hide a link.
   socials: {
     github: 'https://github.com/YOUR-USERNAME',
     linkedin: 'https://www.linkedin.com/in/YOUR-HANDLE',
@@ -32,10 +33,10 @@ export const site = {
     scholar: '',
   },
 
-  // Path to your CV in /public. Drop the PDF there and it works.
+  // Drop the PDF into /public with this exact filename.
   cv: '/hafsa-saleh-cv.pdf',
 
-  location: 'Australia',
+  location: 'Lahore, Pakistan',
 };
 
 export const nav = [

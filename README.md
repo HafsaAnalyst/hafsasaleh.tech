@@ -87,12 +87,17 @@ Live in about 40 seconds.
 
 ## Before you go live — checklist
 
-- [ ] Fill in `src/site.ts` (especially GitHub + LinkedIn URLs)
-- [ ] Replace the three placeholder projects with real ones
-- [ ] Replace the placeholder publication in `src/data/research.ts`
-- [ ] Write the About page bio and update skills/experience/education
-- [ ] Add `public/hafsa-saleh-cv.pdf`
-- [ ] Add `public/og.png` (1200×630) — the image shown when the site is shared on
-      LinkedIn/X. Without it, shares look blank.
-- [ ] Delete or rewrite `src/content/articles/welcome.md`
+Content is filled in from the CV. These are the gaps only you can close —
+search the codebase for `TODO:` to find them all.
+
+- [ ] **GitHub + LinkedIn URLs** in `src/site.ts` (currently placeholders)
+- [ ] **Streamlit dashboard URL** in `src/data/projects.ts` — or delete that link if
+      the dashboard is internal-only
+- [ ] **Journal name, year and DOI** for the air-quality paper in `src/data/research.ts`,
+      and drop the PDF into `public/papers/`
+- [ ] **`public/hafsa-saleh-cv.pdf`** — the download buttons already point here
+- [ ] **`public/og.png`** (1200×630) — the preview image when the site is shared on
+      LinkedIn. Without it, shares render blank.
+- [ ] Optional: set up `hello@hafsasaleh.tech` (Zoho Mail, free) and swap the email
+      in `src/site.ts`
 - [ ] Submit the sitemap to [Google Search Console](https://search.google.com/search-console)

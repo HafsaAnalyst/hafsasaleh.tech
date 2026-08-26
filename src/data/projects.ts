@@ -1,18 +1,16 @@
 // ---------------------------------------------------------------------------
-// Your portfolio. Replace these three placeholders with your real work.
-// Add as many as you like — the grid handles any number.
-//
-// `kind` controls the little label on the card: 'ml' | 'dashboard' | 'analysis' | 'engineering'
-// `featured: true` pulls a project onto the home page (keep it to 3).
+// Flagship projects. `featured: true` pulls a project onto the home page.
 // ---------------------------------------------------------------------------
 
 export interface Project {
   title: string;
-  /** One sentence on what it does. Lead with the outcome, not the tooling. */
+  /** Where the work was done — shown as context under the title */
+  org?: string;
+  /** One or two sentences on what it does. Lead with the outcome, not the tooling. */
   summary: string;
   /** The result. A number beats an adjective every time. */
   outcome?: string;
-  kind: 'ml' | 'dashboard' | 'analysis' | 'engineering';
+  kind: 'ml' | 'dashboard' | 'analysis' | 'engineering' | 'automation';
   tags: string[];
   year: string;
   featured?: boolean;
@@ -20,47 +18,71 @@ export interface Project {
 }
 
 export const kindLabel: Record<Project['kind'], string> = {
-  ml: 'Machine Learning',
-  dashboard: 'Dashboard',
+  ml: 'Predictive Modelling',
+  dashboard: 'BI & Dashboards',
   analysis: 'Analysis',
   engineering: 'Data Engineering',
+  automation: 'Automation',
 };
 
 export const projects: Project[] = [
   {
-    title: 'Customer Churn Prediction Model',
+    title: 'Marketing Intelligence Platform',
+    org: 'The Migration',
     summary:
-      'Gradient-boosted classifier that flags at-risk subscription customers 30 days before they lapse, with SHAP explanations so the retention team knows why.',
-    outcome: 'Recall of 0.81 on held-out data; surfaced 3 churn drivers the business had not tracked.',
-    kind: 'ml',
-    tags: ['Python', 'scikit-learn', 'XGBoost', 'SHAP'],
-    year: '2025',
+      'Sole architect of a multi-touch attribution platform unifying Meta Ads, GoHighLevel, GA4 and Google Search Console through native API integration — replacing siloed marketing and CRM data with a single Streamlit-based source of truth.',
+    outcome:
+      '5,200+ leads, 3,300+ appointments and 395 conversions tracked against a USD 10K/month media budget. Drove cost-per-lead to USD 7.45 and cost-per-appointment to USD 11.58. Adopted by the CEO as the primary strategic decision tool.',
+    kind: 'engineering',
+    tags: ['Python', 'Streamlit', 'Meta Graph API', 'GHL API', 'GA4', 'GSC', 'ETL'],
+    year: '2026',
     featured: true,
-    links: [
-      { label: 'GitHub repo', href: 'https://github.com/YOUR-USERNAME/churn-model' },
-      { label: 'Write-up', href: '/articles/' },
-    ],
-  },
-  {
-    title: 'Sales Performance Dashboard',
-    summary:
-      'End-to-end Power BI dashboard over a modelled star schema, replacing a weekly manual spreadsheet process for a 40-person sales org.',
-    outcome: 'Cut reporting turnaround from 2 days to near real-time.',
-    kind: 'dashboard',
-    tags: ['Power BI', 'DAX', 'SQL', 'Data modelling'],
-    year: '2025',
-    featured: true,
+    // TODO: paste the public Streamlit URL here, or remove this link if it is internal-only.
     links: [{ label: 'Live dashboard', href: '#' }],
   },
   {
-    title: 'Exploratory Analysis of Urban Mobility Data',
+    title: 'Counsellor Revenue Performance Dashboard',
+    org: 'The Migration',
     summary:
-      'Geospatial analysis of two years of public transit records to identify underserved corridors and peak-load bottlenecks.',
-    outcome: 'Identified 6 corridors where demand outstripped scheduled capacity.',
-    kind: 'analysis',
-    tags: ['pandas', 'GeoPandas', 'Plotly', 'Jupyter'],
+      'Per-agent BI dashboard surfacing individual revenue contribution, nurturing velocity and pipeline-to-close conversion rates for the counsellor team.',
+    outcome:
+      'Used directly by leadership to run data-driven 1-on-1 performance reviews, replacing subjective assessment with per-agent pipeline evidence.',
+    kind: 'dashboard',
+    tags: ['Streamlit', 'Python', 'GoHighLevel', 'Revenue Analytics'],
+    year: '2026',
+    featured: true,
+  },
+  {
+    title: 'Critical Report ETL Pipeline',
+    org: 'Sapphire Finishing Mills',
+    summary:
+      'Automated extraction, transformation and load pipeline replacing a recurring manual reporting workflow that consumed an hour of analyst time per run.',
+    outcome:
+      'Compressed a 1-hour analysis cycle to 14 seconds — eliminating manual transcription errors and reclaiming 4+ team hours per iteration.',
+    kind: 'engineering',
+    tags: ['Python', 'Pandas', 'OpenPyXL', 'ETL', 'Process Automation'],
     year: '2024',
     featured: true,
-    links: [{ label: 'Notebook', href: 'https://github.com/YOUR-USERNAME/urban-mobility' }],
+  },
+  {
+    title: 'Dyeing Process Predictive Automation',
+    org: 'Sapphire Finishing Mills',
+    summary:
+      'Python-based predictive scheduling system for monthly fabric-dyeing operations — integrating multi-source datasets, mapping operation codes and forecasting job completion via Z-test modelling.',
+    outcome: 'Delivered a 20% gain in operational planning efficiency.',
+    kind: 'ml',
+    tags: ['Python', 'Z-test', 'Forecasting', 'SAP/ERP', 'Scheduling'],
+    year: '2024',
+  },
+  {
+    title: 'AI-Assisted ClickUp Workflow Automation',
+    org: 'The Migration',
+    summary:
+      'Programmatic synchronisation of quarterly OKRs and daily task execution in ClickUp via custom API integrations, built with Claude Code — closing the loop between analytics outputs and project delivery.',
+    outcome:
+      'Modernised the Agile project management framework for a 12-person marketing department.',
+    kind: 'automation',
+    tags: ['ClickUp API', 'Claude Code', 'Python', 'OKR Frameworks', 'Agentic AI'],
+    year: '2026',
   },
 ];

@@ -1,32 +1,33 @@
 // ---------------------------------------------------------------------------
 // Publications, papers, theses, posters, preprints.
-// Replace the placeholder with your real paper.
 // ---------------------------------------------------------------------------
 
 export interface Publication {
   title: string;
-  /** e.g. "H. Saleh, A. Other" — put yourself in the list exactly as published */
   authors: string;
   /** Journal, conference, or "Preprint" / "Undergraduate thesis" */
   venue: string;
   year: string;
-  /** 2-3 sentences in plain English. Assume the reader is a hiring manager, not a reviewer. */
+  /** 2-3 sentences in plain English — most readers here are recruiters, not reviewers. */
   abstract: string;
   links?: { label: string; href: string }[];
 }
 
 export const publications: Publication[] = [
   {
-    title: 'Your Research Paper Title Goes Here',
-    authors: 'H. Saleh, Co-Author Name',
-    venue: 'Journal or Conference Name',
-    year: '2025',
+    title: 'Multiple Linear Regression Model for Air Quality Prediction in Islamabad',
+    // TODO: list co-authors exactly as published, if any.
+    authors: 'H. Saleh',
+    // TODO: replace with the actual journal name and volume.
+    venue: 'Peer-reviewed journal',
+    // TODO: confirm the publication year.
+    year: '2023',
     abstract:
-      'Two or three sentences describing what question you asked, what method you used, and what you found. Write it for a smart non-specialist — most people who read this page will be recruiters or collaborators, not reviewers in your subfield.',
+      'Models PM2.5 concentration in Islamabad as a function of sulphur dioxide, nitrogen dioxide, temperature and humidity using multiple linear regression. The validated model provides a reusable framework for ongoing air-quality monitoring and gives policymakers a quantitative basis for climate and emissions decisions in the region.',
     links: [
-      { label: 'PDF', href: '/papers/your-paper.pdf' },
-      { label: 'DOI', href: '#' },
-      { label: 'Code', href: 'https://github.com/YOUR-USERNAME/paper-code' },
+      // TODO: add the PDF to /public/papers/ and the real DOI, then uncomment.
+      // { label: 'PDF', href: '/papers/air-quality-regression.pdf' },
+      // { label: 'DOI', href: 'https://doi.org/...' },
     ],
   },
 ];
