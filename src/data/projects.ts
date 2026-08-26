@@ -40,6 +40,12 @@ export const projects: Project[] = [
     year: '2026',
     featured: true,
     href: '/projects/marketing-intelligence-platform/',
+    links: [
+      {
+        label: 'Live dashboard',
+        href: 'https://dashboardportfolio-pkrvpygvmmvzp45egcfosx.streamlit.app/',
+      },
+    ],
   },
   {
     title: 'The Half That Never Showed Up',
