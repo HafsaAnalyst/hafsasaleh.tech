@@ -1,7 +1,7 @@
 ---
 title: "Clicks Don't Pay the Bills"
 description: "Why cost per lead is a trap — and how connecting online ad data to offline revenue reveals which channel actually produces paying clients."
-pubDate: 2026-08-26
+pubDate: 2026-08-24
 tags: ["attribution", "paid-media", "marketing-analytics", "service-businesses"]
 draft: false
 ---
