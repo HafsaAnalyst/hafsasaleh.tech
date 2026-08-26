@@ -1,7 +1,7 @@
 ---
 title: "You're Filling a Leaky Bucket"
 description: "The cheapest growth you have is keeping the clients you're quietly losing — and the signal that predicts who's about to lapse is already sitting in your data."
-pubDate: 2026-08-26
+pubDate: 2026-08-24
 tags: ["churn", "retention", "predictive-modelling", "service-businesses"]
 draft: false
 ---

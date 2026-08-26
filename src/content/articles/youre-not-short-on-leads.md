@@ -1,7 +1,7 @@
 ---
 title: "You're Not Short on Leads — You're Short on Answers"
 description: "Why connecting your platforms is now the difference between guessing and growing — for law firms, medspas, clinics, dental practices and real estate teams."
-pubDate: 2026-08-24
+pubDate: 2026-08-22
 tags: ["attribution", "marketing-analytics", "service-businesses", "dashboards"]
 draft: false
 ---
