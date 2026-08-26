@@ -1,0 +1,258 @@
+---
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import StorySteps from '../../components/StorySteps.astro';
+import Figure from '../../components/charts/Figure.astro';
+import KpiRow from '../../components/charts/KpiRow.astro';
+import AreaTrend from '../../components/charts/AreaTrend.astro';
+import Funnel from '../../components/charts/Funnel.astro';
+import BarChart from '../../components/charts/BarChart.astro';
+import StatBand from '../../components/charts/StatBand.astro';
+
+const steps = [
+  {
+    kicker: 'The problem',
+    headline: 'Four platforms, four versions of the truth',
+    body:
+      'Meta Ads knew about spend and clicks. GoHighLevel knew about leads and appointments. GA4 and Search Console knew about traffic. None of them knew about each other — so nobody could answer what a lead from a given campaign was actually worth once it reached a counsellor.',
+  },
+  {
+    kicker: 'What I built',
+    headline: 'One pipeline, one source of truth',
+    body:
+      'A Python ETL layer pulling from the Meta Graph API, the GoHighLevel API, GA4 and Google Search Console on a schedule, reconciling identity across them, and landing everything in a modelled dataset. On top of it, a Streamlit application with seven views — from a one-screen executive summary down to per-campaign and per-counsellor drill-downs.',
+  },
+  {
+    kicker: 'The result',
+    headline: "The CEO's primary strategic decision tool",
+    body:
+      'It tracks 5,200+ leads, 3,300+ appointments and 395 conversions against a USD 10,000/month media budget, and it is where budget reallocation decisions now get made — driving cost-per-lead to USD 7.45 and cost-per-appointment to USD 11.58.',
+  },
+];
+
+// ---- Demo data reconstructing the shape of the live dashboard ----
+const days = Array.from({ length: 30 }, (_, i) => `D${i + 1}`);
+
+// Deterministic pseudo-random so the build is reproducible
+const wave = (i: number, base: number, amp: number, phase: number) =>
+  Math.round(base + amp * Math.sin((i + phase) / 3.1) + amp * 0.45 * Math.sin((i + phase) / 1.7));
+
+const leadTrend = [
+  { name: 'Meta Paid', colour: '--s1', values: days.map((_, i) => wave(i, 22, 7, 0)) },
+  { name: 'Organic / SEO', colour: '--s3', values: days.map((_, i) => wave(i, 11, 4, 2)) },
+  { name: 'Chatbot', colour: '--s2', values: days.map((_, i) => wave(i, 7, 3, 4)) },
+  { name: 'Referral', colour: '--s4', values: days.map((_, i) => wave(i, 5, 2, 1)) },
+];
+
+const views = [
+  { name: 'Executive', desc: 'One screen: total leads, CPL, show rate, ROAS and goal pacing against monthly targets.' },
+  { name: 'Meta Ads', desc: 'Spend, impressions, CTR and CPL split by ad account, down to campaign and ad-set level.' },
+  { name: 'Funnel & Pipeline', desc: 'Lead → booked → showed → converted, with drop-off isolated at each stage.' },
+  { name: 'Counsellors', desc: 'Per-agent slot fill, show rate and conversion — the performance matrix leadership uses in 1-on-1s.' },
+  { name: 'SEO & Traffic', desc: 'Search Console keyword and ranking movement, feeding content prioritisation.' },
+  { name: 'Forecast & Goals', desc: '30-day lead forecast with confidence bands, plus the spend needed to close the gap to target.' },
+  { name: 'Upload Reports', desc: 'Controlled ingestion for sources without an API, kept inside the same governance rules.' },
+];
+---
+
+<CaseStudyLayout
+  title="Marketing Intelligence Platform"
+  eyebrow="Case study · Data engineering → Decisions"
+  hook="A cross-platform ETL pipeline and Streamlit application that replaced four disconnected reporting tools with a single source of truth — and became the tool the CEO decides from."
+  description="Multi-touch attribution platform unifying Meta Ads, GoHighLevel, GA4 and Google Search Console. 5,200+ leads, USD 10K/month media budget, CPL USD 7.45."
+  org="The Migration"
+  year="2026"
+  stack={['Python', 'Streamlit', 'Pandas', 'Meta Graph API', 'GHL API', 'GA4', 'Search Console', 'Prophet', 'Claude Code']}
+>
+  <p class="lead">
+    Every marketing team has the same quiet problem: the ad platform reports one number,
+    the CRM reports another, and the meeting is spent arguing about which is right
+    instead of what to do next.
+  </p>
+
+  <StorySteps steps={steps} />
+
+  <StatBand
+    stats={[
+      { value: '5,200+', label: 'Leads tracked end to end' },
+      { value: '$7.45', label: 'Cost per lead' },
+      { value: '$11.58', label: 'Cost per appointment' },
+      { value: '4 → 1', label: 'Platforms unified into one view' },
+    ]}
+  />
+
+  <h2>The executive view</h2>
+  <p>
+    The top of the application is deliberately one screen. If a decision-maker has to
+    scroll to find out whether the month is on track, the tool has already failed.
+  </p>
+
+  <Figure
+    title="Executive summary — headline metrics"
+    sub="What leadership sees first, with movement against the prior period"
+    note="Demo figures shown for illustration; live values are commercially sensitive."
+  >
+    <KpiRow
+      kpis={[
+        { label: 'Total leads', value: '1,232', delta: '11.4% vs last period', dir: 'up' },
+        { label: 'Avg CPL (paid)', value: '$42', delta: '11.5% vs last period', dir: 'up' },
+        { label: 'Lead → booking', value: '35.0%', delta: '0.4 pts vs last period', dir: 'up' },
+        { label: 'Show rate', value: '71.9%', delta: '2.2 pts vs last period', dir: 'down' },
+        { label: 'Show → convert', value: '31.3%', delta: '6.3 pts vs last period', dir: 'up' },
+        { label: 'Ad spend', value: '$28.7k', sub: '$42 per paid lead' },
+        { label: 'Revenue', value: '$181.1k', sub: '6.3× ROAS' },
+      ]}
+    />
+  </Figure>
+
+  <Figure
+    title="Lead volume by source"
+    sub="Daily leads over a 30-day window, stacked by acquisition channel"
+    note="Demo data reconstructing the shape of the live chart."
+  >
+    <AreaTrend series={leadTrend} labels={days} tickEvery={6} yLabel="leads / day" />
+  </Figure>
+
+  <p>
+    Stacking by source is the point. Total lead volume on its own hides the thing that
+    matters — a flat total can be a paid surge covering an organic collapse, and those
+    two situations call for opposite decisions.
+  </p>
+
+  <h2>Where leads actually go</h2>
+  <p>
+    Unifying the platforms is what made a true end-to-end funnel possible. Before this,
+    Meta could tell you a lead was generated and GoHighLevel could tell you an
+    appointment happened, but nothing connected the two.
+  </p>
+
+  <Figure
+    title="Full funnel, ad click to conversion"
+    sub="Each stage as a share of the one before it"
+    note="Demo proportions; the real platform reports live counts."
+  >
+    <Funnel
+      stages={[
+        { label: 'Leads', value: 1232 },
+        { label: 'Booked', value: 431 },
+        { label: 'Showed', value: 310 },
+        { label: 'Converted', value: 97 },
+      ]}
+    />
+  </Figure>
+
+  <p>
+    Laid out this way, the biggest single loss is obvious — the lead-to-booking step —
+    and the second is the show rate, which became
+    <a href="/projects/show-rate-recovery/">a project of its own</a>.
+  </p>
+
+  <h2>Per-counsellor performance</h2>
+  <p>
+    The same data, cut by who handled the lead. This view replaced impressions with
+    evidence in performance conversations, and it is used directly in 1-on-1s.
+  </p>
+
+  <Figure
+    title="Conversion rate by counsellor"
+    sub="Of the consultations that were attended"
+    note="Demo names and figures."
+  >
+    <BarChart
+      rows={[
+        { label: 'Counsellor A', value: 41.2, display: '41.2%' },
+        { label: 'Counsellor B', value: 39.5, display: '39.5%' },
+        { label: 'Counsellor C', value: 35.0, display: '35.0%' },
+        { label: 'Counsellor D', value: 26.7, display: '26.7%' },
+        { label: 'Counsellor E', value: 25.6, display: '25.6%' },
+        { label: 'Counsellor F', value: 17.4, display: '17.4%' },
+      ]}
+      max={50}
+      categoryHeader="Counsellor"
+      valueHeader="Conversion"
+    />
+  </Figure>
+
+  <p>
+    The spread is the finding, not any individual row. A 24-point gap between the top and
+    bottom performer on the same lead quality is a coaching opportunity worth more than
+    most budget changes — and quantifying it is what turns "some people are better at
+    this" into a specific, addressable number.
+  </p>
+
+  <h2>Forecasting and goal pacing</h2>
+  <p>
+    The last view answers the question that actually gets asked in a monthly review:
+    <em>are we going to hit target, and if not, what would it take?</em> A 30-day lead
+    forecast with confidence intervals, translated into the additional spend required to
+    close the projected gap at current cost-per-lead.
+  </p>
+
+  <div class="pacing">
+    <div class="pacing-row"><span>Target</span><span>160</span></div>
+    <div class="pacing-row"><span>Projected at current pace</span><span>142</span></div>
+    <div class="pacing-row pacing-gap"><span>Gap</span><span>−18</span></div>
+    <div class="pacing-row"><span>Additional leads needed</span><span>+186</span></div>
+    <div class="pacing-row"><span>Additional spend at $42 CPL</span><span>$7,812</span></div>
+  </div>
+  <p class="figure-note" style="margin-top:.6rem;">Demo pacing figures.</p>
+
+  <p>
+    That last row is the whole point of the platform. It turns a forecast into a decision
+    with a price on it — which is the difference between a dashboard people look at and a
+    dashboard people act on.
+  </p>
+
+  <h2>The seven views</h2>
+  <div class="views">
+    {views.map((v) => (
+      <div class="view-row">
+        <span class="view-name">{v.name}</span>
+        <span class="view-desc">{v.desc}</span>
+      </div>
+    ))}
+  </div>
+
+  <h2>What made it stick</h2>
+  <p>
+    The engineering was the straightforward half. The reason it gets opened every morning
+    is the governance underneath it — a single agreed definition of what counts as a
+    lead, when an appointment is real, and which timestamp wins when two platforms
+    disagree. That work happened in the
+    <a href="/projects/ghl-crm-architecture/">CRM architecture</a>, and without it this
+    would be four dashboards in a trench coat.
+  </p>
+</CaseStudyLayout>
+
+<style>
+  .pacing {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 1.8rem;
+    font-size: .92rem;
+  }
+  .pacing-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: .75rem 1.1rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .pacing-row:last-child { border-bottom: 0; }
+  .pacing-row span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .pacing-gap span:last-child { color: #d03b3b; }
+
+  .views { margin-block: 1.6rem 2.4rem; border-top: 1px solid var(--line); }
+  .view-row {
+    display: grid;
+    grid-template-columns: minmax(8rem, 11rem) 1fr;
+    gap: 1rem;
+    padding: .85rem .2rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .view-name { font-weight: 600; font-size: .9rem; }
+  .view-desc { color: var(--ink-2); font-size: .9rem; }
+  @media (max-width: 34rem) {
+    .view-row { grid-template-columns: 1fr; gap: .25rem; }
+  }
+</style>

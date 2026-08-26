@@ -1,0 +1,76 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import '../styles/charts.css';
+
+interface Props {
+  title: string;
+  /** Small mono line above the title, e.g. "IMPACT STORY · ANALYTICS → REVENUE" */
+  eyebrow: string;
+  /** One sentence under the title */
+  hook: string;
+  description: string;
+  org?: string;
+  year?: string;
+  stack?: string[];
+}
+
+const { title, eyebrow, hook, description, org, year, stack = [] } = Astro.props;
+---
+
+<BaseLayout title={title} description={description}>
+  <div class="cs-hero">
+    <div class="wrap">
+      <p class="cs-eyebrow">{eyebrow}</p>
+      <h1>{title}</h1>
+      <p class="cs-hook">{hook}</p>
+      {(org || year) && (
+        <p class="cs-meta">{[org, year].filter(Boolean).join(' · ')}</p>
+      )}
+    </div>
+  </div>
+
+  <section class="section" style="padding-top:2.8rem;">
+    <div class="wrap prose-wrap">
+      {stack.length > 0 && (
+        <div class="tags" style="margin-bottom:2.2rem;">
+          {stack.map((s) => <span class="tag">{s}</span>)}
+        </div>
+      )}
+      <slot />
+
+      <hr style="border:0; border-top:1px solid var(--line); margin-block:3rem;" />
+      <a class="btn btn-ghost" href="/projects/">← All projects</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .cs-hero {
+    background: linear-gradient(135deg, #123c47 0%, #0f6b60 100%);
+    color: #f4fbfa;
+    padding-block: clamp(3rem, 8vw, 4.5rem);
+  }
+  .cs-eyebrow {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: #7fe3d4;
+    margin-bottom: 1rem;
+  }
+  .cs-hero h1 { color: #ffffff; max-width: 22ch; }
+  .cs-hook {
+    margin-top: 1.1rem;
+    font-size: 1.12rem;
+    line-height: 1.6;
+    color: #d3ecea;
+    max-width: 52ch;
+  }
+  .cs-meta {
+    margin-top: 1.4rem;
+    font-family: var(--font-mono);
+    font-size: .76rem;
+    color: #8fc9c3;
+    letter-spacing: .02em;
+  }
+</style>

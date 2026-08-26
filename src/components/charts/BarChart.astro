@@ -1,0 +1,72 @@
+---
+// Horizontal bars, one series. Nominal categories all share slot 1 — never a
+// value-ramp across categories. `highlight` promotes named rows to the brand
+// colour when the story is about specific rows.
+interface Row {
+  label: string;
+  value: number;
+  /** Optional display override, e.g. "84%" or "$7.45" */
+  display?: string;
+}
+
+interface Props {
+  rows: Row[];
+  /** Rows whose label is in this list get the brand colour */
+  highlight?: string[];
+  /** Axis maximum; defaults to the largest value */
+  max?: number;
+  suffix?: string;
+  /** Column header for the value column in the table view */
+  valueHeader?: string;
+  categoryHeader?: string;
+}
+
+const {
+  rows,
+  highlight = [],
+  max = Math.max(...rows.map((r) => r.value)),
+  suffix = '',
+  valueHeader = 'Value',
+  categoryHeader = 'Category',
+} = Astro.props;
+
+const pct = (v: number) => `${Math.max(0, Math.min(100, (v / max) * 100))}%`;
+const shown = (r: Row) => r.display ?? `${r.value}${suffix}`;
+const colour = (r: Row) => (highlight.includes(r.label) ? 'var(--viz-brand)' : 'var(--s1)');
+---
+
+<div class="bars">
+  {rows.map((r) => (
+    <div class="bar-row">
+      <span class="bar-label">{r.label}</span>
+      <div class="bar-track">
+        <div class="bar-fill" style={`width:${pct(r.value)}; background:${colour(r)};`}>
+          <span class="sr-only">{shown(r)}</span>
+        </div>
+      </div>
+      <span class="bar-value">{shown(r)}</span>
+    </div>
+  ))}
+</div>
+
+<details class="viz-table">
+  <summary>View as table</summary>
+  <table>
+    <thead>
+      <tr><th>{categoryHeader}</th><th>{valueHeader}</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr><td>{r.label}</td><td>{shown(r)}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</details>
+
+<style>
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+  }
+</style>

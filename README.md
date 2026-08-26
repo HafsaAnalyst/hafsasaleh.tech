@@ -19,12 +19,39 @@ npm run preview  # preview the production build
 | What you want to change | File |
 |---|---|
 | Your name, tagline, email, social links, CV path | `src/site.ts` |
-| Portfolio projects | `src/data/projects.ts` |
+| Project catalog (cards + ordering) | `src/data/projects.ts` |
+| A case study's content | `src/pages/projects/<slug>.astro` |
 | Papers and publications | `src/data/research.ts` |
 | About page — bio, skills, experience, education | `src/pages/about.astro` |
 | Articles | `src/content/articles/*.md` |
 
 Start with `src/site.ts`. Everything else reads from it.
+
+---
+
+## Charts
+
+Charts are Astro components in `src/components/charts/`, rendering plain SVG and
+HTML — no charting library, no client-side JavaScript.
+
+| Component | Use it for |
+|---|---|
+| `KpiRow` | Headline stat tiles with deltas |
+| `BarChart` | Horizontal bars, one series (`highlight` promotes rows to brand colour) |
+| `CompareBars` | Two-state part-to-whole, e.g. before/after out of 100 |
+| `Funnel` | Ordered stages — **max 5**, it throws above that |
+| `AreaTrend` | Stacked change-over-time, up to 4 series |
+| `StatBand` | The four-up outcome strip |
+| `Figure` | Wrapper giving any chart a title, subtitle and note line |
+
+**The palette is validated, not eyeballed.** Colours live in `src/styles/charts.css`
+and were checked against this site's own light and dark surfaces for colour-blind
+separation, lightness banding and contrast. If you change a colour, re-run the
+validator rather than picking by eye — and keep every series carrying a visible
+label, since two light-mode hues sit below 3:1 contrast by design.
+
+Every chart ships a "View as table" disclosure. Keep it: it is the accessibility
+fallback and it is what makes the figures readable when colour fails.
 
 ---
 
@@ -93,8 +120,10 @@ search the codebase for `TODO:` to find them all.
 - [ ] **GitHub + LinkedIn URLs** in `src/site.ts` (currently placeholders)
 - [ ] **Streamlit dashboard URL** in `src/data/projects.ts` — or delete that link if
       the dashboard is internal-only
-- [ ] **Journal name, year and DOI** for the air-quality paper in `src/data/research.ts`,
-      and drop the PDF into `public/papers/`
+- [ ] **Co-authors** on the Acta Geophysica paper in `src/data/research.ts`
+- [ ] **Replace the demo chart figures** in the case studies with real numbers where
+      you're comfortable publishing them — every illustrative figure is currently
+      labelled as such in its `note`
 - [ ] **`public/hafsa-saleh-cv.pdf`** — the download buttons already point here
 - [ ] **`public/og.png`** (1200×630) — the preview image when the site is shared on
       LinkedIn. Without it, shares render blank.

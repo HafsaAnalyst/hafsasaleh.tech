@@ -1,0 +1,56 @@
+---
+interface Step {
+  /** e.g. "The problem" */
+  kicker: string;
+  /** The one-line claim */
+  headline: string;
+  body: string;
+}
+
+interface Props { steps: Step[] }
+const { steps } = Astro.props;
+---
+
+<div class="steps">
+  {steps.map((s, i) => (
+    <div class="step">
+      <span class="step-num">{String(i + 1).padStart(2, '0')}</span>
+      <div class="step-body">
+        <p class="step-kicker">{s.kicker}</p>
+        <p class="step-headline">{s.headline}</p>
+        <p class="step-text">{s.body}</p>
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .steps { display: flex; flex-direction: column; gap: 2rem; margin-block: 1rem 2.5rem; }
+  .step { display: grid; grid-template-columns: 2.7rem 1fr; gap: 1.1rem; align-items: start; }
+  .step-num {
+    font-family: var(--font-mono);
+    font-size: .82rem;
+    font-weight: 500;
+    color: var(--accent);
+    background: var(--accent-tint);
+    border-radius: 7px;
+    padding: .45rem 0;
+    text-align: center;
+  }
+  .step-kicker {
+    font-family: var(--font-mono);
+    font-size: .68rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: .3rem;
+  }
+  .step-headline {
+    font-family: var(--font-display);
+    font-size: 1.18rem;
+    font-weight: 600;
+    line-height: 1.25;
+    color: var(--ink);
+  }
+  .step-text { margin-top: .45rem; color: var(--ink-2); font-size: .96rem; }
+</style>

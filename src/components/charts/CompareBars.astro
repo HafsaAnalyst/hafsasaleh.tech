@@ -1,0 +1,93 @@
+---
+// Two-state part-to-whole comparison on a common baseline of 100.
+// Replaces the "two donuts side by side" pattern — a 2-slice pie is a stat tile,
+// and stacked bars on one axis let the reader compare the two states directly.
+interface State {
+  label: string;
+  /** Count out of `total` that hit the positive outcome */
+  value: number;
+  /** true = the improved state, gets the brand colour */
+  after?: boolean;
+}
+
+interface Props {
+  states: State[];
+  total?: number;
+  positiveLabel: string;
+  negativeLabel: string;
+}
+
+const { states, total = 100, positiveLabel, negativeLabel } = Astro.props;
+const pct = (v: number) => (v / total) * 100;
+---
+
+<div class="legend">
+  <span class="legend-item">
+    <span class="legend-swatch" style="background:var(--viz-brand)"></span>{positiveLabel}
+  </span>
+  <span class="legend-item">
+    <span class="legend-swatch" style="background:var(--viz-plane); border:1px solid var(--viz-axis)"></span>{negativeLabel}
+  </span>
+</div>
+
+<div class="cmp">
+  {states.map((s) => (
+    <div class="cmp-row">
+      <span class="cmp-label">{s.label}</span>
+      <div class="cmp-track">
+        <div
+          class="cmp-fill"
+          style={`width:${pct(s.value)}%; background:${s.after ? 'var(--viz-brand)' : 'var(--viz-before)'};`}
+        >
+          <span class="cmp-inner">{s.value}</span>
+        </div>
+        <span class="cmp-rest">{total - s.value}</span>
+      </div>
+    </div>
+  ))}
+</div>
+
+<details class="viz-table">
+  <summary>View as table</summary>
+  <table>
+    <thead>
+      <tr><th>State</th><th>{positiveLabel}</th><th>{negativeLabel}</th></tr>
+    </thead>
+    <tbody>
+      {states.map((s) => (
+        <tr><td>{s.label}</td><td>{s.value}</td><td>{total - s.value}</td></tr>
+      ))}
+    </tbody>
+  </table>
+</details>
+
+<style>
+  .cmp { display: flex; flex-direction: column; gap: 1rem; }
+  .cmp-row { display: grid; grid-template-columns: minmax(7rem, 11rem) 1fr; gap: 1rem; align-items: center; }
+  .cmp-label { font-size: .85rem; color: var(--viz-ink-2); }
+  .cmp-track {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 34px;
+    background: var(--viz-plane);
+    border-radius: 5px;
+  }
+  .cmp-fill {
+    height: 100%;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: .6rem;
+    /* 2px surface gap between the two segments — never a border */
+    box-shadow: 2px 0 0 0 var(--viz-surface);
+  }
+  .cmp-inner { font-size: .82rem; font-weight: 600; color: #fff; }
+  .cmp-rest {
+    font-size: .8rem;
+    color: var(--viz-muted);
+    padding-left: .7rem;
+    font-variant-numeric: tabular-nums;
+  }
+</style>

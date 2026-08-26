@@ -1,0 +1,34 @@
+---
+// Stat tiles — the right form when the data's job is "one headline number",
+// not a chart. Deltas carry an arrow glyph as well as colour.
+interface Kpi {
+  label: string;
+  value: string;
+  delta?: string;
+  /** direction of the delta as a business outcome, not as arithmetic */
+  dir?: 'up' | 'down' | 'flat';
+  sub?: string;
+}
+
+interface Props { kpis: Kpi[] }
+const { kpis } = Astro.props;
+
+const glyph = { up: '▲', down: '▼', flat: '—' };
+const cls = { up: 'kpi-up', down: 'kpi-down', flat: 'kpi-flat' };
+---
+
+<div class="kpi-grid">
+  {kpis.map((k) => (
+    <div class="kpi">
+      <div class="kpi-label">{k.label}</div>
+      <div class="kpi-value">{k.value}</div>
+      {k.delta && (
+        <div class={`kpi-delta ${cls[k.dir ?? 'flat']}`}>
+          <span aria-hidden="true">{glyph[k.dir ?? 'flat']}</span>
+          <span>{k.delta}</span>
+        </div>
+      )}
+      {k.sub && <div class="kpi-delta kpi-flat">{k.sub}</div>}
+    </div>
+  ))}
+</div>

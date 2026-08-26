@@ -1,0 +1,150 @@
+---
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import StorySteps from '../../components/StorySteps.astro';
+import Figure from '../../components/charts/Figure.astro';
+import CompareBars from '../../components/charts/CompareBars.astro';
+import BarChart from '../../components/charts/BarChart.astro';
+import StatBand from '../../components/charts/StatBand.astro';
+
+const steps = [
+  {
+    kicker: 'The problem',
+    headline: 'A third of bookings never happened',
+    body:
+      'Show rate sat near 68% — and outcomes were not being recorded consistently, so the true number and its causes were invisible. A booking that no-shows is wasted twice: the ad spend that won the lead, and the counsellor slot that sat empty.',
+  },
+  {
+    kicker: 'What I did',
+    headline: 'Made it measurable, then fixed the leak',
+    body:
+      'First the measurement: every consultation outcome recorded, so show rate was finally trustworthy. Then the analysis — where the drop happened, by channel and by the gap between booking and appointment. That pointed at three targeted fixes: automated reminders, a confirmation step, and same-day follow-ups on the bookings most likely to slip.',
+  },
+  {
+    kicker: 'The result',
+    headline: '68% → 82% show rate',
+    body:
+      'Roughly one in five no-shows recovered — more consultations attended every week from the same bookings, with zero extra ad spend. That is the leverage of analytics: I did not spend a rupee more on leads, I just made the leak visible and closed it.',
+  },
+];
+
+const fixes = [
+  {
+    title: 'Reliable outcome tracking',
+    desc: 'Every consultation outcome recorded in GoHighLevel, so show rate could be measured and trusted before anyone tried to move it.',
+  },
+  {
+    title: 'Reminders + a confirmation step',
+    desc: 'Automated nudges and an explicit confirm action before each consultation, so intent was re-tested closer to the appointment.',
+  },
+  {
+    title: 'Same-day follow-ups',
+    desc: 'Fast follow-up routed to the bookings the analysis flagged as most likely to slip — long booking-to-appointment gaps and lower-intent channels.',
+  },
+];
+---
+
+<CaseStudyLayout
+  title="The half that never showed up"
+  eyebrow="Impact story · Analytics → Revenue"
+  hook="How fixing what we could see lifted the show rate — same leads, same spend, more consultations attended."
+  description="Show rate rose from 68% to 82% by fixing outcome tracking first, then closing the drop-off it revealed. No additional ad spend."
+  org="The Migration"
+  year="2026"
+  stack={['Funnel Analytics', 'Data Governance', 'GoHighLevel', 'Attribution', 'Python']}
+>
+  <p class="lead">
+    We were paying to book consultations — and quietly, nearly a third of them never
+    happened.
+  </p>
+
+  <StorySteps steps={steps} />
+
+  <Figure
+    title="Show rate, before and after"
+    sub="Out of every 100 booked consultations"
+  >
+    <CompareBars
+      states={[
+        { label: 'Before', value: 68 },
+        { label: 'After', value: 82, after: true },
+      ]}
+      positiveLabel="Attended"
+      negativeLabel="No-show"
+    />
+  </Figure>
+
+  <StatBand
+    stats={[
+      { value: '+14 pts', label: 'Show rate lift' },
+      { value: '~1 in 5', label: 'No-shows recovered' },
+      { value: '$0', label: 'Extra ad spend' },
+      { value: 'Same', label: 'Leads and bookings' },
+    ]}
+  />
+
+  <h2>Where the drop-off was hiding</h2>
+  <p>
+    Once outcomes were recorded reliably, the pattern was not uniform. Two variables
+    explained most of the variance: the acquisition channel a booking came from, and
+    how many days sat between the booking and the appointment itself.
+  </p>
+
+  <Figure
+    title="Show rate by booking-to-appointment gap"
+    sub="The longer the wait, the more intent decays"
+    note="Illustrative shape based on the pattern the analysis surfaced; exact figures are commercially sensitive."
+  >
+    <BarChart
+      rows={[
+        { label: 'Same day', value: 89, display: '89%' },
+        { label: '1–2 days', value: 81, display: '81%' },
+        { label: '3–5 days', value: 70, display: '70%' },
+        { label: '6+ days', value: 54, display: '54%' },
+      ]}
+      max={100}
+      highlight={['6+ days']}
+      categoryHeader="Booking-to-appointment gap"
+      valueHeader="Show rate"
+    />
+  </Figure>
+
+  <p>
+    The 6+ day cohort was the one to attack. It was not the largest group, but it was
+    where the most attended consultations were being lost per booking — which made it
+    the obvious target for the confirmation step and same-day follow-up.
+  </p>
+
+  <h2>The three fixes</h2>
+  <div class="fix-grid">
+    {fixes.map((f) => (
+      <div class="card">
+        <h3>{f.title}</h3>
+        <p>{f.desc}</p>
+      </div>
+    ))}
+  </div>
+
+  <h2>Why this one matters</h2>
+  <p>
+    Every marketing team has a version of this problem: a number everyone quotes that
+    nobody can actually trust. The instinct is to go straight to fixing the number.
+    The order that works is the other one — make it measurable, let the data tell you
+    where the loss concentrates, then spend your effort there.
+  </p>
+  <p>
+    It also cost nothing. No additional media budget, no new headcount, no new tool.
+    The same leads and the same bookings produced meaningfully more attended
+    consultations, which is exactly where analytics earns its keep.
+  </p>
+</CaseStudyLayout>
+
+<style>
+  .fix-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+    margin-block: 1.8rem 2.5rem;
+  }
+  .fix-grid h3 { font-size: 1rem; }
+  .fix-grid p { font-size: .9rem; }
+</style>

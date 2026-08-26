@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+  sub?: string;
+  /** Shown in italics under the chart — use it to mark illustrative data */
+  note?: string;
+}
+const { title, sub, note } = Astro.props;
+---
+
+<figure class="figure viz">
+  <figcaption>
+    <p class="figure-title">{title}</p>
+    {sub && <p class="figure-sub">{sub}</p>}
+  </figcaption>
+  <slot />
+  {note && <p class="figure-note">{note}</p>}
+</figure>

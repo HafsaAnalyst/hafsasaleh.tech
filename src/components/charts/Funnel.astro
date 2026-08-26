@@ -1,0 +1,79 @@
+---
+// Ordered stages → the ordinal ramp (one hue, light→dark), not categorical hues.
+// Steps start no lighter than ramp step 250 so the lightest still clears 2:1.
+interface Stage {
+  label: string;
+  value: number;
+}
+
+interface Props {
+  stages: Stage[];
+  unit?: string;
+}
+
+const { stages, unit = '' } = Astro.props;
+const top = stages[0].value;
+// The validated ramp has exactly 5 steps. More stages than that would repeat a
+// step and break the ordered reading, so fail loudly rather than silently.
+const ramp = ['--o1', '--o2', '--o3', '--o4', '--o5'];
+if (stages.length > ramp.length) {
+  throw new Error(
+    `Funnel: ${stages.length} stages exceeds the ${ramp.length}-step ordinal ramp. Merge stages instead of repeating a colour.`
+  );
+}
+
+const rows = stages.map((s, i) => ({
+  ...s,
+  width: (s.value / top) * 100,
+  colour: ramp[Math.min(i, ramp.length - 1)],
+  stepRate: i === 0 ? null : Math.round((s.value / stages[i - 1].value) * 1000) / 10,
+  ofTop: Math.round((s.value / top) * 1000) / 10,
+}));
+---
+
+<div class="funnel">
+  {rows.map((r) => (
+    <div class="fn-row">
+      <div class="fn-head">
+        <span class="fn-label">{r.label}</span>
+        <span class="fn-value">{r.value.toLocaleString()}{unit}</span>
+      </div>
+      <div class="fn-track">
+        <div class="fn-fill" style={`width:${r.width}%; background:var(${r.colour});`}></div>
+      </div>
+      <span class="fn-rate">
+        {r.stepRate === null ? `${r.ofTop}% of total` : `${r.stepRate}% of previous stage`}
+      </span>
+    </div>
+  ))}
+</div>
+
+<details class="viz-table">
+  <summary>View as table</summary>
+  <table>
+    <thead>
+      <tr><th>Stage</th><th>Count</th><th>Step rate</th><th>Of total</th></tr>
+    </thead>
+    <tbody>
+      {rows.map((r) => (
+        <tr>
+          <td>{r.label}</td>
+          <td>{r.value.toLocaleString()}</td>
+          <td>{r.stepRate === null ? '—' : `${r.stepRate}%`}</td>
+          <td>{r.ofTop}%</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</details>
+
+<style>
+  .funnel { display: flex; flex-direction: column; gap: 1.1rem; }
+  .fn-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: .35rem; gap: 1rem; }
+  .fn-label { font-size: .85rem; color: var(--viz-ink-2); }
+  .fn-value { font-size: .95rem; font-weight: 600; color: var(--viz-ink); font-variant-numeric: tabular-nums; }
+  .fn-track { background: var(--viz-plane); border-radius: 4px; height: 18px; }
+  .fn-fill { height: 100%; border-radius: 4px; transition: filter .15s; }
+  .fn-row:hover .fn-fill { filter: brightness(1.08); }
+  .fn-rate { display: block; font-size: .74rem; color: var(--viz-muted); margin-top: .3rem; }
+</style>

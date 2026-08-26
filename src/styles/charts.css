@@ -1,0 +1,200 @@
+/* ---------------------------------------------------------------------------
+   Chart system. Palette validated with the dataviz validator against this
+   site's own surfaces (#ffffff light / #171a20 dark).
+
+   Light: PASS on lightness band, chroma floor, CVD separation (worst adjacent
+   ΔE 9.1), normal-vision floor (22.9). Contrast WARN on aqua/yellow → every
+   series carries a visible direct label or legend swatch, never colour alone.
+   Dark:  PASS on all six checks.
+   --------------------------------------------------------------------------- */
+
+.viz {
+  --viz-surface: #ffffff;
+  --viz-plane: #f7f6f2;
+  --viz-grid: #e8e5de;
+  --viz-axis: #d3cfc6;
+  --viz-ink: #16181d;
+  --viz-ink-2: #52514e;
+  --viz-muted: #7c8089;
+
+  /* Categorical — fixed slot order, never cycled */
+  --s1: #2a78d6; /* blue   */
+  --s2: #eb6834; /* orange */
+  --s3: #1baf7a; /* aqua   */
+  --s4: #eda100; /* yellow */
+
+  /* Emphasis pair: recessive "before" vs brand "after" */
+  --viz-before: #b9bec6;
+  --viz-brand: #0f6b60;
+
+  /* Ordinal ramp (funnel stages) — one hue, light→dark. Validated with --ordinal:
+     monotone lightness, adjacent ΔL ≥ 0.06, light end 2.11:1 vs surface.
+     The blue ramp supports exactly 5 distinct steps under those floors — a funnel
+     with more stages than this must be cut, not extended with a repeated step. */
+  --o1: #86b6ef;
+  --o2: #5598e7;
+  --o3: #2a78d6;
+  --o4: #1c5cab;
+  --o5: #104281;
+
+  /* Status — reserved, always paired with a label */
+  --st-good: #0ca30c;
+  --st-warn: #fab219;
+  --st-crit: #d03b3b;
+
+  font-variant-numeric: tabular-nums;
+}
+
+@media (prefers-color-scheme: dark) {
+  .viz {
+    --viz-surface: #171a20;
+    --viz-plane: #1d2128;
+    --viz-grid: #2a2f38;
+    --viz-axis: #383e48;
+    --viz-ink: #eceef2;
+    --viz-ink-2: #c3c8d1;
+    --viz-muted: #8b929d;
+
+    --s1: #3987e5;
+    --s2: #d95926;
+    --s3: #199e70;
+    --s4: #c98500;
+
+    --viz-before: #4d545e;
+    --viz-brand: #4fd1c0;
+
+    /* Dark ordinal ramp — selected for the dark surface, not an inverted flip.
+       Validated: monotone, adjacent ΔL ≥ 0.06, dark end 2.15:1 vs surface. */
+    --o1: #184f95;
+    --o2: #256abf;
+    --o3: #3987e5;
+    --o4: #6da7ec;
+    --o5: #9ec5f4;
+  }
+}
+
+/* ---------- Figure shell ---------- */
+.figure {
+  margin-block: 2.5rem;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 1.5rem;
+  background: var(--surface);
+}
+.figure-title {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--viz-ink);
+  margin: 0;
+  letter-spacing: -0.005em;
+}
+.figure-sub {
+  font-size: .85rem;
+  color: var(--viz-muted);
+  margin-top: .25rem;
+  margin-bottom: 1.4rem;
+}
+.figure-note {
+  font-size: .76rem;
+  color: var(--viz-muted);
+  margin-top: 1.1rem;
+  font-style: italic;
+}
+
+/* ---------- Legend ---------- */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .25rem 1.1rem;
+  margin-bottom: 1.1rem;
+  font-size: .8rem;
+  color: var(--viz-ink-2);
+}
+.legend-item { display: inline-flex; align-items: center; gap: .45rem; }
+.legend-swatch { width: 10px; height: 10px; border-radius: 2px; flex: none; }
+
+/* ---------- Bars ---------- */
+.bars { display: flex; flex-direction: column; gap: .85rem; }
+.bar-row { display: grid; grid-template-columns: minmax(6.5rem, 10rem) 1fr auto; gap: .9rem; align-items: center; }
+.bar-label { font-size: .85rem; color: var(--viz-ink-2); }
+.bar-track { background: var(--viz-plane); border-radius: 4px; height: 20px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: filter .15s; }
+.bar-row:hover .bar-fill { filter: brightness(1.08); }
+.bar-value { font-size: .85rem; font-weight: 600; color: var(--viz-ink); min-width: 3.2rem; text-align: right; }
+
+/* ---------- Stat band ---------- */
+.stat-band {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-block: 2.5rem;
+}
+.stat-cell { background: var(--surface); padding: 1.4rem 1.2rem; }
+.stat-value { font-family: var(--font-display); font-size: 1.95rem; font-weight: 600; line-height: 1.05; color: var(--viz-brand); }
+.stat-label { font-size: .78rem; color: var(--viz-muted); margin-top: .4rem; line-height: 1.35; }
+
+/* ---------- KPI tiles ---------- */
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: .8rem; }
+.kpi {
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: .9rem 1rem;
+  background: var(--viz-surface);
+}
+.kpi-label { font-family: var(--font-mono); font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: var(--viz-muted); }
+.kpi-value { font-size: 1.5rem; font-weight: 600; color: var(--viz-ink); margin-top: .3rem; letter-spacing: -.02em; }
+.kpi-delta { font-size: .74rem; margin-top: .25rem; display: flex; align-items: center; gap: .3rem; }
+.kpi-up { color: var(--st-good); }
+.kpi-down { color: var(--st-crit); }
+.kpi-flat { color: var(--viz-muted); }
+
+/* ---------- Table view (the relief rule + accessibility) ---------- */
+.viz-table { margin-top: 1.2rem; }
+.viz-table summary {
+  cursor: pointer;
+  font-size: .78rem;
+  color: var(--viz-muted);
+  padding: .3rem 0;
+}
+.viz-table summary:hover { color: var(--accent); }
+.viz-table table { width: 100%; border-collapse: collapse; font-size: .82rem; margin-top: .7rem; }
+.viz-table th, .viz-table td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid var(--line); }
+.viz-table th { color: var(--viz-muted); font-weight: 500; }
+.viz-table td:not(:first-child), .viz-table th:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+
+/* ---------- SVG chart chrome ---------- */
+.viz svg { display: block; width: 100%; height: auto; overflow: visible; }
+.viz .grid-line { stroke: var(--viz-grid); stroke-width: 1; }
+.viz .axis-line { stroke: var(--viz-axis); stroke-width: 1; }
+.viz .axis-text { fill: var(--viz-muted); font-size: 10px; font-family: var(--font-mono); }
+.viz .series-label { fill: var(--viz-ink-2); font-size: 11px; font-weight: 500; }
+.viz .area-band { transition: opacity .15s; }
+.viz .area-band:hover { opacity: .85; }
+
+/* ---------- Diagrams ---------- */
+.flow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .5rem;
+  align-items: stretch;
+}
+.flow-node {
+  flex: 1 1 8rem;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  padding: .85rem .9rem;
+  background: var(--viz-surface);
+  display: flex;
+  flex-direction: column;
+  gap: .25rem;
+  min-width: 0;
+}
+.flow-node .n-stage { font-family: var(--font-mono); font-size: .62rem; letter-spacing: .1em; text-transform: uppercase; color: var(--viz-muted); }
+.flow-node .n-title { font-size: .88rem; font-weight: 600; color: var(--viz-ink); }
+.flow-node .n-desc { font-size: .78rem; color: var(--viz-ink-2); line-height: 1.45; }
+.flow-arrow { align-self: center; color: var(--viz-muted); font-size: .9rem; flex: none; }

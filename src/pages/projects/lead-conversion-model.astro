@@ -1,0 +1,223 @@
+---
+import CaseStudyLayout from '../../layouts/CaseStudyLayout.astro';
+import StorySteps from '../../components/StorySteps.astro';
+import Figure from '../../components/charts/Figure.astro';
+import BarChart from '../../components/charts/BarChart.astro';
+import StatBand from '../../components/charts/StatBand.astro';
+
+const steps = [
+  {
+    kicker: 'The situation',
+    headline: 'A model to prioritise the leads worth chasing',
+    body:
+      'Counsellor time is the scarce resource, not leads. I built a model to predict which leads would convert, so the team could spend that time on the ones most likely to become clients.',
+  },
+  {
+    kicker: 'The red flag',
+    headline: 'It scored 100% — which meant it was cheating',
+    body:
+      'A perfect score is not a win, it is a symptom. The model had access to information that only exists after a lead has already converted, so it was reading the answer off the back of the page. Ship that, and the team trusts something that collapses on the first real lead.',
+  },
+  {
+    kicker: 'What I did',
+    headline: 'Found the leakage, deleted it, rebuilt honestly',
+    body:
+      'I audited every feature for whether it would actually be available at scoring time, removed the leaking fields, and retrained. The honest model lands at 77% accuracy against a 62% majority-class baseline — a real 15-point lift over guessing.',
+  },
+  {
+    kicker: 'The commercial result',
+    headline: 'A defensible way to rank leads and channels',
+    body:
+      'The top-scoring 20% of leads convert at 84%, more than double the average. And the model surfaced something leadership could act on immediately: referral leads convert at 90% against 26% for paid social. That is a quality-over-volume argument with evidence behind it.',
+  },
+];
+---
+
+<CaseStudyLayout
+  title="The most valuable thing was what I threw away"
+  eyebrow="Impact story · Modelling → Strategy"
+  hook="My prediction model scored a suspicious 100% — and the smartest move was deleting the data that made it perfect."
+  description="A lead conversion model that scored 100% was leaking. Audited, rebuilt honestly at 77% versus a 62% baseline, and turned into a commercial insight about lead quality."
+  org="The Migration"
+  year="2026"
+  stack={['Python', 'scikit-learn', 'Pandas', 'Feature Leakage', 'Lead Scoring', 'Model Validation']}
+>
+  <p class="lead">
+    A model that is never wrong has usually been told the answer. The interesting part
+    of this project was not building it — it was working out why it was too good.
+  </p>
+
+  <StorySteps steps={steps} />
+
+  <Figure
+    title="Accuracy: the leaking model, the honest model, and the baseline"
+    sub="Majority-class baseline is what you get by guessing 'will not convert' every time"
+  >
+    <BarChart
+      rows={[
+        { label: 'Leaking model', value: 100, display: '100%' },
+        { label: 'Honest model', value: 77, display: '77%' },
+        { label: 'Baseline (guess)', value: 62, display: '62%' },
+      ]}
+      max={100}
+      highlight={['Honest model']}
+      categoryHeader="Model"
+      valueHeader="Accuracy"
+    />
+  </Figure>
+
+  <p>
+    The bar on top is the one to distrust. The only number that means anything here is
+    the gap between the honest model and the baseline: <strong>77% against 62%</strong>.
+    That gap is the actual value the model adds over doing nothing, and it is the number
+    I would defend in a room.
+  </p>
+
+  <h2>What the model was reading</h2>
+  <p>
+    Leakage is rarely malicious and almost never obvious. It hides in fields that look
+    innocuous until you ask <em>when does this value get written?</em> — the question
+    that separates a feature from a label in disguise.
+  </p>
+
+  <div class="leak-table">
+    <table>
+      <thead>
+        <tr><th>Field</th><th>Why it leaked</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Pipeline stage</td>
+          <td>Only advances to the later stages once the lead has already converted.</td>
+          <td><span class="verdict-out">Removed</span></td>
+        </tr>
+        <tr>
+          <td>Payment / invoice fields</td>
+          <td>Populated at the moment of conversion — the label wearing a different name.</td>
+          <td><span class="verdict-out">Removed</span></td>
+        </tr>
+        <tr>
+          <td>Total touchpoint count</td>
+          <td>Counted the full lifetime of the record, including activity after conversion.</td>
+          <td><span class="verdict-out">Rebuilt</span></td>
+        </tr>
+        <tr>
+          <td>Source / channel</td>
+          <td>Known the moment the lead arrives. Genuinely available at scoring time.</td>
+          <td><span class="verdict-in">Kept</span></td>
+        </tr>
+        <tr>
+          <td>First-response time</td>
+          <td>Known early in the lifecycle, before any conversion decision.</td>
+          <td><span class="verdict-in">Kept</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p>
+    The fix for "total touchpoints" is worth calling out, because deleting it would have
+    thrown away real signal. Instead I rebuilt it as a point-in-time feature — touchpoints
+    within the first 72 hours — which is knowable at scoring time and kept most of its
+    predictive power.
+  </p>
+
+  <h2>From model to decision</h2>
+  <p>
+    An accuracy figure is not an insight. What made this useful to leadership was
+    translating it into two things they could act on: which leads to work first, and
+    which channels are worth the money.
+  </p>
+
+  <Figure
+    title="Conversion rate by lead score decile"
+    sub="Leads ranked by model score, split into ten equal groups"
+    note="Illustrative deciles; the top-20% and overall-average figures are the measured ones."
+  >
+    <BarChart
+      rows={[
+        { label: 'Top 10%', value: 89, display: '89%' },
+        { label: '10–20%', value: 79, display: '79%' },
+        { label: '20–40%', value: 52, display: '52%' },
+        { label: '40–60%', value: 33, display: '33%' },
+        { label: '60–80%', value: 17, display: '17%' },
+        { label: 'Bottom 20%', value: 6, display: '6%' },
+      ]}
+      max={100}
+      highlight={['Top 10%', '10–20%']}
+      categoryHeader="Score decile"
+      valueHeader="Conversion rate"
+    />
+  </Figure>
+
+  <p>
+    The top two deciles — the highest-scoring 20% of leads — convert at
+    <strong>84%</strong>, more than double the overall average. That is a concrete
+    working instruction: these are the calls to make first thing in the morning.
+  </p>
+
+  <Figure
+    title="Conversion rate by acquisition channel"
+    sub="The same leads, cut by where they came from"
+  >
+    <BarChart
+      rows={[
+        { label: 'Referral', value: 90, display: '90%' },
+        { label: 'Organic / SEO', value: 48, display: '48%' },
+        { label: 'Paid social', value: 26, display: '26%' },
+      ]}
+      max={100}
+      highlight={['Referral']}
+      categoryHeader="Channel"
+      valueHeader="Conversion rate"
+    />
+  </Figure>
+
+  <p>
+    Referral leads convert at <strong>90%</strong> against <strong>26%</strong> for paid
+    social — a 3.5× difference in quality that a cost-per-lead figure completely hides.
+    A cheap lead that never converts is not cheap. This gave the team a defensible reason
+    to shift effort toward the sources that actually produce clients.
+  </p>
+
+  <StatBand
+    stats={[
+      { value: '77%', label: 'Honest accuracy (62% baseline)' },
+      { value: '84%', label: 'Conversion in the top-scoring 20%' },
+      { value: '3.5×', label: 'Referral vs paid social conversion' },
+      { value: '0', label: 'Leaking features shipped' },
+    ]}
+  />
+
+  <h2>Why I tell this story</h2>
+  <p>
+    It shows the two things I want a team to know about how I work. I am technically
+    capable enough to build the thing — and I care more about a number being
+    <em>true</em> than <em>impressive</em>. A 100% model would have looked better in a
+    slide deck for exactly as long as it took someone to rely on it.
+  </p>
+  <p>
+    And the output was not a model. It was a commercial insight about consumer
+    behaviour — quality over volume, with the evidence to back it — which is where
+    analytics actually earns its keep.
+  </p>
+</CaseStudyLayout>
+
+<style>
+  .leak-table { overflow-x: auto; margin-block: 1.8rem 2.2rem; }
+  .leak-table table { width: 100%; border-collapse: collapse; font-size: .9rem; min-width: 34rem; }
+  .leak-table th, .leak-table td { text-align: left; padding: .7rem .8rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .leak-table th { font-weight: 600; background: var(--surface-2); font-size: .82rem; }
+  .verdict-out, .verdict-in {
+    font-family: var(--font-mono);
+    font-size: .7rem;
+    padding: .18rem .5rem;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .verdict-out { background: color-mix(in srgb, #d03b3b 14%, transparent); color: #b03232; }
+  .verdict-in { background: var(--accent-tint); color: var(--accent); }
+  @media (prefers-color-scheme: dark) {
+    .verdict-out { color: #f08a8a; }
+  }
+</style>
