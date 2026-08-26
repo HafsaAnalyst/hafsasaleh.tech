@@ -1,7 +1,7 @@
 ---
 title: "A model nobody deploys is a hobby"
 description: "Why I care more about the gap between technically correct and actually used — and what I plan to write about here."
-pubDate: 2026-08-26
+pubDate: 2026-08-20
 tags: ["analytics", "attribution", "writing"]
 draft: false
 ---
