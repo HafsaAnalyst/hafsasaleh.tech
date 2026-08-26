@@ -77,17 +77,29 @@ const training = [
 >
   <section class="section">
     <div class="wrap">
-      <div class="prose-wrap">
-        <p class="eyebrow">About</p>
-        <h1>Hi, I'm Hafsa.</h1>
-
-        <div class="prose" style="margin-top:1.6rem;">
-          <p class="lead">
+      <div class="about-top">
+        <img
+          class="portrait"
+          src="/hafsa-saleh.jpg"
+          width="800"
+          height="1000"
+          alt="Hafsa Saleh"
+          fetchpriority="high"
+        />
+        <div>
+          <p class="eyebrow">About</p>
+          <h1>Hi, I'm Hafsa.</h1>
+          <p class="lead" style="margin-top:1.2rem;">
             I'm a Marketing Intelligence Analyst with 2.5+ years spent building the
             unglamorous infrastructure that decisions rest on — ETL pipelines,
             attribution platforms and reporting systems that people at the top of an
             organisation actually open.
           </p>
+        </div>
+      </div>
+
+      <div class="prose-wrap">
+        <div class="prose" style="margin-top:2.5rem;">
           <p>
             Right now I'm at <strong>The Migration</strong>, an Australian migration and visa
             consultancy, where I engineered the cross-platform data integration layer that
@@ -174,3 +186,24 @@ const training = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .about-top {
+    display: grid;
+    grid-template-columns: 17rem 1fr;
+    gap: 2.75rem;
+    align-items: center;
+  }
+  .portrait {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    box-shadow: var(--shadow);
+  }
+  @media (max-width: 46rem) {
+    .about-top { grid-template-columns: 1fr; gap: 1.8rem; }
+    .portrait { max-width: 15rem; }
+  }
+</style>
