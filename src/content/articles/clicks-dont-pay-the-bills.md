@@ -87,7 +87,7 @@ For the first time, you see:
 
 Move your budget with proof, not hope.
 
-**[→ Explore the live Intelligence Dashboard](https://dashboardportfolio-pkrvpygvmmvzp45egcfosx.streamlit.app/)**
+**[→ Explore the live Intelligence Dashboard](/dashboard/)**
 
 ## Why this one is different
 

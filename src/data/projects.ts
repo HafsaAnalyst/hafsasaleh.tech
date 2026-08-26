@@ -54,7 +54,7 @@ export const projects: Project[] = [
     links: [
       {
         label: 'Live dashboard',
-        href: 'https://dashboardportfolio-pkrvpygvmmvzp45egcfosx.streamlit.app/',
+        href: '/dashboard/',
       },
     ],
   },

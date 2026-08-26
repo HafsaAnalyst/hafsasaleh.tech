@@ -45,6 +45,7 @@ export const nav = [
   { href: '/', label: 'Home' },
   { href: '/about/', label: 'About' },
   { href: '/projects/', label: 'Projects' },
+  { href: '/dashboard/', label: 'Dashboard' },
   { href: '/research/', label: 'Research' },
   { href: '/articles/', label: 'Articles' },
   { href: '/contact/', label: 'Contact' },

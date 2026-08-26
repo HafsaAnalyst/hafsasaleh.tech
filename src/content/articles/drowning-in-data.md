@@ -87,7 +87,7 @@ That means:
 
 The meeting stops being about the data and starts being about the business.
 
-**[→ Explore the live Intelligence Dashboard](https://dashboardportfolio-pkrvpygvmmvzp45egcfosx.streamlit.app/)**
+**[→ Explore the live Intelligence Dashboard](/dashboard/)**
 
 ## Why this one is different
 

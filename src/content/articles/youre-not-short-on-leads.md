@@ -101,7 +101,7 @@ Instead of ten disconnected tools, you get:
 
 Point your next marketing dollar with confidence instead of hope.
 
-**[→ Explore the live Intelligence Dashboard](https://dashboardportfolio-pkrvpygvmmvzp45egcfosx.streamlit.app/)**
+**[→ Explore the live Intelligence Dashboard](/dashboard/)**
 
 *Or read the full build story: [how I unified four platforms into one source of
 truth](/projects/marketing-intelligence-platform/), and
