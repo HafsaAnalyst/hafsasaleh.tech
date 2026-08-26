@@ -24,10 +24,10 @@ export const site = {
   // Phone deliberately omitted — a public number on a personal site attracts spam.
   // People who need it will get it from your CV.
 
-  // TODO: add your real GitHub and LinkedIn URLs. Set to '' to hide a link.
+  // Set any of these to '' to hide the link.
   socials: {
-    github: 'https://github.com/YOUR-USERNAME',
-    linkedin: 'https://www.linkedin.com/in/YOUR-HANDLE',
+    github: 'https://github.com/HafsaAnalyst',
+    linkedin: 'https://www.linkedin.com/in/hafsa-saleh-027924216/',
     x: '',
     kaggle: '',
     scholar: '',
