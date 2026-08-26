@@ -1,0 +1,204 @@
+---
+// Generated cover art. No stock photography — each variant is a small abstract
+// diagram of what the project actually does, drawn from the chart palette so
+// the catalog reads as one system with the case studies.
+import '../styles/charts.css';
+
+interface Props {
+  variant:
+    | 'integration'
+    | 'liftbars'
+    | 'model'
+    | 'pipeline'
+    | 'dashboard'
+    | 'etl'
+    | 'forecast'
+    | 'cycle';
+  alt: string;
+}
+
+const { variant, alt } = Astro.props;
+// Keyed off the variant, not randomised — each variant appears at most once per
+// page, and a stable id keeps rebuilds byte-identical.
+const id = variant;
+---
+
+<div class="cover viz">
+  <svg viewBox="0 0 320 150" role="img" aria-label={alt} preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id={`bg-${id}`} x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0%" stop-color="var(--cover-a)" />
+        <stop offset="100%" stop-color="var(--cover-b)" />
+      </linearGradient>
+    </defs>
+    <rect width="320" height="150" fill={`url(#bg-${id})`} />
+
+    {variant === 'integration' && (
+      <g>
+        {[30, 55, 80, 105].map((y, i) => (
+          <>
+            <path
+              d={`M72,${y + 7} C110,${y + 7} 120,75 158,75`}
+              fill="none"
+              stroke="var(--cover-line)"
+              stroke-width="1.5"
+              opacity={0.55 + i * 0.1}
+            />
+            <rect x="34" y={y} width="38" height="15" rx="4" fill={`var(--s${i + 1})`} opacity="0.92" />
+          </>
+        ))}
+        <rect x="188" y="52" width="82" height="46" rx="8" fill="var(--cover-ink)" opacity="0.1" />
+        <rect x="188" y="52" width="82" height="46" rx="8" fill="none" stroke="var(--cover-accent)" stroke-width="2" />
+        {[0, 1, 2].map((i) => (
+          <rect x={198 + i * 22} y={80 - i * 8} width="12" height={i * 8 + 8} rx="2.5" fill="var(--cover-accent)" />
+        ))}
+      </g>
+    )}
+
+    {variant === 'liftbars' && (
+      <g>
+        <line x1="30" y1="118" x2="290" y2="118" stroke="var(--cover-line)" stroke-width="1.5" />
+        {[0, 1, 2].map((i) => (
+          <rect x={48 + i * 26} y={118 - (38 + i * 4)} width="17" height={38 + i * 4} rx="3.5" fill="var(--cover-mute)" />
+        ))}
+        <path d="M152,72 L172,52" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M172,52 l-8,0 M172,52 l0,8" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" />
+        {[0, 1, 2].map((i) => (
+          <rect x={196 + i * 26} y={118 - (62 + i * 8)} width="17" height={62 + i * 8} rx="3.5" fill="var(--cover-accent)" />
+        ))}
+      </g>
+    )}
+
+    {variant === 'model' && (
+      <g>
+        <path d="M52,116 L272,44" stroke="var(--cover-accent)" stroke-width="2" stroke-dasharray="5 5" opacity="0.9" />
+        {[
+          [72, 52], [96, 40], [118, 58], [142, 44], [88, 70], [166, 36], [112, 34], [190, 52],
+        ].map(([cx, cy]) => (
+          <circle cx={cx} cy={cy} r="5.5" fill="var(--cover-accent)" opacity="0.95" />
+        ))}
+        {[
+          [128, 100], [156, 112], [182, 94], [206, 108], [232, 90], [250, 106], [200, 76], [228, 122],
+        ].map(([cx, cy]) => (
+          <circle cx={cx} cy={cy} r="5.5" fill="var(--cover-mute)" />
+        ))}
+      </g>
+    )}
+
+    {variant === 'pipeline' && (
+      <g>
+        {[0, 1, 2, 3, 4].map((i) => (
+          <rect
+            x="42"
+            y={26 + i * 20}
+            width={228 - i * 40}
+            height="13"
+            rx="3"
+            fill={`var(--o${i + 1})`}
+          />
+        ))}
+      </g>
+    )}
+
+    {variant === 'dashboard' && (
+      <g>
+        {[0, 1, 2].map((i) => (
+          <rect x={34 + i * 84} y="26" width="70" height="30" rx="5" fill="var(--cover-ink)" opacity="0.08" />
+        ))}
+        {[0, 1, 2].map((i) => (
+          <rect x={42 + i * 84} y="36" width={30 + i * 8} height="6" rx="3" fill="var(--cover-accent)" />
+        ))}
+        <rect x="34" y="66" width="252" height="58" rx="6" fill="var(--cover-ink)" opacity="0.06" />
+        <line x1="44" y1="114" x2="276" y2="114" stroke="var(--cover-line)" stroke-width="1.5" />
+        {[26, 40, 18, 34, 44, 30, 38].map((h, i) => (
+          <rect x={50 + i * 32} y={114 - h} width="16" height={h} rx="2.5" fill="var(--cover-accent)" opacity={0.45 + i * 0.08} />
+        ))}
+      </g>
+    )}
+
+    {variant === 'etl' && (
+      <g>
+        {[0, 1, 2, 3].map((i) => (
+          <rect x="34" y={30 + i * 23} width="52" height="14" rx="3" fill="var(--cover-mute)" />
+        ))}
+        <path d="M96,75 C130,75 130,75 152,75" stroke="var(--cover-line)" stroke-width="1.5" fill="none" />
+        <path d="M152,44 L200,75 L152,106 Z" fill="var(--cover-accent)" opacity="0.9" />
+        <path d="M206,75 L246,75" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M246,75 l-9,-6 M246,75 l-9,6" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+        <rect x="252" y="64" width="34" height="22" rx="4" fill="var(--cover-ink)" opacity="0.1" />
+        <rect x="252" y="64" width="34" height="22" rx="4" fill="none" stroke="var(--cover-accent)" stroke-width="2" />
+      </g>
+    )}
+
+    {variant === 'forecast' && (
+      <g>
+        <path d="M170,44 C196,52 222,40 248,34 L282,30 L282,110 L248,100 C222,96 196,104 170,96 Z" fill="var(--cover-accent)" opacity="0.15" />
+        <path
+          d="M34,96 L62,72 L90,86 L118,54 L146,74 L170,66"
+          fill="none"
+          stroke="var(--cover-ink)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          opacity="0.55"
+        />
+        <path
+          d="M170,66 L200,74 L228,56 L256,62 L282,44"
+          fill="none"
+          stroke="var(--cover-accent)"
+          stroke-width="2.5"
+          stroke-dasharray="6 5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+        <line x1="170" y1="24" x2="170" y2="120" stroke="var(--cover-line)" stroke-width="1.5" stroke-dasharray="3 4" />
+        <circle cx="170" cy="66" r="5" fill="var(--cover-accent)" />
+      </g>
+    )}
+
+    {variant === 'cycle' && (
+      <g>
+        <circle cx="160" cy="75" r="44" fill="none" stroke="var(--cover-line)" stroke-width="2" stroke-dasharray="7 6" />
+        {[
+          [160, 31, 'var(--cover-accent)'],
+          [204, 75, 'var(--s1)'],
+          [160, 119, 'var(--s3)'],
+          [116, 75, 'var(--s2)'],
+        ].map(([cx, cy, fill]) => (
+          <circle cx={cx as number} cy={cy as number} r="11" fill={fill as string} />
+        ))}
+        <path d="M160,75 m0,-26 a26,26 0 0 1 26,26" fill="none" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" />
+        <path d="M186,75 l-6,-5 M186,75 l6,-5" stroke="var(--cover-accent)" stroke-width="2.5" stroke-linecap="round" fill="none" />
+      </g>
+    )}
+  </svg>
+</div>
+
+<style>
+  .cover {
+    --cover-a: #eaf3f1;
+    --cover-b: #f6f4ef;
+    --cover-line: #b9c4c2;
+    --cover-mute: #c7cdcb;
+    --cover-ink: #16181d;
+    --cover-accent: #0f6b60;
+
+    margin: -1.5rem -1.5rem .35rem;
+    border-bottom: 1px solid var(--line);
+    border-radius: 12px 12px 0 0;
+    overflow: hidden;
+    background: var(--cover-a);
+  }
+  .cover svg { display: block; width: 100%; height: auto; }
+
+  @media (prefers-color-scheme: dark) {
+    .cover {
+      --cover-a: #17262a;
+      --cover-b: #191d24;
+      --cover-line: #3a464b;
+      --cover-mute: #47525a;
+      --cover-ink: #eceef2;
+      --cover-accent: #4fd1c0;
+    }
+  }
+</style>

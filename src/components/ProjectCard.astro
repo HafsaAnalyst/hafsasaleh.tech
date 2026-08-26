@@ -1,12 +1,14 @@
 ---
 import type { Project } from '../data/projects';
 import { kindLabel } from '../data/projects';
+import ProjectCover from './ProjectCover.astro';
 
 interface Props { project: Project }
 const { project } = Astro.props;
 ---
 
 <article class="card">
+  {project.cover && <ProjectCover variant={project.cover} alt={`Cover illustration for ${project.title}`} />}
   <span class="meta">{kindLabel[project.kind]} · {project.year}</span>
   <h3>
     {project.href ? <a href={project.href}>{project.title}</a> : project.title}

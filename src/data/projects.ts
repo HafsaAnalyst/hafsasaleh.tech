@@ -14,6 +14,16 @@ export interface Project {
   tags: string[];
   year: string;
   featured?: boolean;
+  /** Generated cover art variant, drawn by ProjectCover.astro */
+  cover?:
+    | 'integration'
+    | 'liftbars'
+    | 'model'
+    | 'pipeline'
+    | 'dashboard'
+    | 'etl'
+    | 'forecast'
+    | 'cycle';
   /** Internal case study page */
   href?: string;
   links?: { label: string; href: string }[];
@@ -30,6 +40,7 @@ export const kindLabel: Record<Project['kind'], string> = {
 export const projects: Project[] = [
   {
     title: 'Marketing Intelligence Platform',
+    cover: 'integration',
     org: 'The Migration',
     summary:
       'Sole architect of a multi-touch attribution platform unifying Meta Ads, GoHighLevel, GA4 and Google Search Console through native API integration — a Streamlit application that replaced siloed marketing and CRM data with one source of truth.',
@@ -49,6 +60,7 @@ export const projects: Project[] = [
   },
   {
     title: 'The Half That Never Showed Up',
+    cover: 'liftbars',
     org: 'The Migration',
     summary:
       'Nearly a third of booked consultations never happened — and outcome data was too unreliable to see it. I fixed the measurement first, then found the leak and closed it.',
@@ -62,6 +74,7 @@ export const projects: Project[] = [
   },
   {
     title: 'The Most Valuable Thing Was What I Threw Away',
+    cover: 'model',
     org: 'The Migration',
     summary:
       'A lead conversion model that scored a suspicious 100%. I audited it, found the leakage, deleted the data that made it perfect, and rebuilt it honestly.',
@@ -75,6 +88,7 @@ export const projects: Project[] = [
   },
   {
     title: 'GoHighLevel CRM Architecture',
+    cover: 'pipeline',
     org: 'The Migration',
     summary:
       'Full CRM build-out — workflows, automations, pipelines, calendars and platform integrations — with data governance protocols that made GoHighLevel the enterprise single source of truth.',
@@ -87,6 +101,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Counsellor Revenue Performance Dashboard',
+    cover: 'dashboard',
     org: 'The Migration',
     summary:
       'Per-agent BI dashboard surfacing individual revenue contribution, nurturing velocity and pipeline-to-close conversion rates for the counsellor team.',
@@ -98,6 +113,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Critical Report ETL Pipeline',
+    cover: 'etl',
     org: 'Sapphire Finishing Mills',
     summary:
       'Automated extraction, transformation and load pipeline replacing a recurring manual reporting workflow that consumed an hour of analyst time per run.',
@@ -109,6 +125,7 @@ export const projects: Project[] = [
   },
   {
     title: 'Dyeing Process Predictive Automation',
+    cover: 'forecast',
     org: 'Sapphire Finishing Mills',
     summary:
       'Python-based predictive scheduling system for monthly fabric-dyeing operations — integrating multi-source datasets, mapping operation codes and forecasting job completion via Z-test modelling.',
@@ -119,6 +136,7 @@ export const projects: Project[] = [
   },
   {
     title: 'AI-Assisted ClickUp Workflow Automation',
+    cover: 'cycle',
     org: 'The Migration',
     summary:
       'Programmatic synchronisation of quarterly OKRs and daily task execution in ClickUp via custom API integrations, built with Claude Code — closing the loop between analytics outputs and project delivery.',
