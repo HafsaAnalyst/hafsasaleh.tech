@@ -13,7 +13,9 @@ interface Props {
     | 'dashboard'
     | 'etl'
     | 'forecast'
-    | 'cycle';
+    | 'cycle'
+    | 'riskbands'
+    | 'waveform';
   alt: string;
 }
 
@@ -156,6 +158,48 @@ const id = variant;
       </g>
     )}
 
+    {/* Colour-coded on-time risk: status colours, since these mean good/warning/late */}
+    {variant === 'riskbands' && (
+      <g>
+        {/* Rows that cross the dashed due line are the ones running late — the
+            whole point of the metric, so the geometry has to actually show it. */}
+        {[
+          { y: 30, on: 130, risk: 40, late: 0 },
+          { y: 54, on: 88, risk: 58, late: 70 },
+          { y: 78, on: 120, risk: 22, late: 0 },
+          { y: 102, on: 46, risk: 40, late: 132 },
+        ].map((r) => (
+          <>
+            <rect x="40" y={r.y} width={r.on} height="14" rx="3" fill="var(--cover-good)" />
+            <rect x={40 + r.on + 2} y={r.y} width={r.risk} height="14" rx="3" fill="var(--cover-warn)" />
+            {r.late > 0 && (
+              <rect x={40 + r.on + r.risk + 4} y={r.y} width={r.late} height="14" rx="3" fill="var(--cover-crit)" />
+            )}
+          </>
+        ))}
+        <line x1="232" y1="20" x2="232" y2="126" stroke="var(--cover-ink)" stroke-width="1.5" stroke-dasharray="4 4" opacity="0.5" />
+        <text x="237" y="18" font-family="monospace" font-size="10" fill="var(--cover-ink)" opacity="0.6">due</text>
+      </g>
+    )}
+
+    {variant === 'waveform' && (
+      <g>
+        {[14, 26, 40, 22, 52, 34, 60, 30, 46, 18, 38, 56, 28, 44, 20, 32, 50, 24, 36, 16].map((h, i) => (
+          <rect
+            x={34 + i * 12}
+            y={72 - h / 2}
+            width="6"
+            height={h}
+            rx="3"
+            fill={i > 12 ? 'var(--cover-mute)' : 'var(--cover-accent)'}
+          />
+        ))}
+        <rect x="34" y="102" width="180" height="8" rx="4" fill="var(--cover-ink)" opacity="0.12" />
+        <rect x="34" y="102" width="132" height="8" rx="4" fill="var(--cover-accent)" />
+        <text x="224" y="110" font-family="monospace" font-size="13" fill="var(--cover-accent)">73</text>
+      </g>
+    )}
+
     {variant === 'cycle' && (
       <g>
         <circle cx="160" cy="75" r="44" fill="none" stroke="var(--cover-line)" stroke-width="2" stroke-dasharray="7 6" />
@@ -182,6 +226,9 @@ const id = variant;
     --cover-mute: #c7cdcb;
     --cover-ink: #16181d;
     --cover-accent: #0f6b60;
+    --cover-good: #0ca30c;
+    --cover-warn: #fab219;
+    --cover-crit: #d03b3b;
 
     margin: -1.5rem -1.5rem .35rem;
     border-bottom: 1px solid var(--line);
@@ -199,6 +246,9 @@ const id = variant;
       --cover-mute: #47525a;
       --cover-ink: #eceef2;
       --cover-accent: #4fd1c0;
+      --cover-good: #0ca30c;
+      --cover-warn: #fab219;
+      --cover-crit: #d03b3b;
     }
   }
 </style>

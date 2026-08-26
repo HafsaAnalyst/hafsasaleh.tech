@@ -124,15 +124,28 @@ export const projects: Project[] = [
     year: '2024',
   },
   {
-    title: 'Dyeing Process Predictive Automation',
-    cover: 'forecast',
+    title: 'Fabric Dispatch On-Time Predictor',
+    cover: 'riskbands',
     org: 'Sapphire Finishing Mills',
     summary:
-      'Python-based predictive scheduling system for monthly fabric-dyeing operations — integrating multi-source datasets, mapping operation codes and forecasting job completion via Z-test modelling.',
-    outcome: 'Delivered a 20% gain in operational planning efficiency.',
+      "Z-test model that reads a fabric's reprocess history to predict how long it will take to reach dispatch. It returns a day range rather than a false-precision single date, and scores every order against its due date as a probability of packing on time — surfaced as a colour-coded metric across the floor.",
+    outcome:
+      'Production leadership could see at a glance which orders were on track, at risk, or certain to miss — turning scheduling from reactive firefighting into planning. Delivered a 20% gain in operational planning efficiency.',
     kind: 'ml',
-    tags: ['Python', 'Z-test', 'Forecasting', 'SAP/ERP', 'Scheduling'],
+    tags: ['Python', 'Z-test', 'Hypothesis Testing', 'Forecasting', 'SAP/ERP', 'Production Planning'],
     year: '2024',
+  },
+  {
+    title: 'Sales Call Conversion Scoring',
+    cover: 'waveform',
+    org: 'The Migration',
+    summary:
+      'Machine learning model over historical client call audio from the CRM, predicting which clients are most likely to convert. It rates each conversation and surfaces the patterns that separate a call that closes from one that does not.',
+    outcome:
+      'Turns a subjective "how did that call go?" into a rated, comparable signal — feeding both lead prioritisation and specific coaching points for the sales team.',
+    kind: 'ml',
+    tags: ['Python', 'Speech-to-Text', 'NLP', 'Conversation Analytics', 'Lead Scoring', 'GoHighLevel'],
+    year: '2026',
   },
   {
     title: 'AI-Assisted ClickUp Workflow Automation',
