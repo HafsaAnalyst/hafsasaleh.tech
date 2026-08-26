@@ -28,6 +28,8 @@ export const site = {
   socials: {
     github: 'https://github.com/HafsaAnalyst',
     linkedin: 'https://www.linkedin.com/in/hafsa-saleh-027924216/',
+    upwork: 'https://www.upwork.com/freelancers/~01b9511023176f2c8b',
+    fiverr: 'https://www.fiverr.com/s/ZoB5Ljm',
     x: '',
     kaggle: '',
     scholar: '',

@@ -3,9 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 
 const channels = [
-  { label: 'Email', value: site.email, href: `mailto:${site.email}` },
-  { label: 'LinkedIn', value: 'Connect with me', href: site.socials.linkedin },
-  { label: 'GitHub', value: 'See my code', href: site.socials.github },
+  { label: 'Email', value: site.email, href: `mailto:${site.email}`, note: 'Fastest way to reach me' },
+  { label: 'LinkedIn', value: 'Connect with me', href: site.socials.linkedin, note: 'Roles and professional enquiries' },
+  { label: 'GitHub', value: 'See my code', href: site.socials.github, note: 'Repositories and notebooks' },
+  { label: 'Upwork', value: 'Hire me on Upwork', href: site.socials.upwork, note: 'Contract analytics and dashboard work' },
+  { label: 'Fiverr', value: 'Hire me on Fiverr', href: site.socials.fiverr, note: 'Packaged, fixed-scope projects' },
 ].filter((c) => Boolean(c.href));
 ---
 
@@ -15,9 +17,9 @@ const channels = [
       <p class="eyebrow">Contact</p>
       <h1>Let's talk</h1>
       <p class="lead" style="margin-top:1rem;">
-        Open to marketing intelligence and analytics engineering roles, consulting work
-        on attribution and reporting infrastructure, and research collaborations. The
-        fastest way to reach me is email — I reply to everything that isn't a cold pitch.
+        Open to marketing intelligence and analytics engineering roles, freelance work on
+        attribution and reporting infrastructure, and research collaborations. Email is
+        the fastest way to reach me — or hire me directly through Upwork or Fiverr.
       </p>
 
       <div class="grid grid-2" style="margin-top:2.5rem;">
@@ -25,6 +27,7 @@ const channels = [
           <a class="card" href={c.href} style="text-decoration:none;" rel={c.href.startsWith('http') ? 'noopener' : undefined}>
             <span class="meta">{c.label}</span>
             <h3 style="color:var(--accent);">{c.value}</h3>
+            <p style="font-size:.86rem;">{c.note}</p>
           </a>
         ))}
       </div>

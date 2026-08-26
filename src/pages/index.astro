@@ -19,25 +19,15 @@ const fmt = (d: Date) =>
   <!-- Hero -->
   <section class="section">
     <div class="wrap">
-      <div class="hero">
-        <div>
-          <p class="eyebrow">{site.role}</p>
-          <h1>{site.name}</h1>
-          <p class="lead" style="margin-top: 1.1rem;">{site.tagline}</p>
-          <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem;">
-            <a class="btn btn-primary" href="/projects/">View my work</a>
-            <a class="btn btn-ghost" href={site.cv}>Download CV</a>
-            <a class="btn btn-ghost" href="/contact/">Get in touch</a>
-          </div>
+      <div style="max-width: 46rem;">
+        <p class="eyebrow">{site.role}</p>
+        <h1>{site.name}</h1>
+        <p class="lead" style="margin-top: 1.1rem;">{site.tagline}</p>
+        <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem;">
+          <a class="btn btn-primary" href="/projects/">View my work</a>
+          <a class="btn btn-ghost" href={site.cv}>Download CV</a>
+          <a class="btn btn-ghost" href="/contact/">Get in touch</a>
         </div>
-        <img
-          class="hero-portrait"
-          src="/hafsa-saleh-square.jpg"
-          width="720"
-          height="720"
-          alt={site.name}
-          fetchpriority="high"
-        />
       </div>
     </div>
   </section>
@@ -80,25 +70,3 @@ const fmt = (d: Date) =>
   )}
 </BaseLayout>
 
-<style>
-  .hero {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 15rem;
-    gap: 3rem;
-    align-items: center;
-  }
-  .hero-portrait {
-    width: 100%;
-    aspect-ratio: 1;
-    object-fit: cover;
-    border-radius: 50%;
-    border: 1px solid var(--line);
-    box-shadow: var(--shadow);
-  }
-  @media (max-width: 52rem) {
-    .hero { grid-template-columns: 1fr; gap: 2rem; }
-    /* portrait first on mobile, so the face leads */
-    .hero > div { order: 2; }
-    .hero-portrait { order: 1; max-width: 9.5rem; }
-  }
-</style>
