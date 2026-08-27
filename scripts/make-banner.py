@@ -1,10 +1,10 @@
 """
-Generates public/linkedin-banner.png — 1584x396, LinkedIn's cover photo size.
+Generates public/linkedin-banner.png  (matches the site's dark mesh identity) — 1584x396, LinkedIn's cover photo size.
 
 Run:  python scripts/make-banner.py
 
 Design: a mesh gradient — several soft, heavily blurred colour blobs over a deep
-navy base. Reads far richer than a two-stop linear wash, which went muddy.
+near-black base — the same identity as the site and the post images.
 
 Layout constraints:
   * LinkedIn drops the circular profile photo over the LEFT of the banner, and it
@@ -23,24 +23,27 @@ from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W, H = 1584, 396
 OUT = Path(__file__).resolve().parent.parent / "public" / "linkedin-banner.png"
 
-BASE = (11, 18, 48)           # deep navy ground
+BASE = (8, 8, 8)              # the site's own near-black ground
 
 # (centre_x, centre_y, radius_x, radius_y, colour, strength)
+# Matches the site: cyan through the middle, violet left, warm ember far right.
 BLOBS = [
-    (1230,  70, 560, 430, (16, 185, 165), 215),   # teal, upper right
-    (1480, 330, 380, 300, (45, 212, 191), 150),   # brighter cyan, far right
-    ( 380, 340, 620, 400, ( 79,  70, 215), 175),  # indigo, lower left
-    ( 830, -70, 520, 300, (150,  52, 140), 105),  # plum, top centre — depth only
+    (1180,  60, 600, 420, (0, 176, 214), 205),    # cyan, upper right
+    (1500, 320, 380, 290, (0, 225, 255), 150),    # brighter cyan, far right
+    ( 320, 330, 620, 390, (112,  62, 178), 190),  # violet, lower left
+    ( 800, -90, 520, 290, (150,  62, 190),  95),  # plum, top centre — depth only
 ]
 
-MINT = (150, 240, 226)
-GOLD = (250, 204, 112)
+CYAN = (120, 238, 255)
+GOLD = (243, 153, 18)         # one warm accent against all the cool
 PAPER = (255, 255, 255)
-SUB = (205, 226, 233)
-INK = (9, 26, 46)
+SUB = (198, 216, 228)
+INK = (4, 16, 24)
 
 FONT_DIR = Path("C:/Windows/Fonts")
-SERIF_BOLD = FONT_DIR / "georgiab.ttf"
+# The site sets Inter everywhere; Segoe UI Black is the nearest face
+# actually installed locally, so the banner stays a grotesque too.
+DISPLAY = FONT_DIR / "seguibl.ttf"
 SANS = FONT_DIR / "segoeui.ttf"
 SANS_SEMI = FONT_DIR / "seguisb.ttf"
 MONO = FONT_DIR / "consola.ttf"
@@ -68,7 +71,7 @@ img = mesh((W, H), BASE, BLOBS)
 scrim = Image.new("L", (W, H), 0)
 ImageDraw.Draw(scrim).ellipse([420, 40, 1400, 380], fill=64)
 scrim = scrim.filter(ImageFilter.GaussianBlur(120))
-img.paste(Image.new("RGB", (W, H), (7, 14, 36)), (0, 0), scrim)
+img.paste(Image.new("RGB", (W, H), (6, 8, 18)), (0, 0), scrim)
 
 # ---- faint data grid, right side — texture, not decoration ----
 grid = Image.new("RGBA", (W, H), (0, 0, 0, 0))
@@ -87,7 +90,7 @@ d = ImageDraw.Draw(img, "RGBA")
 bar_base, bw, gap = 318, 26, 14
 for i, h_ in enumerate([30, 48, 70, 96, 126]):
     x = 1336 + i * (bw + gap)
-    fill = GOLD + (225,) if i == 4 else MINT + (70 + i * 30,)
+    fill = GOLD + (230,) if i == 4 else CYAN + (70 + i * 32,)
     d.rounded_rectangle([x, bar_base - h_, x + bw, bar_base], radius=5, fill=fill)
 
 # ---- centred text block ----
@@ -100,12 +103,12 @@ def centred(text, f, y, fill):
 
 
 d.rectangle([CX - 30, 96, CX + 30, 100], fill=GOLD)
-centred("MARKETING INTELLIGENCE ANALYST", font(MONO, 21), 120, MINT)
+centred("MARKETING INTELLIGENCE ANALYST", font(MONO, 21), 120, CYAN)
 
 y = 160
 for line in ["I build the data layer", "marketing teams actually run on."]:
-    centred(line, font(SERIF_BOLD, 44), y, PAPER)
-    y += 55
+    centred(line, font(DISPLAY, 40), y, PAPER)
+    y += 52
 
 centred("ETL pipelines  \u00b7  Multi-touch attribution  \u00b7  Dashboards leadership decides from",
         font(SANS, 19), 278, SUB)
@@ -118,7 +121,7 @@ tw = d.textlength(url, font=f_url)
 pw = tw + pad_x * 2
 px0, py0 = CX - pw / 2, 316
 px1, py1 = px0 + pw, py0 + 25 + pad_y * 2
-d.rounded_rectangle([px0, py0, px1, py1], radius=(py1 - py0) / 2, fill=MINT)
+d.rounded_rectangle([px0, py0, px1, py1], radius=(py1 - py0) / 2, fill=CYAN)
 d.text((px0 + pad_x, py0 + pad_y - 2), url, font=f_url, fill=INK)
 
 OUT.parent.mkdir(parents=True, exist_ok=True)
