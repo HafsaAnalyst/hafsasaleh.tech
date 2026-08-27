@@ -2,42 +2,37 @@
    Chart system. Palette validated with the dataviz validator against this
    site's own surfaces (#ffffff light / #171a20 dark).
 
-   Light: PASS on lightness band, chroma floor, CVD separation (worst adjacent
-   ΔE 9.1), normal-vision floor (22.9). Contrast WARN on aqua/yellow → every
-   series carries a visible direct label or legend swatch, never colour alone.
-   Dark:  PASS on all six checks.
+   The site is dark-only, so only the dark set ships. It PASSES all six checks
+   against this surface: lightness band, chroma floor, CVD separation, the
+   normal-vision floor, and contrast.
    --------------------------------------------------------------------------- */
 
 .viz {
-  --viz-surface: #ffffff;
-  --viz-plane: #f7f6f2;
-  --viz-grid: #e8e5de;
-  --viz-axis: #d3cfc6;
-  --viz-ink: #16181d;
-  --viz-ink-2: #52514e;
-  --viz-muted: #7c8089;
+  --viz-surface: #171a20;
+  --viz-plane: #1d2128;
+  --viz-grid: #2a2f38;
+  --viz-axis: #383e48;
+  --viz-ink: #eceef2;
+  --viz-ink-2: #c3c8d1;
+  --viz-muted: #8b929d;
 
-  /* Categorical — fixed slot order, never cycled */
-  --s1: #2a78d6; /* blue   */
-  --s2: #eb6834; /* orange */
-  --s3: #1baf7a; /* aqua   */
-  --s4: #eda100; /* yellow */
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
 
-  /* Emphasis pair: recessive "before" vs brand "after" */
-  --viz-before: #b9bec6;
-  --viz-brand: #0f6b60;
+  --viz-before: #4d545e;
+  --viz-brand: #4fd1c0;
 
-  /* Ordinal ramp (funnel stages) — one hue, light→dark. Validated with --ordinal:
-     monotone lightness, adjacent ΔL ≥ 0.06, light end 2.11:1 vs surface.
-     The blue ramp supports exactly 5 distinct steps under those floors — a funnel
-     with more stages than this must be cut, not extended with a repeated step. */
-  --o1: #86b6ef;
-  --o2: #5598e7;
-  --o3: #2a78d6;
-  --o4: #1c5cab;
-  --o5: #104281;
+  /* Dark ordinal ramp — selected for the dark surface, not an inverted flip.
+     Validated: monotone, adjacent ΔL ≥ 0.06, dark end 2.15:1 vs surface. */
+  --o1: #184f95;
+  --o2: #256abf;
+  --o3: #3987e5;
+  --o4: #6da7ec;
+  --o5: #9ec5f4;
 
-  /* Status — reserved, always paired with a label */
+  /* Status — reserved, fixed across themes, always paired with a label */
   --st-good: #0ca30c;
   --st-warn: #fab219;
   --st-crit: #d03b3b;
@@ -45,33 +40,6 @@
   font-variant-numeric: tabular-nums;
 }
 
-@media (prefers-color-scheme: dark) {
-  .viz {
-    --viz-surface: #171a20;
-    --viz-plane: #1d2128;
-    --viz-grid: #2a2f38;
-    --viz-axis: #383e48;
-    --viz-ink: #eceef2;
-    --viz-ink-2: #c3c8d1;
-    --viz-muted: #8b929d;
-
-    --s1: #3987e5;
-    --s2: #d95926;
-    --s3: #199e70;
-    --s4: #c98500;
-
-    --viz-before: #4d545e;
-    --viz-brand: #4fd1c0;
-
-    /* Dark ordinal ramp — selected for the dark surface, not an inverted flip.
-       Validated: monotone, adjacent ΔL ≥ 0.06, dark end 2.15:1 vs surface. */
-    --o1: #184f95;
-    --o2: #256abf;
-    --o3: #3987e5;
-    --o4: #6da7ec;
-    --o5: #9ec5f4;
-  }
-}
 
 /* ---------- Figure shell ---------- */
 .figure {

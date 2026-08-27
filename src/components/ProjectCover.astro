@@ -220,12 +220,13 @@ const id = variant;
 
 <style>
   .cover {
-    --cover-a: #eaf3f1;
-    --cover-b: #f6f4ef;
-    --cover-line: #b9c4c2;
-    --cover-mute: #c7cdcb;
-    --cover-ink: #16181d;
-    --cover-accent: #0f6b60;
+    /* dark-only, matching the site's single visual world */
+    --cover-a: #0e1a24;
+    --cover-b: #121420;
+    --cover-line: #364450;
+    --cover-mute: #414d59;
+    --cover-ink: #eceef2;
+    --cover-accent: #00e1ff;
     --cover-good: #0ca30c;
     --cover-warn: #fab219;
     --cover-crit: #d03b3b;
@@ -238,17 +239,4 @@ const id = variant;
   }
   .cover svg { display: block; width: 100%; height: auto; }
 
-  @media (prefers-color-scheme: dark) {
-    .cover {
-      --cover-a: #17262a;
-      --cover-b: #191d24;
-      --cover-line: #3a464b;
-      --cover-mute: #47525a;
-      --cover-ink: #eceef2;
-      --cover-accent: #4fd1c0;
-      --cover-good: #0ca30c;
-      --cover-warn: #fab219;
-      --cover-crit: #d03b3b;
-    }
-  }
 </style>

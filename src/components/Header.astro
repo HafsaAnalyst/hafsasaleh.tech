@@ -15,6 +15,23 @@ const isCurrent = (href: string) =>
           {item.label}
         </a>
       ))}
+      <a class="hire" href="/contact/">HIRE ME</a>
     </nav>
   </div>
 </header>
+
+<style>
+  .hire {
+    background: var(--accent);
+    color: var(--paper) !important;
+    font-weight: 700;
+    font-size: .78rem;
+    letter-spacing: .06em;
+    padding: .45rem 1rem !important;
+    border-radius: 999px !important;
+    margin-left: .4rem;
+    box-shadow: 0 6px 22px -8px var(--accent);
+    transition: transform .15s, filter .15s;
+  }
+  .hire:hover { transform: translateY(-1px); filter: brightness(1.1); background: var(--accent) !important; }
+</style>

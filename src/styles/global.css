@@ -1,39 +1,27 @@
 /* ---------- Design tokens ---------- */
+/* Single dark palette — the site commits to one visual world, so there is no
+   light variant. Every colour is declared here and used through the token. */
 :root {
-  --paper:      #fbfaf7;
-  --surface:    #ffffff;
-  --surface-2:  #f3f1ec;
-  --ink:        #16181d;
-  --ink-2:      #3c4048;
-  --muted:      #6b7078;
-  --line:       #e3dfd7;
-  --accent:     #0f6b60;
-  --accent-2:   #0a4f47;
-  --accent-tint:#e4f2ef;
-  --shadow:     0 1px 2px rgba(20,22,26,.05), 0 8px 24px -12px rgba(20,22,26,.12);
+  --paper:      #080808;
+  --surface:    #101014;
+  --surface-2:  #17171c;
+  --ink:        #f2f2f2;
+  --ink-2:      #c6c6c6;
+  --muted:      #8c8c8c;
+  --line:       rgba(255, 255, 255, .10);
+  --accent:     #00e1ff;
+  --accent-2:   #7defff;
+  --accent-tint:rgba(0, 225, 255, .12);
+  --purple:     #894ec1;
+  --gold:       #f39912;
+  --shadow:     0 1px 2px rgba(0,0,0,.5), 0 18px 50px -24px rgba(0,225,255,.4);
 
   --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Fraunces', ui-serif, Georgia, serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
   --w: 68rem;
   --w-prose: 44rem;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --paper:      #101216;
-    --surface:    #171a20;
-    --surface-2:  #1d2128;
-    --ink:        #eceef2;
-    --ink-2:      #c3c8d1;
-    --muted:      #8b929d;
-    --line:       #272c35;
-    --accent:     #4fd1c0;
-    --accent-2:   #7ee3d5;
-    --accent-tint:#12302c;
-    --shadow:     0 1px 2px rgba(0,0,0,.4), 0 8px 24px -12px rgba(0,0,0,.6);
-  }
 }
 
 /* ---------- Reset ---------- */
@@ -59,9 +47,9 @@ a { color: inherit; }
 
 h1, h2, h3, h4 {
   font-family: var(--font-display);
-  font-weight: 600;
+  font-weight: 800;
   line-height: 1.15;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.032em;
   text-wrap: balance;
 }
 h1 { font-size: clamp(2.1rem, 5.5vw, 3.4rem); }
