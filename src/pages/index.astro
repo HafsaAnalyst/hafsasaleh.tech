@@ -4,6 +4,7 @@ import { site } from '../site';
 import { projects } from '../data/projects';
 import { publications } from '../data/research';
 import { getCollection } from 'astro:content';
+import MiniChart from '../components/MiniChart.astro';
 
 const WHATSAPP = '923044762001';
 
@@ -49,6 +50,45 @@ const tools = [
 const skills = ['ETL Pipelines', 'Multi-Touch Attribution', 'Predictive Modelling', 'Data Governance', 'Funnel Analytics', 'Dashboard Design', 'Revenue Reconciliation', 'Forecasting'];
 
 const featured = projects.filter((p) => p.href).slice(0, 4);
+
+// A chart per featured project, keyed by its case-study URL.
+// Every figure below is a real measured result except where `note` says otherwise.
+const charts: Record<string, { title: string; rows: { label: string; pct: number; display: string; hi?: boolean }[]; note?: string }> = {
+  '/projects/marketing-intelligence-platform/': {
+    title: 'Funnel, tracked end to end',
+    rows: [
+      { label: 'Leads', pct: 100, display: '5,200+' },
+      { label: 'Appointments', pct: 63, display: '3,300+' },
+      { label: 'Conversions', pct: 8, display: '395', hi: true },
+    ],
+  },
+  '/projects/show-rate-recovery/': {
+    title: 'Show rate, before → after',
+    rows: [
+      { label: 'Before', pct: 68, display: '68%' },
+      { label: 'After', pct: 82, display: '82%', hi: true },
+    ],
+  },
+  '/projects/lead-conversion-model/': {
+    title: 'Accuracy vs baseline',
+    rows: [
+      { label: 'Leaking model', pct: 100, display: '100%' },
+      { label: 'Honest model', pct: 77, display: '77%', hi: true },
+      { label: 'Baseline guess', pct: 62, display: '62%' },
+    ],
+  },
+  '/projects/ghl-crm-architecture/': {
+    title: 'Record completeness after rebuild',
+    rows: [
+      { label: 'Outcome recorded', pct: 100, display: '100%', hi: true },
+      { label: 'Owner assigned', pct: 99, display: '99%' },
+      { label: 'Source attributed', pct: 96, display: '96%' },
+      { label: 'Stage valid', pct: 94, display: '94%' },
+    ],
+    note: 'Illustrative — shows the direction and scale of the change.',
+  },
+};
+
 
 const posts = (await getCollection('articles', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -135,6 +175,13 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
             <h3>{p.title}</h3>
             <p>{p.summary}</p>
             {p.outcome && <p class="work-out">{p.outcome}</p>}
+            {p.href && charts[p.href] && (
+              <MiniChart
+                title={charts[p.href].title}
+                rows={charts[p.href].rows}
+                note={charts[p.href].note}
+              />
+            )}
             <span class="work-go">Read the case study →</span>
           </a>
         ))}
@@ -194,7 +241,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   <section class="sec" id="about">
     <div class="wrap about">
       <div class="frame reveal">
-        <img src="/hafsa-saleh.jpg" width="1100" height="825" alt="Hafsa Saleh" loading="lazy" />
+        <img src="/hafsa-saleh.jpg" width="1920" height="1080" alt="Hafsa Saleh" loading="lazy" />
         <span class="cnr tl" aria-hidden="true"></span><span class="cnr tr" aria-hidden="true"></span>
         <span class="cnr bl" aria-hidden="true"></span><span class="cnr br" aria-hidden="true"></span>
       </div>

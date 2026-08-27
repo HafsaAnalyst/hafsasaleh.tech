@@ -1,0 +1,100 @@
+---
+// Compact bar chart for the portfolio cards on the home page.
+// Bars grow from zero when the card scrolls into view — the parent carries
+// `reveal`, and the shared observer adds `.in`, which is what drives the width.
+interface Row {
+  label: string;
+  /** 0-100, the bar's share of the track */
+  pct: number;
+  /** what to print on the right — the real figure, not the percentage */
+  display: string;
+  /** promote this row to the accent colour: the number the story turns on */
+  hi?: boolean;
+}
+
+interface Props {
+  title: string;
+  rows: Row[];
+  /** set when the figures are shaped rather than measured */
+  note?: string;
+}
+
+const { title, rows, note } = Astro.props;
+---
+
+<figure class="mini">
+  <figcaption>{title}</figcaption>
+  <div class="mini-rows">
+    {rows.map((r, i) => (
+      <div class="mini-row">
+        <span class="mini-lab">{r.label}</span>
+        <span class="mini-track">
+          <span
+            class:list={['mini-fill', r.hi && 'hi']}
+            style={`--w:${Math.max(0, Math.min(100, r.pct))}%; --d:${i * 90}ms`}
+          ></span>
+        </span>
+        <span class="mini-val">{r.display}</span>
+      </div>
+    ))}
+  </div>
+  {note && <p class="mini-note">{note}</p>}
+</figure>
+
+<style>
+  .mini {
+    margin: 1.1rem 0 0;
+    padding-top: 1rem;
+    border-top: 1px solid var(--hair);
+  }
+  .mini figcaption {
+    font-size: .7rem;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: var(--mut);
+    margin-bottom: .8rem;
+  }
+  .mini-rows { display: flex; flex-direction: column; gap: .45rem; }
+  .mini-row {
+    display: grid;
+    grid-template-columns: minmax(5.5rem, 8rem) 1fr auto;
+    gap: .7rem;
+    align-items: center;
+  }
+  .mini-lab { font-size: .76rem; color: var(--mut); }
+  .mini-track {
+    height: 9px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--fg) 8%, transparent);
+    overflow: hidden;
+  }
+  .mini-fill {
+    display: block;
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--fg) 26%, transparent);
+    transition: width .95s cubic-bezier(.2, .7, .3, 1);
+    transition-delay: var(--d, 0ms);
+  }
+  .mini-fill.hi {
+    background: linear-gradient(90deg, var(--cy), color-mix(in srgb, var(--cy) 55%, var(--pu)));
+    box-shadow: 0 0 14px -2px var(--cy);
+  }
+  /* the reveal observer adds .in to the card */
+  :global(.in) .mini-fill { width: var(--w); }
+
+  .mini-val {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+    min-width: 3.1rem;
+    text-align: right;
+  }
+  .mini-note { font-size: .68rem; color: var(--mut); margin-top: .7rem; font-style: italic; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .mini-fill { transition: none; width: var(--w); }
+  }
+</style>
