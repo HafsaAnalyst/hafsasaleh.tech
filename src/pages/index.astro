@@ -308,32 +308,70 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
 </BaseLayout>
 
 <style is:global>
-  /* ===== the cinematic home page overrides the shared shell ===== */
+  /* ===== cinematic home page — themed through tokens, both modes ===== */
   :root {
+    --bg: #f7f8fa;
+    --fg: #101319;
+    --mut: #5d6572;
+    --cy: #0091a8;
+    --og: #a86c05;
+    --pu: #6b39a0;
+    --glass: rgba(255, 255, 255, .72);
+    --hair: rgba(16, 19, 25, .12);
+    --smoke-1: rgba(0, 145, 168, .16);
+    --smoke-2: rgba(107, 57, 160, .14);
+    --smoke-3: rgba(168, 108, 5, .08);
+    --shape: rgba(16, 19, 25, .12);
+    --btn-ink: #ffffff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
     --bg: #080808;
     --fg: #f2f2f2;
     --mut: #8c8c8c;
     --cy: #00e1ff;
     --og: #f39912;
-    --pu: #894ec1;
+    --pu: #a06fd8;
     --glass: rgba(255, 255, 255, .035);
     --hair: rgba(255, 255, 255, .09);
+    --smoke-1: rgba(0, 225, 255, .17);
+    --smoke-2: rgba(160, 111, 216, .20);
+    --smoke-3: rgba(243, 153, 18, .09);
+    --shape: rgba(255, 255, 255, .10);
+    --btn-ink: #04121a;
+    }
   }
+  :root[data-theme="dark"] {
+    --bg: #080808;
+    --fg: #f2f2f2;
+    --mut: #8c8c8c;
+    --cy: #00e1ff;
+    --og: #f39912;
+    --pu: #a06fd8;
+    --glass: rgba(255, 255, 255, .035);
+    --hair: rgba(255, 255, 255, .09);
+    --smoke-1: rgba(0, 225, 255, .17);
+    --smoke-2: rgba(160, 111, 216, .20);
+    --smoke-3: rgba(243, 153, 18, .09);
+    --shape: rgba(255, 255, 255, .10);
+    --btn-ink: #04121a;
+  }
+
   body {
-    background: var(--bg) !important;
-    color: var(--fg) !important;
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
   }
   .site-header {
-    background: rgba(8, 8, 8, .72) !important;
-    border-bottom: 1px solid var(--hair) !important;
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    border-bottom: 1px solid var(--hair);
   }
-  .site-header .brand { color: var(--fg) !important; font-family: 'Inter', sans-serif !important; font-weight: 800 !important; }
-  .site-header .brand span { color: var(--cy) !important; }
-  .nav a { color: var(--mut) !important; font-weight: 500; }
-  .nav a:hover, .nav a[aria-current='page'] { color: var(--fg) !important; background: rgba(255,255,255,.06) !important; }
-  .site-footer { border-top: 1px solid var(--hair) !important; color: var(--mut) !important; background: var(--bg); }
-  .site-footer a:hover { color: var(--cy) !important; }
+  .site-header .brand { color: var(--fg); font-weight: 800; }
+  .site-header .brand span { color: var(--cy); }
+  .nav a { color: var(--mut); font-weight: 500; }
+  .nav a:hover, .nav a[aria-current='page'] { color: var(--fg); }
+  .site-footer { border-top: 1px solid var(--hair); color: var(--mut); background: var(--bg); }
+  .site-footer a:hover { color: var(--cy); }
   main { overflow-x: clip; }
 </style>
 
@@ -354,7 +392,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .wa {
     position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 900;
     width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
-    background: #25d366; color: #06280f; box-shadow: 0 8px 30px rgba(37, 211, 102, .38);
+    background: #25d366; color: #04220c; box-shadow: 0 8px 30px rgba(37, 211, 102, .38);
     transition: transform .18s;
   }
   .wa:hover { transform: scale(1.07); }
@@ -387,7 +425,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
     border: 1px solid transparent; transition: transform .16s, box-shadow .2s, background .2s;
   }
   .btn:hover { transform: translateY(-2px); }
-  .btn.primary { background: var(--cy); color: #04121a; box-shadow: 0 8px 30px -10px rgba(0, 225, 255, .8); }
+  .btn.primary { background: var(--cy); color: var(--btn-ink); box-shadow: 0 8px 30px -10px rgba(0, 225, 255, .8); }
   .btn.ghost { border-color: var(--hair); color: var(--fg); }
   .btn.ghost:hover { border-color: var(--cy); color: var(--cy); }
   .cta { display: flex; gap: .8rem; flex-wrap: wrap; }
@@ -401,14 +439,14 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .smoke {
     position: absolute; inset: -20%;
     background:
-      radial-gradient(48% 40% at 50% 42%, rgba(0, 225, 255, .17), transparent 70%),
-      radial-gradient(38% 34% at 76% 66%, rgba(137, 78, 193, .20), transparent 72%),
-      radial-gradient(42% 36% at 20% 70%, rgba(243, 153, 18, .09), transparent 72%),
-      #080808;
+      radial-gradient(48% 40% at 50% 42%, var(--smoke-1), transparent 70%),
+      radial-gradient(38% 34% at 76% 66%, var(--smoke-2), transparent 72%),
+      radial-gradient(42% 36% at 20% 70%, var(--smoke-3), transparent 72%),
+      var(--bg);
     filter: blur(28px);
   }
   .hero-in { position: relative; padding-block: 6rem 4rem; }
-  .shape { position: absolute; border: 1px solid rgba(255,255,255,.10); pointer-events: none; }
+  .shape { position: absolute; border: 1px solid var(--shape); pointer-events: none; }
   .diamond { width: 190px; height: 190px; left: 2%; top: 22%; transform: rotate(45deg); animation: float 13s ease-in-out infinite; }
   .ring { width: 240px; height: 240px; right: 4%; bottom: 14%; border-radius: 50%; animation: float 17s ease-in-out infinite reverse; }
   @keyframes float { 0%,100% { transform: translateY(0) rotate(45deg); } 50% { transform: translateY(-26px) rotate(45deg); } }
@@ -431,7 +469,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
 
   /* ---------- marquee ---------- */
-  .marquee { overflow: hidden; border-block: 1px solid var(--hair); padding-block: .95rem; background: rgba(255,255,255,.015); }
+  .marquee { overflow: hidden; border-block: 1px solid var(--hair); padding-block: .95rem; background: color-mix(in srgb, var(--fg) 2%, transparent); }
   .mq-track { display: flex; gap: 2.6rem; width: max-content; animation: mq 42s linear infinite; }
   .mq-item { color: var(--mut); font-size: .85rem; font-weight: 600; letter-spacing: .05em; white-space: nowrap; }
   .mq-item::after { content: '✦'; color: var(--cy); margin-left: 2.6rem; opacity: .5; }
@@ -476,7 +514,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .tl-item.left .tl-dot { right: -6.5px; }
   .tl-item.right .tl-dot { left: -6.5px; }
   .tl-card { padding: 1.5rem; }
-  .tl-n { font-size: 1.9rem; font-weight: 900; color: rgba(255,255,255,.13); letter-spacing: -.05em; }
+  .tl-n { font-size: 1.9rem; font-weight: 900; color: color-mix(in srgb, var(--fg) 16%, transparent); letter-spacing: -.05em; }
   .tl-card h3 { margin-top: -.4rem; }
   .tl-card p { color: var(--mut); font-size: .9rem; margin-top: .5rem; }
 
@@ -647,7 +685,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
       ctx.clearRect(0, 0, r.width, r.height);
       const P = (n: {x:number;y:number}) => ({ x: n.x * r.width, y: n.y * r.height });
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(0,225,255,.30)';
+      const CY = getComputedStyle(document.documentElement).getPropertyValue('--cy').trim() || '#00e1ff';
+      ctx.strokeStyle = CY; ctx.globalAlpha = .30;
       ctx.setLineDash([5, 7]); ctx.lineDashOffset = -dash;
       EDGES.forEach(([a, b]) => {
         const p = P(NODES[a]), q = P(NODES[b]);
@@ -655,15 +694,16 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
         ctx.bezierCurveTo((p.x + q.x) / 2, p.y, (p.x + q.x) / 2, q.y, q.x, q.y);
         ctx.stroke();
       });
+      ctx.globalAlpha = 1;
       ctx.setLineDash([]);
       ctx.font = '11px Inter, sans-serif';
       NODES.forEach((n) => {
         const p = P(n);
         ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-        ctx.fillStyle = 'rgba(0,225,255,.5)'; ctx.fill();
+        ctx.fillStyle = CY; ctx.globalAlpha = .5; ctx.fill(); ctx.globalAlpha = 1;
         ctx.beginPath(); ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(0,225,255,.22)'; ctx.stroke();
-        ctx.fillStyle = 'rgba(255,255,255,.30)';
+        ctx.strokeStyle = CY; ctx.globalAlpha = .22; ctx.stroke(); ctx.globalAlpha = 1;
+        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--mut').trim() || '#8c8c8c';
         ctx.fillText(n.l, p.x + 16, p.y + 4);
       });
       dash = (dash + 0.35) % 12;

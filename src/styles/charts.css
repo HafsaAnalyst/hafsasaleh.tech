@@ -8,30 +8,24 @@
    --------------------------------------------------------------------------- */
 
 .viz {
-  --viz-surface: #171a20;
-  --viz-plane: #1d2128;
-  --viz-grid: #2a2f38;
-  --viz-axis: #383e48;
-  --viz-ink: #eceef2;
-  --viz-ink-2: #c3c8d1;
-  --viz-muted: #8b929d;
-
-  --s1: #3987e5;
-  --s2: #d95926;
-  --s3: #199e70;
-  --s4: #c98500;
-
-  --viz-before: #4d545e;
-  --viz-brand: #4fd1c0;
-
-  /* Dark ordinal ramp — selected for the dark surface, not an inverted flip.
-     Validated: monotone, adjacent ΔL ≥ 0.06, dark end 2.15:1 vs surface. */
-  --o1: #184f95;
-  --o2: #256abf;
-  --o3: #3987e5;
-  --o4: #6da7ec;
-  --o5: #9ec5f4;
-
+  --viz-surface: #ffffff;
+  --viz-plane: #f1f3f6;
+  --viz-grid: #e5e8ee;
+  --viz-axis: #d2d7e0;
+  --viz-ink: #101319;
+  --viz-ink-2: #3c4250;
+  --viz-muted: #5d6572;
+  --s1: #2a78d6;
+  --s2: #eb6834;
+  --s3: #1baf7a;
+  --s4: #eda100;
+  --viz-before: #b9bec6;
+  --viz-brand: #0091a8;
+  --o1: #86b6ef;
+  --o2: #5598e7;
+  --o3: #2a78d6;
+  --o4: #1c5cab;
+  --o5: #104281;
   /* Status — reserved, fixed across themes, always paired with a label */
   --st-good: #0ca30c;
   --st-warn: #fab219;
@@ -40,6 +34,49 @@
   font-variant-numeric: tabular-nums;
 }
 
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .viz {
+  --viz-surface: #171a20;
+  --viz-plane: #1d2128;
+  --viz-grid: #2a2f38;
+  --viz-axis: #383e48;
+  --viz-ink: #eceef2;
+  --viz-ink-2: #c3c8d1;
+  --viz-muted: #8b929d;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --viz-before: #4d545e;
+  --viz-brand: #4fd1c0;
+  --o1: #184f95;
+  --o2: #256abf;
+  --o3: #3987e5;
+  --o4: #6da7ec;
+  --o5: #9ec5f4;
+  }
+}
+
+:root[data-theme="dark"] .viz {
+  --viz-surface: #171a20;
+  --viz-plane: #1d2128;
+  --viz-grid: #2a2f38;
+  --viz-axis: #383e48;
+  --viz-ink: #eceef2;
+  --viz-ink-2: #c3c8d1;
+  --viz-muted: #8b929d;
+  --s1: #3987e5;
+  --s2: #d95926;
+  --s3: #199e70;
+  --s4: #c98500;
+  --viz-before: #4d545e;
+  --viz-brand: #4fd1c0;
+  --o1: #184f95;
+  --o2: #256abf;
+  --o3: #3987e5;
+  --o4: #6da7ec;
+  --o5: #9ec5f4;
+}
 
 /* ---------- Figure shell ---------- */
 .figure {

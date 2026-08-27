@@ -15,12 +15,54 @@ const isCurrent = (href: string) =>
           {item.label}
         </a>
       ))}
+
+      <button id="theme-toggle" class="theme-btn" type="button" aria-label="Switch theme" title="Switch theme">
+        <svg class="i-sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <circle cx="12" cy="12" r="4.2" fill="currentColor" />
+          <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+            <path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
+          </g>
+        </svg>
+        <svg class="i-moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+          <path d="M20 14.5A8.2 8.2 0 019.6 4a8.5 8.5 0 102.9 16.5A8.2 8.2 0 0120 14.5z" fill="currentColor" />
+        </svg>
+      </button>
+
       <a class="hire" href="/contact/">HIRE ME</a>
     </nav>
   </div>
 </header>
 
 <style>
+  .theme-btn {
+    display: inline-grid;
+    place-items: center;
+    width: 2.1rem;
+    height: 2.1rem;
+    margin-left: .35rem;
+    padding: 0;
+    cursor: pointer;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    transition: color .15s, border-color .15s, background .15s;
+  }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--surface-2); }
+  .theme-btn svg { grid-area: 1 / 1; }
+
+  /* Show the icon for the theme you'd switch TO, so the control reads as an action */
+  .i-sun { display: none; }
+  .i-moon { display: block; }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .i-sun { display: block; }
+    :root:not([data-theme="light"]) .i-moon { display: none; }
+  }
+  :root[data-theme="dark"] .i-sun { display: block; }
+  :root[data-theme="dark"] .i-moon { display: none; }
+  :root[data-theme="light"] .i-sun { display: none; }
+  :root[data-theme="light"] .i-moon { display: block; }
+
   .hire {
     background: var(--accent);
     color: var(--paper) !important;
@@ -35,3 +77,17 @@ const isCurrent = (href: string) =>
   }
   .hire:hover { transform: translateY(-1px); filter: brightness(1.1); background: var(--accent) !important; }
 </style>
+
+<script>
+  const btn = document.getElementById('theme-toggle');
+  btn?.addEventListener('click', () => {
+    const root = document.documentElement;
+    // Whatever is on screen right now — whether it came from a stamp or the OS
+    const showing =
+      root.dataset.theme ??
+      (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    const next = showing === 'dark' ? 'light' : 'dark';
+    root.dataset.theme = next;
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+</script>

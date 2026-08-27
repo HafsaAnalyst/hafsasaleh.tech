@@ -1,7 +1,32 @@
 /* ---------- Design tokens ---------- */
-/* Single dark palette — the site commits to one visual world, so there is no
-   light variant. Every colour is declared here and used through the token. */
+/* Three theme states: bare :root is light; the media query covers an OS set to
+   dark (unless the viewer explicitly chose light); the [data-theme] scopes let
+   the header toggle win in both directions. Components only ever read tokens. */
 :root {
+  --paper:      #f7f8fa;
+  --surface:    #ffffff;
+  --surface-2:  #eef0f4;
+  --ink:        #101319;
+  --ink-2:      #3c4250;
+  --muted:      #5d6572;
+  --line:       rgba(16, 19, 25, .12);
+  --accent:     #0091a8;
+  --accent-2:   #00707f;
+  --accent-tint:rgba(0, 145, 168, .10);
+  --purple:     #6b39a0;
+  --gold:       #a86c05;
+  --shadow:     0 1px 2px rgba(16,19,25,.05), 0 18px 45px -24px rgba(16,19,25,.28);
+
+  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+
+  --w: 68rem;
+  --w-prose: 44rem;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
   --paper:      #080808;
   --surface:    #101014;
   --surface-2:  #17171c;
@@ -12,22 +37,32 @@
   --accent:     #00e1ff;
   --accent-2:   #7defff;
   --accent-tint:rgba(0, 225, 255, .12);
-  --purple:     #894ec1;
+  --purple:     #a06fd8;
   --gold:       #f39912;
   --shadow:     0 1px 2px rgba(0,0,0,.5), 0 18px 50px -24px rgba(0,225,255,.4);
+  }
+}
 
-  --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
-
-  --w: 68rem;
-  --w-prose: 44rem;
+:root[data-theme="dark"] {
+  --paper:      #080808;
+  --surface:    #101014;
+  --surface-2:  #17171c;
+  --ink:        #f2f2f2;
+  --ink-2:      #c6c6c6;
+  --muted:      #8c8c8c;
+  --line:       rgba(255, 255, 255, .10);
+  --accent:     #00e1ff;
+  --accent-2:   #7defff;
+  --accent-tint:rgba(0, 225, 255, .12);
+  --purple:     #a06fd8;
+  --gold:       #f39912;
+  --shadow:     0 1px 2px rgba(0,0,0,.5), 0 18px 50px -24px rgba(0,225,255,.4);
 }
 
 /* ---------- Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; }
 * { margin: 0; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { color-scheme: light dark; scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
   font-family: var(--font-body);

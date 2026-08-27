@@ -220,13 +220,12 @@ const id = variant;
 
 <style>
   .cover {
-    /* dark-only, matching the site's single visual world */
-    --cover-a: #0e1a24;
-    --cover-b: #121420;
-    --cover-line: #364450;
-    --cover-mute: #414d59;
-    --cover-ink: #eceef2;
-    --cover-accent: #00e1ff;
+    --cover-a: #e7f4f6;
+    --cover-b: #f3f5f8;
+    --cover-line: #b6c3c9;
+    --cover-mute: #c5ced4;
+    --cover-ink: #101319;
+    --cover-accent: #0091a8;
     --cover-good: #0ca30c;
     --cover-warn: #fab219;
     --cover-crit: #d03b3b;
@@ -238,5 +237,24 @@ const id = variant;
     background: var(--cover-a);
   }
   .cover svg { display: block; width: 100%; height: auto; }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .cover {
+    --cover-a: #0e1a24;
+    --cover-b: #121420;
+    --cover-line: #364450;
+    --cover-mute: #414d59;
+    --cover-ink: #eceef2;
+    --cover-accent: #00e1ff;
+    }
+  }
+  :root[data-theme="dark"] .cover {
+    --cover-a: #0e1a24;
+    --cover-b: #121420;
+    --cover-line: #364450;
+    --cover-mute: #414d59;
+    --cover-ink: #eceef2;
+    --cover-accent: #00e1ff;
+  }
 
 </style>
