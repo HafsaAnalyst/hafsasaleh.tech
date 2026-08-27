@@ -241,7 +241,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   <section class="sec" id="about">
     <div class="wrap about">
       <div class="frame reveal">
-        <img src="/hafsa-saleh.jpg" width="1920" height="1080" alt="Hafsa Saleh" loading="lazy" />
+        <img src="/hafsa-saleh.jpg" width="880" height="1100" alt="Hafsa Saleh" loading="lazy" />
         <span class="cnr tl" aria-hidden="true"></span><span class="cnr tr" aria-hidden="true"></span>
         <span class="cnr bl" aria-hidden="true"></span><span class="cnr br" aria-hidden="true"></span>
       </div>
@@ -566,8 +566,7 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .tl-card p { color: var(--mut); font-size: .9rem; margin-top: .5rem; }
 
   /* ---------- about ---------- */
-  .about { display: grid; gap: 2.8rem; }
-  .about > .frame { width: 100%; max-width: 42rem; }
+  .about { display: grid; grid-template-columns: 21rem 1fr; gap: 3.4rem; align-items: center; }
   .frame { position: relative; padding: 9px; border-radius: 20px; background: linear-gradient(140deg, var(--cy), var(--pu)); }
   .frame img { width: 100%; border-radius: 13px; display: block; }
   .cnr { position: absolute; width: 18px; height: 18px; border: 2px solid var(--cy); }
@@ -617,7 +616,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
 
   /* ---------- responsive ---------- */
   @media (max-width: 62rem) {
-    .about { gap: 2.2rem; }
+    .about { grid-template-columns: 1fr; gap: 2.2rem; }
+    .frame { max-width: 18rem; }
   }
   @media (max-width: 48rem) {
     .timeline::before { left: 8px; }

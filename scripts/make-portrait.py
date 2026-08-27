@@ -3,46 +3,41 @@ Prepares the site portraits from the source photo.
 
 Run:  python scripts/make-portrait.py
 
-The source is a phone photo saved sideways: 1080x1920 with the subject rotated
-90 degrees and no EXIF orientation tag, so nothing auto-corrects it.
+Source is 1200x1600, upright, no EXIF rotation needed. Measured off the frame:
+    cap top      y ~ 370
+    face         x 600-740, y 400-560
+    raised hand  x 480-620, y 380-500
+    child        x 130-430, y 1140-1450   <- cropped out entirely
 
-  public/hafsa-saleh.jpg         the full frame, rotated upright — 1920x1080,
-                                 horizontal. No crop, so it keeps every pixel of
-                                 the original and stays as sharp as the source
-                                 allows. The "just a Friday" sticker is still in
-                                 it: removing it means either cropping to ~57%
-                                 of the width (which zooms in and softens the
-                                 picture) or patching over it (which leaves a
-                                 visible block). Re-export the photo without the
-                                 sticker and this script needs no changes.
+Both crops stop above y=1130, so nobody else appears in either image.
 
-  public/hafsa-saleh-square.jpg  1:1 crop for the nav avatar. Centred on her
-                                 face, which puts the sticker outside the frame.
+  public/hafsa-saleh.jpg         4:5 portrait — About section, in the gradient frame
+  public/hafsa-saleh-square.jpg  1:1          — nav avatar, centred on her face
 """
 
 from pathlib import Path
 from PIL import Image
 
-SRC = Path.home() / "Downloads" / "WhatsApp Image 2026-08-27 at 10.56.37 PM.jpeg"
+SRC = Path.home() / "Downloads" / "WhatsApp Image 2026-08-27 at 11.17.11 PM.jpeg"
 PUBLIC = Path(__file__).resolve().parent.parent / "public"
 
-# Square box in rotated (1920x1080) coordinates. Her face sits at x 480-950,
-# y 60-560; the sticker is at x 1120-1160, so a face-centred square misses it.
-SQUARE_BOX = (310, 0, 1110, 800)
-SQUARE_OUT = (760, 760)
+PORTRAIT_BOX = (280, 250, 984, 1130)   # 704 x 880  (4:5)
+SQUARE_BOX = (500, 305, 850, 655)      # 350 x 350  (1:1, tight for a 30px avatar)
+
+PORTRAIT_OUT = (880, 1100)
+SQUARE_OUT = (700, 700)
 
 
-def save(im: Image.Image, filename: str, quality: int = 90) -> None:
+def render(box, out_size, filename, quality=90):
+    im = Image.open(SRC).convert("RGB").crop(box).resize(out_size, Image.LANCZOS)
     path = PUBLIC / filename
     im.save(path, "JPEG", quality=quality, optimize=True, progressive=True)
-    print(f"wrote {path.name}  ({path.stat().st_size // 1024} KB, {im.width}x{im.height})")
+    print(f"wrote {path.name}  ({path.stat().st_size // 1024} KB, {out_size[0]}x{out_size[1]})")
 
 
 if not SRC.exists():
     raise SystemExit(f"Source photo not found: {SRC}")
 
 PUBLIC.mkdir(parents=True, exist_ok=True)
-
-im = Image.open(SRC).convert("RGB").rotate(90, expand=True)
-save(im, "hafsa-saleh.jpg")
-save(im.crop(SQUARE_BOX).resize(SQUARE_OUT, Image.LANCZOS), "hafsa-saleh-square.jpg")
+render(PORTRAIT_BOX, PORTRAIT_OUT, "hafsa-saleh.jpg")
+render(SQUARE_BOX, SQUARE_OUT, "hafsa-saleh-square.jpg")
