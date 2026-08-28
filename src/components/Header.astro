@@ -8,8 +8,7 @@ const isCurrent = (href: string) =>
 
 <header class="site-header">
   <div class="wrap">
-    <a class="brand" href="/">
-      <img class="avatar" src="/hafsa-saleh-square.jpg" width="760" height="760" alt="" />{site.name.split(' ')[0]}<span>{site.name.split(' ').slice(1).join(' ') ? ' ' + site.name.split(' ').slice(1).join(' ') : ''}</span></a>
+    <a class="brand" href="/">{site.name.split(' ')[0]}<span>{site.name.split(' ').slice(1).join(' ') ? ' ' + site.name.split(' ').slice(1).join(' ') : ''}</span></a>
     <nav class="nav" aria-label="Main">
       {nav.map((item) => (
         <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
@@ -35,13 +34,6 @@ const isCurrent = (href: string) =>
 </header>
 
 <style>
-  .brand { display: inline-flex; align-items: center; gap: .6rem; }
-  .avatar {
-    width: 30px; height: 30px; border-radius: 50%;
-    object-fit: cover; object-position: 50% 28%;
-    border: 1px solid var(--line); flex: none;
-  }
-
   .theme-btn {
     display: inline-grid;
     place-items: center;
