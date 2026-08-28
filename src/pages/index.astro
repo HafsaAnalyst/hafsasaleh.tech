@@ -240,15 +240,21 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   <!-- ============ ABOUT ============ -->
   <section class="sec" id="about">
     <div class="wrap about">
-      <div class="frame reveal">
-        <img src="/hafsa-saleh.jpg" width="880" height="1100" alt="Hafsa Saleh" loading="lazy" />
-        <span class="cnr tl" aria-hidden="true"></span><span class="cnr tr" aria-hidden="true"></span>
-        <span class="cnr bl" aria-hidden="true"></span><span class="cnr br" aria-hidden="true"></span>
-      </div>
-      <div class="reveal">
+      <div class="about-id reveal">
         <p class="eyebrow">About Me</p>
         <h2 class="name-big">Hafsa Saleh</h2>
         <p class="spaced">Marketing Intelligence · ETL &amp; Attribution · Predictive Modelling</p>
+        <div class="tagrow">
+          {['Python', 'SQL', 'Streamlit', 'Power BI', 'Attribution', 'Data Governance'].map((t) => (
+            <span class="tag-pill">{t}</span>
+          ))}
+        </div>
+        <div class="cta" style="margin-top:1.8rem;">
+          <a class="btn primary" href={site.cv}>Download CV</a>
+          <a class="btn ghost" href="/about/">Full background</a>
+        </div>
+      </div>
+      <div class="about-body reveal">
         <p>
           I build the unglamorous infrastructure that decisions rest on. At <strong>The Migration</strong>,
           I engineered the cross-platform integration layer unifying Meta Ads, GoHighLevel, GA4 and
@@ -261,15 +267,6 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
           peer-reviewed research in <em>Acta Geophysica</em>. That's where the rigour comes from — and
           why I care more about a number being true than impressive.
         </p>
-        <div class="tagrow">
-          {['Python', 'SQL', 'Streamlit', 'Power BI', 'Attribution', 'Data Governance'].map((t) => (
-            <span class="tag-pill">{t}</span>
-          ))}
-        </div>
-        <div class="cta" style="margin-top:1.8rem;">
-          <a class="btn primary" href={site.cv}>Download CV</a>
-          <a class="btn ghost" href="/about/">Full background</a>
-        </div>
       </div>
     </div>
   </section>
@@ -566,17 +563,12 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .tl-card p { color: var(--mut); font-size: .9rem; margin-top: .5rem; }
 
   /* ---------- about ---------- */
-  .about { display: grid; grid-template-columns: 21rem 1fr; gap: 3.4rem; align-items: center; }
-  .frame { position: relative; padding: 9px; border-radius: 20px; background: linear-gradient(140deg, var(--cy), var(--pu)); }
-  .frame img { width: 100%; border-radius: 13px; display: block; }
-  .cnr { position: absolute; width: 18px; height: 18px; border: 2px solid var(--cy); }
-  .cnr.tl { top: -7px; left: -7px; border-right: 0; border-bottom: 0; }
-  .cnr.tr { top: -7px; right: -7px; border-left: 0; border-bottom: 0; }
-  .cnr.bl { bottom: -7px; left: -7px; border-right: 0; border-top: 0; }
-  .cnr.br { bottom: -7px; right: -7px; border-left: 0; border-top: 0; }
+  .about { display: grid; grid-template-columns: 22rem 1fr; gap: 3.6rem; align-items: start; }
+  .about-id { position: sticky; top: 6rem; }
   .name-big { margin-top: .5rem; }
   .spaced { letter-spacing: .12em; font-size: .76rem; text-transform: uppercase; color: var(--mut); margin-block: 1.1rem 1.6rem; }
-  .about p { color: var(--mut); line-height: 1.75; margin-bottom: 1rem; }
+  .about-body p { color: var(--mut); line-height: 1.8; margin-bottom: 1.15rem; font-size: 1.02rem; }
+  .about-body p:last-child { margin-bottom: 0; }
   .about strong { color: var(--fg); }
   .tagrow { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.4rem; }
   .tag-pill { border: 1px solid rgba(0,225,255,.35); color: var(--cy); border-radius: 999px; padding: .3rem .85rem; font-size: .78rem; font-weight: 500; }
@@ -616,8 +608,8 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
 
   /* ---------- responsive ---------- */
   @media (max-width: 62rem) {
-    .about { grid-template-columns: 1fr; gap: 2.2rem; }
-    .frame { max-width: 18rem; }
+    .about { grid-template-columns: 1fr; gap: 2rem; }
+    .about-id { position: static; }
   }
   @media (max-width: 48rem) {
     .timeline::before { left: 8px; }
