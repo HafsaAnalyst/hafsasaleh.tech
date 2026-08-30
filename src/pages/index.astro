@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 import { projects } from '../data/projects';
 import { publications } from '../data/research';
+import { services } from '../data/services';
 import { getCollection } from 'astro:content';
 import MiniChart from '../components/MiniChart.astro';
 
@@ -322,6 +323,31 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
     </div>
   </section>
 
+  <!-- ============ SERVICES ============ -->
+  <section class="sec" id="services">
+    <div class="wrap">
+      <h2 class="reveal">What I <em class="grad-og">Offer</em></h2>
+      <p class="sub reveal">
+        Five fixed-scope services, priced up front. The dashboard starts with a free month.
+      </p>
+
+      <div class="svc-grid">
+        {services.map((sv) => (
+          <a class="glass svc reveal" href={`/services/#${sv.id}`}>
+            <span class="svc-kind">{sv.kind}</span>
+            <h3>{sv.title}</h3>
+            <p>{sv.summary}</p>
+            <span class="svc-price">{sv.price} <em>{sv.priceNote}</em></span>
+          </a>
+        ))}
+      </div>
+
+      <div class="mid-cta reveal">
+        <a class="btn primary" href="/services/">See full pricing</a>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ CONTACT ============ -->
   <section class="sec" id="contact">
     <div class="wrap contact">
@@ -596,6 +622,15 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
   .post-date { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mut); }
   .post h3 { margin-top: .55rem; font-size: 1.02rem; }
   .post p { color: var(--mut); font-size: .87rem; margin-top: .5rem; }
+
+  /* ---------- services ---------- */
+  .svc-grid { display: grid; gap: 1.1rem; margin-top: 2.6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+  .svc { padding: 1.5rem; display: flex !important; flex-direction: column; gap: .5rem; }
+  .svc-kind { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mut); }
+  .svc h3 { font-size: 1.02rem; }
+  .svc p { color: var(--mut); font-size: .87rem; flex: 1; }
+  .svc-price { font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; color: var(--cy); margin-top: .6rem; }
+  .svc-price em { font-style: normal; font-size: .74rem; font-weight: 500; color: var(--mut); letter-spacing: 0; display: block; margin-top: .15rem; }
 
   /* ---------- contact ---------- */
   .contact { text-align: center; }

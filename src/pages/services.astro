@@ -1,0 +1,195 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../site';
+import { services, HOURLY } from '../data/services';
+
+const WHATSAPP = '923044762001';
+const featured = services.filter((s) => s.featured);
+const rest = services.filter((s) => !s.featured);
+---
+
+<BaseLayout
+  title="Services"
+  description="Intelligence dashboards, predictive models, GoHighLevel builds and automated reporting systems — with transparent pricing."
+>
+  <section class="section">
+    <div class="wrap">
+      <p class="eyebrow">Services</p>
+      <h1>Work with me</h1>
+      <p class="lead" style="margin-top:1rem; max-width:44rem;">
+        Five ways to close the gap between what your marketing costs and what it actually
+        returns. Prices below are starting points in USD — anything real gets quoted after
+        a short call, so you know the number before you commit.
+      </p>
+
+      <div class="strip">
+        <div><b>Free</b><span>first month on the dashboard</span></div>
+        <div><b>${HOURLY}/hr</b><span>for ad-hoc analysis</span></div>
+        <div><b>No retainer</b><span>required on any build</span></div>
+      </div>
+    </div>
+  </section>
+
+  {featured.map((s) => (
+    <section class="section svc-featured" id={s.id}>
+      <div class="wrap">
+        <div class="feat">
+          <div>
+            <span class="kind hot">{s.kind}</span>
+            <h2>{s.title}</h2>
+            <p class="lead" style="margin-top:.9rem;">{s.summary}</p>
+            <p class="bestfor"><strong>Best for:</strong> {s.bestFor}</p>
+            <ul class="inc">
+              {s.includes.map((i) => <li>{i}</li>)}
+            </ul>
+          </div>
+          <aside class="pricebox">
+            <span class="price">{s.price}</span>
+            <span class="price-note">{s.priceNote}</span>
+            {s.altPrice && <p class="alt">{s.altPrice}</p>}
+            <dl class="facts">
+              <div><dt>Turnaround</dt><dd>{s.turnaround}</dd></div>
+            </dl>
+            <a class="btn btn-primary" href={`https://wa.me/${WHATSAPP}`} rel="noopener">{s.cta}</a>
+            <a class="btn btn-ghost" href="/dashboard/">See it running first</a>
+          </aside>
+        </div>
+      </div>
+    </section>
+  ))}
+
+  <section class="section">
+    <div class="wrap">
+      <h2>Everything else</h2>
+      <p class="lead" style="margin-top:.6rem; max-width:42rem;">
+        Fixed scopes with fixed starting prices. No hourly surprises.
+      </p>
+
+      <div class="svc-grid">
+        {rest.map((s) => (
+          <article class="card svc" id={s.id}>
+            <span class="kind">{s.kind}</span>
+            <h3>{s.title}</h3>
+            <p>{s.summary}</p>
+
+            <div class="tier">
+              <span class="price sm">{s.price}</span>
+              <span class="price-note">{s.priceNote}</span>
+            </div>
+            {s.altPrice && <p class="alt sm">{s.altPrice}</p>}
+
+            <ul class="inc">
+              {s.includes.map((i) => <li>{i}</li>)}
+            </ul>
+
+            <p class="bestfor"><strong>Best for:</strong> {s.bestFor}</p>
+            <p class="meta">Turnaround · {s.turnaround}</p>
+            <a class="btn btn-ghost" href={`https://wa.me/${WHATSAPP}`} rel="noopener">{s.cta}</a>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose-wrap">
+      <h2>How engagements run</h2>
+      <ol class="steps">
+        <li><strong>A 20-minute call.</strong> You describe the problem; I tell you whether I can help and roughly what it costs. No pitch deck.</li>
+        <li><strong>A written scope.</strong> Fixed price, fixed deliverables, fixed dates — before any money moves.</li>
+        <li><strong>Build, with checkpoints.</strong> You see progress weekly, not just at the end.</li>
+        <li><strong>Handover.</strong> Documentation and a walkthrough. Everything I build is yours to run without me.</li>
+      </ol>
+
+      <p class="fineprint">
+        Prices in USD and exclude any platform or API costs on your side. Contracts through
+        <a href={site.socials.upwork} rel="noopener">Upwork</a> or
+        <a href={site.socials.fiverr} rel="noopener">Fiverr</a> if you prefer their protection —
+        those platforms add their own fee on top.
+      </p>
+
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:2rem;">
+        <a class="btn btn-primary" href={`https://wa.me/${WHATSAPP}`} rel="noopener">Message me on WhatsApp</a>
+        <a class="btn btn-ghost" href={`mailto:${site.email}`}>Email instead</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .strip {
+    display: flex; flex-wrap: wrap; gap: 2.6rem;
+    margin-top: 2.4rem; padding-top: 1.8rem;
+    border-top: 1px solid var(--line);
+  }
+  .strip div { display: flex; flex-direction: column; }
+  .strip b { font-size: 1.6rem; font-weight: 800; letter-spacing: -.03em; color: var(--accent); line-height: 1; }
+  .strip span { font-size: .82rem; color: var(--muted); margin-top: .35rem; }
+
+  .kind {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: .68rem; letter-spacing: .14em; text-transform: uppercase;
+    color: var(--muted);
+  }
+  .kind.hot { color: var(--accent); }
+
+  /* ---- featured ---- */
+  .svc-featured { border-top: 1px solid var(--line); }
+  .feat { display: grid; grid-template-columns: 1fr 20rem; gap: 3rem; align-items: start; }
+  .pricebox {
+    position: sticky; top: 6rem;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 14px; padding: 1.6rem;
+    display: flex; flex-direction: column; gap: .5rem;
+    box-shadow: var(--shadow);
+  }
+  .price { font-size: 2.6rem; font-weight: 800; letter-spacing: -.04em; color: var(--accent); line-height: 1; }
+  .price.sm { font-size: 1.7rem; }
+  .price-note { font-size: .82rem; color: var(--muted); }
+  .alt {
+    font-size: .85rem; color: var(--ink-2);
+    border-top: 1px solid var(--line); padding-top: .8rem; margin-top: .5rem;
+  }
+  .alt.sm { border: 0; padding-top: 0; margin-top: .4rem; font-size: .82rem; }
+  .facts { margin: .6rem 0 .4rem; }
+  .facts div { display: flex; justify-content: space-between; gap: 1rem; font-size: .84rem; }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; font-weight: 600; }
+  .pricebox .btn { justify-content: center; }
+
+  /* ---- grid ---- */
+  .svc-grid {
+    display: grid; gap: 1.25rem; margin-top: 2.4rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  }
+  .svc { gap: .5rem; }
+  .svc h3 { font-size: 1.15rem; margin-top: .3rem; }
+  .tier { display: flex; align-items: baseline; gap: .6rem; margin-top: .6rem; }
+
+  .inc { list-style: none; padding: 0; margin: 1rem 0 .4rem; display: flex; flex-direction: column; gap: .45rem; }
+  .inc li {
+    position: relative; padding-left: 1.4rem;
+    font-size: .89rem; color: var(--ink-2); line-height: 1.55;
+  }
+  .inc li::before {
+    content: '';
+    position: absolute; left: 0; top: .55em;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+  }
+  .bestfor { font-size: .86rem; color: var(--muted); margin-top: .8rem; }
+  .bestfor strong { color: var(--ink-2); }
+  .svc .btn { margin-top: 1rem; align-self: flex-start; }
+
+  .steps { padding-left: 1.3rem; margin-top: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
+  .steps li { color: var(--ink-2); }
+  .steps strong { color: var(--ink); }
+  .fineprint { font-size: .84rem; color: var(--muted); margin-top: 2rem; }
+  .fineprint a { color: var(--accent); }
+
+  @media (max-width: 58rem) {
+    .feat { grid-template-columns: 1fr; gap: 1.8rem; }
+    .pricebox { position: static; }
+  }
+</style>

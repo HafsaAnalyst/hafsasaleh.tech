@@ -46,7 +46,8 @@ export const nav = [
   { href: '/about/', label: 'About' },
   { href: '/projects/', label: 'Projects' },
   { href: '/dashboard/', label: 'Dashboard' },
+  { href: '/services/', label: 'Services' },
   { href: '/research/', label: 'Research' },
   { href: '/articles/', label: 'Articles' },
-  { href: '/contact/', label: 'Contact' },
+  // Contact is the CONTACT button in the header, so it is not repeated here.
 ];
