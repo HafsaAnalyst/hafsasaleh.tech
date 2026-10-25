@@ -41,9 +41,6 @@ export const site = {
   // International format, digits only, for wa.me links.
   whatsapp: '923044762001',
 
-  // Linked from the About page only.
-  cv: '/hafsa-saleh-cv.pdf',
-
   location: 'Lahore, Pakistan',
 };
 
