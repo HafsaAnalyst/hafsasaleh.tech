@@ -2,141 +2,77 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 
-const skills = [
-  {
-    group: 'Marketing Analytics & BI',
-    items: ['GA4', 'Google Search Console', 'Meta Ads Manager', 'GoHighLevel', 'Streamlit', 'Power BI', 'Multi-Touch Attribution', 'Funnel Analytics', 'KPI Tracking'],
-  },
-  {
-    group: 'AI & Automation',
-    items: ['LLMs', 'Agentic AI', 'Claude Code', 'Prompt Engineering', 'Meta Graph API', 'GHL API', 'Google Cloud Console', 'Workflow Automation'],
-  },
-  {
-    group: 'Programming & Data Engineering',
-    items: ['Python', 'Pandas', 'NumPy', 'OpenPyXL', 'Requests', 'SQL', 'R', 'ETL Architecture', 'Data Wrangling'],
-  },
-  {
-    group: 'CRM Architecture & Governance',
-    items: ['GoHighLevel Workflows', 'Pipelines & Opportunities', 'SSOT Design', 'Lead Lifecycle Management', 'Data Governance'],
-  },
-  {
-    group: 'Statistical & Predictive',
-    items: ['SPSS', 'Multiple Linear Regression', 'Hypothesis Testing', 'Time Series', 'Predictive Modelling', 'Revenue Reconciliation'],
-  },
-  {
-    group: 'Enterprise & Project Management',
-    items: ['SAP / ERP (Sapphire)', 'Agile', 'ClickUp (OKRs, API)', 'Google Workspace', 'Excel (Pivot Tables, Power Query)'],
-  },
+const services = [
+  { t: 'Owner dashboard', d: 'Billings, placements, recruiter performance and pipeline conversion in one live view.' },
+  { t: 'Automated weekly report', d: 'Delivered every Monday, with no manual exports.' },
+  { t: 'Follow-up automations', d: "Reminders and alerts so candidates and clients don't go quiet." },
 ];
 
-const experience = [
-  {
-    role: 'Marketing Intelligence Analyst',
-    org: 'The Migration — Australian Migration & Visa Consultancy',
-    period: 'Dec 2025 — Present',
-    points: [
-      'Engineered a custom ETL pipeline and centralised Streamlit application performing cross-platform data integration across Meta Ads, GoHighLevel, GA4 and Google Search Console APIs — replacing siloed marketing and CRM data with an enterprise single source of truth.',
-      'Delivered multi-touch attribution mapping across 5,200+ leads, 3,300+ appointments and 395 conversions for a USD 10,000/month media budget — driving cost-per-lead to USD 7.45 and cost-per-appointment to USD 11.58 through real-time budget reallocation recommendations.',
-      'Architected the CRM environment in GoHighLevel, enforcing data governance and cleaning protocols across workflows, automations, pipelines, opportunities and custom fields.',
-      'Designed automated revenue reconciliation reports identifying funnel leakages and tracking ROI per acquisition channel, consolidating multi-source KPI data into board-ready executive packages.',
-      'Acted as strategic data advisor to C-suite executives — delivering predictive modelling, trend analyses and Meta campaign forecasts that catalysed major budget and growth decisions.',
-      'Provided cross-functional leadership as acting line manager for a 12-person marketing department spanning performance, content & media, and SEO.',
-    ],
-  },
-  {
-    role: 'Data Analyst',
-    org: 'Sapphire Finishing Mills Ltd.',
-    period: 'Sep 2023 — Nov 2025',
-    points: [
-      'Architected an automated ETL pipeline compressing a recurring 1-hour analysis cycle to 14 seconds — eliminating manual transcription errors and reclaiming 4+ team hours per iteration.',
-      'Built a Python-based predictive scheduling system for monthly fabric-dyeing operations, forecasting job completion via Z-test modelling; delivered a 20% gain in operational planning efficiency.',
-      'Owned end-to-end order lifecycle monitoring within the Sapphire SAP/ERP environment, surfacing operational KPI deviations directly to production leadership.',
-      'Designed Excel pivot-based BI dashboards for weekly reprocess, packed orders and shortfall tracking — adopted by floor management as the operational reporting standard.',
-    ],
-  },
+const steps = [
+  { t: 'Listen first.', d: 'A 20-minute call about how you report today.' },
+  { t: 'Check the data.', d: "Find out what's in your ATS and spreadsheets, and what can be trusted." },
+  { t: 'Build fast.', d: 'I use Python, Streamlit and AI-assisted development to ship in days, not months.' },
+  { t: 'Validate.', d: 'Check the numbers against what you already know.' },
+  { t: 'Hand over.', d: 'Your report runs on its own, and your team knows how to use it.' },
 ];
 
-const education = [
-  {
-    award: 'Bachelor (Honours) — Statistics',
-    org: 'College of Statistical Sciences, University of the Punjab, Lahore',
-    period: '2019 — 2023',
-    note: 'CGPA 3.45 / 4.0. Coursework: Probability, Time Series, Applied Econometrics, Statistical Inference, Experimental Design, Categorical Analysis, Programming.',
-  },
+const expect = [
+  'I work inside your accounts with counts and pipeline data, not candidate CVs.',
+  "I'll tell you when a number can't be trusted rather than give you a confident wrong answer.",
+  "I'm based in Lahore (UTC+5), which overlaps with UK afternoons and Australian mornings. US calls are in my evening.",
 ];
 
-const training = [
-  'AI Workshop — LLMs and Agentic AI fundamentals',
-  'Claude Code Workshop — AI-assisted development workflows',
+const facts = [
+  'BSc (Honours) Statistics, University of the Punjab',
+  'Published in Acta Geophysica (Springer, 2025)',
+  'Tools: Python, SQL, Streamlit, Power BI, GA4, Claude Code',
+  'In progress: IBM Generative AI and IBM AI-Native Data Engineer certificates (Coursera)',
 ];
 ---
 
 <BaseLayout
   title="About"
-  description="Hafsa Saleh builds recruitment agency dashboards and reporting automation, with a statistics background and experience tracking long people-pipelines at an Australian consultancy."
+  description="Hafsa Saleh is a statistics-trained data analyst who builds live dashboards and automated reports for small recruitment agencies, so owners can see which recruiters, clients and candidates turn into placements and fees."
 >
   <section class="section">
-    <div class="wrap">
-      <div class="prose-wrap">
-        <p class="eyebrow">About</p>
-        <h1>Hi, I'm Hafsa.</h1>
+    <div class="wrap prose-wrap">
+      <p class="eyebrow">About</p>
+      <h1>I help recruitment agency owners see where their money comes from.</h1>
+      <p class="lead" style="margin-top:1.4rem;">
+        I'm Hafsa, a data analyst with a statistics degree and a habit of asking "can we trust
+        this number?" before anyone acts on it. I build live dashboards and automated reports for
+        small recruitment agencies, so owners can see which recruiters, clients and candidates
+        turn into placements and fees, without rebuilding numbers in Excel every Monday.
+      </p>
+    </div>
+  </section>
 
-        <div class="prose" style="margin-top:1.6rem;">
-          <p class="lead">
-            I'm a Marketing Intelligence Analyst. I build the unglamorous
-            infrastructure that decisions rest on — ETL pipelines, attribution
-            platforms and reporting systems that people at the top of an organisation
-            actually open.
-          </p>
-          <p>
-            Right now I'm at <strong>The Migration</strong>, an Australian migration and visa
-            consultancy, where I engineered the cross-platform data integration layer that
-            unifies Meta Ads, GoHighLevel, GA4 and Google Search Console into a single
-            Streamlit source of truth. It tracks 5,200+ leads against a USD 10K/month media
-            budget, and the CEO uses it as the primary strategic decision tool. Alongside the
-            analytics work I act as line manager for a 12-person marketing department and sit
-            in C-level strategy forums as the embedded data voice.
-          </p>
-          <p>
-            I came to this from statistics rather than marketing. My degree is in Statistics
-            from the University of the Punjab, and my first analyst role was on a factory
-            floor at Sapphire Finishing Mills — where I learned that the fastest way to earn
-            trust is to take something that takes an hour and make it take fourteen seconds.
-          </p>
-          <p>
-            The thread running through all of it: <strong>a model nobody deploys is a hobby</strong>.
-            I care about the gap between technically correct and actually used — which usually
-            means data governance, clean pipelines and reporting that answers the question
-            someone was really asking. Increasingly that also means AI-assisted development;
-            a good chunk of my recent integration work was built with Claude Code.
-          </p>
-        </div>
-
-        <section class="why-rec">
-          <h2>Why recruitment agencies?</h2>
-          <p>
-            At an Australian migration consultancy I track people through a long pipeline, from
-            first enquiry to final outcome, and I've seen how much money hides in the stages
-            nobody measures. Recruitment works the same way: CVs sent, interviews, offers,
-            placements. Most agencies already hold the data. They just can't get a straight
-            answer out of it. That's the gap I close.
-          </p>
-          <p class="cred-link"><a href="/recruitment-agencies/">What I build for recruitment agencies</a></p>
-        </section>
-
-        <aside class="credibility">
-          <p>
-            <strong>Peer-reviewed:</strong> my regression study on air-quality prediction
-            in Islamabad was published in <em>Acta Geophysica</em> (Springer, 2025). It is
-            not marketing work, but it is where the habit comes from &mdash; showing the
-            confidence interval, and saying so when a number is not yet knowable.
-          </p>
-          <p class="cred-link"><a href="https://rdcu.be/eF8VH" rel="noopener">Read the paper</a></p>
-        </aside>
-
-        <p style="margin-top:2rem;">
-          <a class="btn btn-primary" href={site.booking} rel="noopener">Book a reporting check</a>
-          <a class="btn btn-ghost" href={site.cv} download>Download my CV (PDF)</a>
+  <section class="section">
+    <div class="wrap prose-wrap">
+      <h2>My story</h2>
+      <div class="prose" style="margin-top:1.2rem;">
+        <p>
+          I started on a factory floor at Sapphire Finishing Mills, working with SAP data to plan
+          production. That's where I learned that a number is only useful if someone trusts it
+          enough to act on it. One recurring report there took an hour to build by hand; I
+          automated it down to 14 seconds.
+        </p>
+        <p>
+          Since 2022 I've also worked as a freelance analyst for research clients, and I've
+          published a regression model on air quality in
+          <a href="https://rdcu.be/eF8VH" rel="noopener"><em>Acta Geophysica</em></a>.
+        </p>
+        <p>
+          Today I'm a Marketing Intelligence Analyst at an Australian migration consultancy. I
+          track thousands of people through a long pipeline, from first enquiry to booked
+          consultation to final outcome. By fixing how outcomes were recorded, I helped lift the
+          consultation show rate from <a href="/projects/show-rate-recovery/">68% to 82%</a> with
+          no extra ad spend.
+        </p>
+        <p>
+          Recruitment works the same way: CVs sent, interviews, offers, placements. Most agencies
+          already hold the data in their ATS but can't get a straight answer out of it.
+          <strong>That's the gap I close.</strong>
         </p>
       </div>
     </div>
@@ -144,74 +80,65 @@ const training = [
 
   <section class="section">
     <div class="wrap">
-      <h2>Skills</h2>
-      <div class="grid grid-3" style="margin-top:1.8rem;">
-        {skills.map((s) => (
-          <div class="card">
-            <h3>{s.group}</h3>
-            <div class="tags" style="margin-top:.2rem;">
-              {s.items.map((i) => <span class="tag">{i}</span>)}
-            </div>
-          </div>
+      <h2>What I do for recruitment agencies</h2>
+      <div class="grid grid-3" style="margin-top:1.6rem;">
+        {services.map((s) => (
+          <a class="card" href="/recruitment-agencies/" style="text-decoration:none;">
+            <h3>{s.t}</h3>
+            <p>{s.d}</p>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
   <section class="section">
-    <div class="wrap">
-      <div class="prose-wrap">
-        <h2>Experience</h2>
-        <div style="margin-top:1.8rem; display:flex; flex-direction:column; gap:2.4rem;">
-          {experience.map((job) => (
-            <div>
-              <span class="meta">{job.period}</span>
-              <h3 style="margin-top:.3rem;">{job.role}</h3>
-              <p style="color:var(--muted); font-size:.9rem;">{job.org}</p>
-              <ul style="margin-top:.8rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
-                {job.points.map((p) => <li style="margin-bottom:.45rem;">{p}</li>)}
-              </ul>
-            </div>
-          ))}
-        </div>
+    <div class="wrap prose-wrap">
+      <h2>How I work</h2>
+      <ol class="steps">
+        {steps.map((s) => <li><strong>{s.t}</strong> {s.d}</li>)}
+      </ol>
 
-        <h2 style="margin-top:3.5rem;">Education</h2>
-        <div style="margin-top:1.5rem; display:flex; flex-direction:column; gap:1.5rem;">
-          {education.map((e) => (
-            <div>
-              <span class="meta">{e.period}</span>
-              <h3 style="margin-top:.3rem;">{e.award}</h3>
-              <p style="color:var(--ink-2); font-size:.95rem;">{e.org}</p>
-              <p style="color:var(--muted); font-size:.9rem; margin-top:.3rem;">{e.note}</p>
-            </div>
-          ))}
-        </div>
+      <h2 style="margin-top:3.2rem;">What you can expect from me</h2>
+      <ul class="ticks">
+        {expect.map((e) => <li>{e}</li>)}
+      </ul>
 
-        <h2 style="margin-top:3.5rem;">Training</h2>
-        <ul style="margin-top:1.2rem; padding-left:1.2rem; color:var(--ink-2); font-size:.95rem;">
-          {training.map((t) => <li style="margin-bottom:.4rem;">{t}</li>)}
-        </ul>
-      </div>
+      <h2 style="margin-top:3.2rem;">Quick facts</h2>
+      <ul class="facts">
+        {facts.map((f) => <li>{f}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap prose-wrap" style="text-align:center;">
+      <h2>If your weekly reporting takes more than an hour, let&rsquo;s talk.</h2>
+      <p style="margin-top:1.6rem;">
+        <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-minute reporting check</a>
+      </p>
+      <p class="cv">
+        Want the formal version? <a href={site.cv} download>Download my CV (PDF)</a>
+      </p>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .why-rec { margin-top: 2.6rem; }
-  .why-rec h2 { font-size: 1.4rem; }
-  .why-rec p { color: var(--ink-2); font-size: 1.05rem; margin-top: .8rem; }
-  .why-rec .cred-link { font-size: .95rem; }
+  .steps { padding-left: 1.3rem; margin-top: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
+  .steps li { color: var(--ink-2); }
+  .steps strong { color: var(--ink); }
 
-  .credibility {
-    margin-top: 2.2rem;
-    padding: 1.3rem 1.5rem;
-    border-left: 3px solid var(--accent);
-    background: var(--surface-2);
-    border-radius: 0 10px 10px 0;
+  .ticks, .facts { list-style: none; padding: 0; margin-top: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
+  .ticks li, .facts li { position: relative; padding-left: 1.5rem; color: var(--ink-2); }
+  .ticks li::before {
+    content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
   }
-  .credibility p { color: var(--ink-2); font-size: .95rem; }
-  .credibility strong { color: var(--ink); }
-  .cred-link { margin-top: .7rem; }
-  .cred-link a { color: var(--accent); font-weight: 600; font-size: .9rem; }
-</style>
+  .facts li::before {
+    content: ''; position: absolute; left: .2rem; top: .62em;
+    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+  }
 
+  .cv { margin-top: 2.4rem; font-size: .88rem; color: var(--muted); }
+  .cv a { color: var(--accent); font-weight: 600; }
+</style>
