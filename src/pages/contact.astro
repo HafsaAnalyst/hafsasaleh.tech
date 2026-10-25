@@ -25,13 +25,14 @@ const channels = [
         Excel, and which numbers you don't trust. You leave knowing where the biggest gap is,
         whether or not we work together.
       </p>
+      <div class="actions">
+        <a class="btn btn-primary" href={site.booking} rel="noopener">Pick a time on Calendly</a>
+      </div>
     </header>
 
-    {/* [HAFSA TO CONFIRM: Calendly or Cal.com URL] — once site.booking points at a
-        booking link, add it here as the primary button above the form. Until then,
-        the form drafts an email so the request still reaches you. */}
+    {/* Fallback for anyone who would rather not use Calendly: drafts an email. */}
     <form id="check-form" class="check" action={`mailto:${site.email}`} method="post" enctype="text/plain">
-      <h4>Request your reporting check</h4>
+      <h4>Prefer email? Tell me about your agency</h4>
       <div class="frow">
         <label>Your name<input name="Name" autocomplete="name" required /></label>
         <label>Email<input name="Email" type="email" autocomplete="email" required /></label>

@@ -11,10 +11,7 @@ export const site = {
   role: 'Dashboards & Reporting Automation for Recruitment Agencies',
 
   // Every "Book a reporting check" button points here.
-  // [HAFSA TO CONFIRM: Calendly or Cal.com URL] — swap '/contact/' for the
-  // booking link once the event type exists. Until then the contact page
-  // carries the booking request form.
-  booking: '/contact/',
+  booking: 'https://calendly.com/hafsa-saleh1821/30min',
 
   // Your positioning statement — the most important sentence on the site.
   tagline:

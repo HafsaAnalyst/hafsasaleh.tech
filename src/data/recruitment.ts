@@ -123,20 +123,20 @@ export const packages = [
   },
   {
     t: 'Starter dashboard',
-    price: TBC,
+    price: 'From $600',
     note: 'one-off',
     d: 'One live owner dashboard built from your ATS export: billings, placements, recruiter performance and pipeline conversion.',
   },
   {
     t: 'Dashboard + automated weekly report',
-    price: TBC,
+    price: 'From $1,200',
     note: 'one-off',
     d: 'The owner dashboard, plus a report that lands in your inbox or Slack/Teams every Monday without anyone exporting anything.',
     featured: true,
   },
   {
     t: 'Monthly care',
-    price: TBC,
+    price: '$150',
     note: 'per month',
     d: 'Updates, fixes and a monthly insights note on what changed in your numbers and what it means.',
   },
