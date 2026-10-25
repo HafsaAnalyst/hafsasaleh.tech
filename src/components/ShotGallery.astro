@@ -1,0 +1,85 @@
+---
+// Screenshot gallery for the services page.
+// Treatment follows the reference site: raw interface captures, no browser or
+// device chrome, rounded corners, a soft shadow for elevation, caption beneath.
+export interface Shot {
+  src: string;
+  alt: string;
+  caption: string;
+  /** true when the image is drawn rather than captured from a live account */
+  sample?: boolean;
+}
+
+interface Props {
+  shots: Shot[];
+  /** 1 = full width, 2 = side by side. Defaults to 2. */
+  cols?: 1 | 2;
+  /** Shown once under the whole set */
+  note?: string;
+}
+
+const { shots, cols = 2, note } = Astro.props;
+---
+
+<div class:list={['shots', cols === 1 && 'single']}>
+  {shots.map((s) => (
+    <figure class="shot">
+      <div class="frame">
+        <img src={s.src} alt={s.alt} loading="lazy" decoding="async" />
+        {s.sample && <span class="badge">Sample output</span>}
+      </div>
+      <figcaption>{s.caption}</figcaption>
+    </figure>
+  ))}
+</div>
+{note && <p class="shots-note">{note}</p>}
+
+<style>
+  .shots {
+    display: grid;
+    gap: 1.4rem;
+    margin-top: 1.8rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr));
+  }
+  .shots.single { grid-template-columns: 1fr; }
+
+  .shot { margin: 0; }
+
+  .frame {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    background: var(--surface-2);
+    border: 1px solid var(--line);
+  }
+  .frame img { display: block; width: 100%; height: auto; }
+
+  .badge {
+    position: absolute;
+    top: .6rem;
+    right: .6rem;
+    font-size: .66rem;
+    font-weight: 700;
+    letter-spacing: .04em;
+    padding: .22rem .55rem;
+    border-radius: 999px;
+    color: var(--paper);
+    background: var(--accent);
+  }
+
+  figcaption {
+    margin-top: .7rem;
+    font-size: .85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .shots-note {
+    margin-top: 1.1rem;
+    font-size: .78rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+
+</style>

@@ -1,4 +1,4 @@
----
+﻿---
 import { site, nav } from '../site';
 
 const path = Astro.url.pathname;
@@ -28,7 +28,7 @@ const isCurrent = (href: string) =>
         </svg>
       </button>
 
-      <a class="hire" href="/contact/">CONTACT</a>
+      <a class="hire" href={site.booking} rel="noopener">Book a free audit</a>
     </nav>
   </div>
 </header>
@@ -66,23 +66,21 @@ const isCurrent = (href: string) =>
   .hire {
     background: var(--accent);
     color: var(--paper) !important;
-    font-weight: 700;
-    font-size: .78rem;
-    letter-spacing: .06em;
-    padding: .45rem 1rem !important;
+    font-weight: 600;
+    font-size: .82rem;
+    padding: .48rem 1.05rem !important;
     border-radius: 999px !important;
     margin-left: .4rem;
-    box-shadow: 0 6px 22px -8px var(--accent);
-    transition: transform .15s, filter .15s;
+    transition: background .15s;
   }
-  .hire:hover { transform: translateY(-1px); filter: brightness(1.1); background: var(--accent) !important; }
+  .hire:hover { background: var(--accent-2) !important; }
 </style>
 
 <script>
   const btn = document.getElementById('theme-toggle');
   btn?.addEventListener('click', () => {
     const root = document.documentElement;
-    // Whatever is on screen right now — whether it came from a stamp or the OS
+    // Whatever is on screen right now â€” whether it came from a stamp or the OS
     const showing =
       root.dataset.theme ??
       (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');

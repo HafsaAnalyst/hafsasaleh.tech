@@ -6,6 +6,7 @@
 // an analyst with your experience selling to US/UK/AU clients on Upwork. Each
 // "from" price is roughly (realistic hours x 35), rounded to a clean number:
 //
+//   Tracking / GTM     ~13h  ->  $450
 //   Dashboard setup    ~17h  ->  $600
 //   Predictive model   ~21h  ->  $750
 //   GoHighLevel build  ~24h  ->  $850
@@ -42,6 +43,9 @@ export interface Service {
   /** Pull one to the front of the page */
   featured?: boolean;
   cta: string;
+  /** Screenshots shown on the services page. Every capture from a live account
+   *  is redacted first by scripts/make-work-shots.py. */
+  shots?: { src: string; alt: string; caption: string; sample?: boolean }[];
 }
 
 export const services: Service[] = [
@@ -62,6 +66,14 @@ export const services: Service[] = [
       'True cost per client by channel, plus leak detection on no-shows and dead leads',
       'Metric definitions agreed once and enforced, so numbers stop disagreeing',
       'Handover session, and it stays yours',
+    ],
+    shots: [
+      { src: '/work/ss01-dashboard-executive.jpg', alt: 'Executive view of the intelligence dashboard',
+        caption: 'Executive view — leads, CPL, show rate, ROAS and goal pacing on one screen.' },
+      { src: '/work/ss02-dashboard-counsellors.jpg', alt: 'Per-agent performance matrix',
+        caption: 'Per-agent performance: slot fill, show rate and conversion, with drop-off by stage.' },
+      { src: '/work/ss03-dashboard-forecast.jpg', alt: 'Thirty-day forecast with confidence band',
+        caption: '30-day forecast with a confidence band, and the spend needed to close the gap to target.' },
     ],
     bestFor: 'Service businesses spending real money on marketing across more than two platforms.',
     featured: true,
@@ -86,8 +98,40 @@ export const services: Service[] = [
       'Excel file that works in Google Sheets · setup guide included',
       'Licence: unlimited clients, unlimited reports. One user, no resale.',
     ],
+    shots: [
+      { src: '/work/ss04-template-dashboard.jpg', alt: 'The template dashboard tab',
+        caption: 'The Dashboard tab — KPIs, channel table and charts, all formula-driven.' },
+      { src: '/work/ss05-template-data.jpg', alt: 'The template data entry tab',
+        caption: 'The Data tab — the only place you type. Paste your rows, keep the headers.' },
+    ],
     bestFor: 'Agencies, freelancers and in-house marketers who report to clients or leadership.',
     cta: 'Get the template',
+  },
+  {
+    id: 'tracking-gtm',
+    kind: 'Measurement',
+    title: 'Tracking & GTM Setup',
+    summary:
+      'Google Tag Manager and GA4 configured properly, so the events you report on are the events that actually happened. This is the foundation everything else on this page depends on.',
+    price: 'From $450',
+    priceNote: 'one-off',
+    turnaround: '1–2 weeks',
+    includes: [
+      'GTM container built from scratch or audited and cleaned up',
+      'GA4 configured with the events and conversions that match your funnel',
+      'Server-side or enhanced conversions where your setup supports it',
+      'Offline conversions fed back to the ad platforms, so they optimise toward paying clients',
+      'Consent-mode and duplicate-tag issues fixed — the usual cause of numbers not tying',
+      'A one-page measurement plan: every event, what triggers it, and why it exists',
+    ],
+    shots: [
+      { src: '/work/ss07-gtm-tags.jpg', alt: 'Google Tag Manager container with configured tags',
+        caption: 'A real GTM container: GA4 events, Ads conversions, form and click listeners, each on its own trigger.' },
+      { src: '/work/ss06-ga4-debugview.jpg', alt: 'GA4 DebugView verifying events fire',
+        caption: 'GA4 DebugView — every event verified as it fires, before it is trusted in a report.' },
+    ],
+    bestFor: 'Anyone whose ad platform and analytics disagree, or who has never had tracking audited.',
+    cta: 'Audit my tracking',
   },
   {
     id: 'predictive-model',
@@ -105,6 +149,11 @@ export const services: Service[] = [
       'A ranked at-risk or high-intent list your team can work from Monday',
       'The drivers behind the score, so you can fix causes rather than chase symptoms',
       'Written handover: what it does, what it cannot do yet, and why',
+    ],
+    shots: [
+      { src: '/work/ss12-model-scoring.jpg', alt: 'Lead scoring output with decile lift and ranked leads',
+        sample: true,
+        caption: 'What you receive: accuracy against baseline, conversion by score decile, and a ranked list the team can work from. Model metrics are real; the lead rows are illustrative.' },
     ],
     bestFor: 'Businesses with 12+ months of client history that repeat-buy or run a sales pipeline.',
     cta: 'Discuss a model',
@@ -125,6 +174,16 @@ export const services: Service[] = [
       'Calendars wired to the right teams and locations',
       'Platform integrations so leads arrive already attributed to their source',
       'Governance rules documented, so it stays clean after I leave',
+    ],
+    shots: [
+      { src: '/work/ss08-ghl-pipeline.jpg', alt: 'A built GoHighLevel opportunity pipeline',
+        caption: 'Full pipeline build — one canonical set of stages carrying thousands of opportunities.' },
+      { src: '/work/ss09-ghl-calendar.jpg', alt: 'GoHighLevel calendars configured per consultant',
+        caption: 'Calendar setup — per-consultant calendars, availability and booking rules.' },
+      { src: '/work/ss10-ghl-integrations.jpg', alt: 'Connected marketing platforms inside GoHighLevel',
+        caption: 'Platform integration — social, email and ad channels publishing from one place.' },
+      { src: '/work/ss11-ghl-dashboard.jpg', alt: 'GoHighLevel attribution dashboard and funnel',
+        caption: 'Reporting layer — opportunity status, attribution and stage-by-stage funnel conversion.' },
     ],
     bestFor: 'Teams on GoHighLevel whose reporting cannot be trusted because the CRM was never structured.',
     cta: 'Scope a build',

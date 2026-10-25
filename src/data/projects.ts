@@ -43,11 +43,11 @@ export const projects: Project[] = [
     cover: 'integration',
     org: 'The Migration',
     summary:
-      'Sole architect of a multi-touch attribution platform unifying Meta Ads, GoHighLevel, GA4 and Google Search Console through native API integration — a Streamlit application that replaced siloed marketing and CRM data with one source of truth.',
+      'Sole architect of a multi-touch attribution platform unifying six systems — Meta Ads, GoHighLevel, GA4, Google Search Console, Stripe and Google Sheets — through native API integration. A Streamlit application that replaced siloed marketing, payment and CRM data with one source of truth.',
     outcome:
       '5,200+ leads and a USD 10K/month media budget tracked end to end. CPL USD 7.45, cost-per-appointment USD 11.58. Adopted by the CEO as the primary strategic decision tool.',
     kind: 'engineering',
-    tags: ['Python', 'Streamlit', 'Meta Graph API', 'GHL API', 'GA4', 'Prophet', 'ETL'],
+    tags: ['Python', 'Streamlit', 'Meta Graph API', 'GHL API', 'GA4', 'Stripe API', 'Google Sheets API', 'Prophet', 'ETL'],
     year: '2026',
     featured: true,
     href: '/projects/marketing-intelligence-platform/',

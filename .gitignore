@@ -7,3 +7,7 @@ npm-debug.log*
 # Vercel project link + the OIDC token it downloads
 .vercel
 .env*
+
+# Raw screenshots before redaction — these contain real client names,
+# account identifiers and commercial values. Never commit them: the repo is public.
+work-src/

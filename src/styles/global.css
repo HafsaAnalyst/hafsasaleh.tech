@@ -1,4 +1,4 @@
-/* ---------- Design tokens ---------- */
+﻿/* ---------- Design tokens ---------- */
 /* Three theme states: bare :root is light; the media query covers an OS set to
    dark (unless the viewer explicitly chose light); the [data-theme] scopes let
    the header toggle win in both directions. Components only ever read tokens. */
@@ -15,7 +15,7 @@
   --accent-tint:rgba(0, 145, 168, .10);
   --purple:     #6b39a0;
   --gold:       #a86c05;
-  --shadow:     0 1px 2px rgba(16,19,25,.05), 0 18px 45px -24px rgba(16,19,25,.28);
+  --shadow:     none;
 
   --font-body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
   --font-display: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -39,7 +39,7 @@
   --accent-tint:rgba(0, 225, 255, .12);
   --purple:     #a06fd8;
   --gold:       #f39912;
-  --shadow:     0 1px 2px rgba(0,0,0,.5), 0 18px 50px -24px rgba(0,225,255,.4);
+  --shadow:     none;   /* flat by choice: no depth effects anywhere */
   }
 }
 
@@ -56,7 +56,7 @@
   --accent-tint:rgba(0, 225, 255, .12);
   --purple:     #a06fd8;
   --gold:       #f39912;
-  --shadow:     0 1px 2px rgba(0,0,0,.5), 0 18px 50px -24px rgba(0,225,255,.4);
+  --shadow:     none;   /* flat by choice: no depth effects anywhere */
 }
 
 /* ---------- Reset ---------- */
@@ -122,8 +122,7 @@ main { flex: 1; }
 /* ---------- Header ---------- */
 .site-header {
   position: sticky; top: 0; z-index: 50;
-  background: color-mix(in srgb, var(--paper) 88%, transparent);
-  backdrop-filter: saturate(180%) blur(12px);
+  background: var(--paper);
   border-bottom: 1px solid var(--line);
 }
 .site-header .wrap {
@@ -158,10 +157,10 @@ main { flex: 1; }
   border: 1px solid transparent;
   transition: transform .12s ease, background .15s, border-color .15s;
 }
-.btn:hover { transform: translateY(-1px); }
+.btn { transition: background .15s, border-color .15s, color .15s; }
 .btn-primary { background: var(--accent); color: var(--paper); }
 .btn-primary:hover { background: var(--accent-2); }
-.btn-ghost { border-color: var(--line); color: var(--ink); background: var(--surface); }
+.btn-ghost { border-color: var(--line); color: var(--ink); background: transparent; }
 .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
 
 /* ---------- Cards ---------- */
@@ -171,13 +170,13 @@ main { flex: 1; }
 
 .card {
   background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 1.5rem;
+  border: 0;
+  border-radius: 10px;
+  padding: 1.6rem;
   display: flex; flex-direction: column; gap: .7rem;
-  transition: border-color .18s, box-shadow .18s, transform .18s;
+  transition: background .18s;
 }
-.card:hover { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); box-shadow: var(--shadow); transform: translateY(-2px); }
+.card:hover { background: var(--surface-2); }
 .card h3 { margin: 0; }
 .card h3 a { text-decoration: none; }
 .card h3 a:hover { color: var(--accent); }
@@ -189,9 +188,9 @@ main { flex: 1; }
   font-size: .7rem;
   padding: .2rem .55rem;
   border-radius: 999px;
-  background: var(--accent-tint);
-  color: var(--accent);
-  border: 1px solid color-mix(in srgb, var(--accent) 22%, transparent);
+  background: var(--surface-2);
+  color: var(--muted);
+  border: 0;
 }
 
 .meta { font-family: var(--font-mono); font-size: .76rem; color: var(--muted); letter-spacing: .02em; }

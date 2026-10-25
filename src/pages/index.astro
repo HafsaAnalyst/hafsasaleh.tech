@@ -1,234 +1,270 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 import { projects } from '../data/projects';
-import { publications } from '../data/research';
 import { services } from '../data/services';
-import { getCollection } from 'astro:content';
-import MiniChart from '../components/MiniChart.astro';
 
-const WHATSAPP = '923044762001';
+const BOOK = site.booking;
 
-const stats = [
-  { value: 5200, suffix: '+', label: 'Leads tracked end to end', icon: 'M3 17l6-6 4 4 8-8' },
-  { value: 3300, suffix: '+', label: 'Appointments mapped', icon: 'M8 2v4M16 2v4M3 10h18M5 6h14v14H5z' },
-  { value: 745, prefix: '$', decimals: 2, label: 'Cost per lead achieved', icon: 'M12 2v20M17 6H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6' },
-  { value: 82, suffix: '%', label: 'Show rate, up from 68%', icon: 'M22 12A10 10 0 1112 2v10z' },
+// Illustrative, and labelled as such on the page: three systems asked the same
+// question, three answers. Not a claim about any client's account.
+const conflict = [
+  { src: 'Ad platform', n: '587' },
+  { src: 'Website analytics', n: '1,204' },
+  { src: 'CRM', n: '412' },
 ];
 
-const results = [
-  { metric: '68% → 82%', title: 'Show rate recovered', body: 'Fixed outcome tracking so the number could be trusted, then closed the drop-off it exposed. One in five no-shows recovered — same leads, zero extra ad spend.', href: '/projects/show-rate-recovery/' },
-  { metric: '1 hr → 14 s', title: 'Reporting cycle compressed', body: 'Automated ETL replaced a recurring manual reporting workflow. Transcription errors eliminated, 4+ team hours reclaimed every iteration.', href: '/projects/' },
-  { metric: '100% → 77%', title: 'A model I refused to ship', body: 'A perfect score is a red flag. I found the leaking features, deleted them, and rebuilt honestly against a 62% baseline.', href: '/projects/lead-conversion-model/' },
-  { metric: '90% vs 26%', title: 'Where the money actually was', body: 'Referral leads converted at 90% against 26% for paid social — a 3.5× quality gap that cost-per-lead hides completely.', href: '/projects/lead-conversion-model/' },
-  { metric: '4 → 1', title: 'Platforms unified', body: 'Meta Ads, GoHighLevel, GA4 and Search Console reconciled into one source of truth. Adopted by the CEO as the primary decision tool.', href: '/projects/marketing-intelligence-platform/' },
-  { metric: '+20%', title: 'Planning efficiency', body: 'Z-test model predicting fabric dispatch from reprocess history, with colour-coded on-time probability across the floor.', href: '/projects/' },
+const pains = [
+  {
+    t: 'Nobody can agree on the numbers',
+    d: 'Your ad platform, your analytics and your CRM each report a different lead count. The Monday meeting becomes an argument about whose figure to believe instead of a decision about the business.',
+  },
+  {
+    t: 'You know cost per lead, not cost per client',
+    d: 'So you scale whichever channel looks cheapest â€” which is often the one producing enquiries that never book, never show, and never pay.',
+  },
+  {
+    t: 'Reporting eats a day you never get back',
+    d: 'Someone exports from four tools into a spreadsheet every week, and the result is already stale by the time anyone reads it. And still nobody fully trusts it.',
+  },
+  {
+    t: 'You find out too late',
+    d: 'The no-show, the lapsed client, the campaign quietly burning budget â€” all visible in your data weeks before you noticed, if anything had been watching.',
+  },
 ];
 
-const process = [
-  { n: '01', t: 'Audit', d: 'Map every source and document exactly where the definitions conflict. Most businesses have never seen that list written down.' },
-  { n: '02', t: 'Model', d: 'One agreed definition per metric, then the pipeline that enforces it. This is the step everyone skips and everyone regrets.' },
-  { n: '03', t: 'Build', d: 'The dashboard people actually open — headline first, drill-down underneath, no scrolling to find out if the month is on track.' },
-  { n: '04', t: 'Validate', d: 'When a number is not reliable yet, it gets flagged, not shipped as fact. A confident wrong number is worse than no number.' },
-  { n: '05', t: 'Decide', d: 'The "so what", on schedule. What changed, what it means, and what I would do about it.' },
+const fixes = [
+  {
+    t: 'Tracking you can trust',
+    d: 'Google Tag Manager and GA4 configured so the events you report on are the events that actually happened. Everything else is built on this.',
+  },
+  {
+    t: 'One source of truth',
+    d: 'Every platform reconciled into one dataset with one agreed definition per metric â€” so the argument ends and the deciding starts.',
+  },
+  {
+    t: 'Attribution through to revenue',
+    d: 'The full journey joined up: impression, click, enquiry, booking, showed up, paid. Cost per paying client by channel, not cost per click.',
+  },
+  {
+    t: 'Reporting that runs itself',
+    d: 'Pulled, reconciled and delivered on schedule, with a flag when a number is not reliable yet. No one exports anything by hand again.',
+  },
 ];
 
-const tools = [
-  { icon: '🐍', name: 'Python', level: 'Expert', use: 'Pandas, NumPy and Requests — every pipeline I build starts here' },
-  { icon: '🗄️', name: 'SQL', level: 'Expert', use: 'Modelling, joins and reconciliation across multi-source datasets' },
-  { icon: '📊', name: 'Streamlit', level: 'Expert', use: 'The live intelligence platform the CEO opens every morning' },
-  { icon: '📈', name: 'Power BI', level: 'Advanced', use: 'Executive dashboards and DAX measures over star schemas' },
-  { icon: '🎯', name: 'Meta Graph API', level: 'Advanced', use: 'Campaign, ad-set and creative data pulled natively, not exported' },
-  { icon: '🔗', name: 'GoHighLevel', level: 'Expert', use: 'Workflows, pipelines and the governance that makes data trustworthy' },
-  { icon: '🌐', name: 'GA4 & Search Console', level: 'Advanced', use: 'Joining on-site behaviour and organic demand to revenue' },
-  { icon: '🤖', name: 'Claude Code', level: 'Advanced', use: 'AI-assisted development — a good part of my integration work' },
-  { icon: '📐', name: 'SPSS & R', level: 'Advanced', use: 'Hypothesis testing and the regression work behind my paper' },
-  { icon: '⚙️', name: 'ClickUp API', level: 'Advanced', use: 'Programmatic OKR sync between analytics output and delivery' },
-  { icon: '🏭', name: 'SAP / ERP', level: 'Intermediate', use: 'Order lifecycle monitoring in a live manufacturing environment' },
-  { icon: '📗', name: 'Excel & Sheets', level: 'Expert', use: 'Pivot tables and Power Query, for when that is genuinely the right tool' },
+// Every figure here is a real measured result. Nothing on this page is invented.
+const proof = [
+  { big: '68% â†’ 82%', label: 'Show rate, after fixing the measurement first', href: '/projects/show-rate-recovery/' },
+  { big: '6 â†’ 1', label: 'Platforms reconciled into one source of truth', href: '/projects/marketing-intelligence-platform/' },
+  { big: '1 hr â†’ 14 s', label: 'Recurring report, once it was automated', href: '/projects/' },
+  { big: '90% vs 26%', label: 'Referral against paid social conversion', href: '/projects/lead-conversion-model/' },
 ];
 
-const skills = ['ETL Pipelines', 'Multi-Touch Attribution', 'Predictive Modelling', 'Data Governance', 'Funnel Analytics', 'Dashboard Design', 'Revenue Reconciliation', 'Forecasting'];
+const flagship = projects.find((p) => p.href === '/projects/marketing-intelligence-platform/')!;
+const alsoCases = projects.filter(
+  (p) => p.href && p.href !== flagship.href && p.href !== '/projects/ghl-crm-architecture/'
+).slice(0, 2);
 
-const featured = projects.filter((p) => p.href).slice(0, 4);
+// The About section answers "what has she actually done for people", not
+// "who is she" â€” the buyer cares about the former.
+const delivered = [
+  { t: 'Attribution platforms',
+    d: 'Six systems â€” Meta Ads, GoHighLevel, GA4, Search Console, Stripe and Google Sheets â€” unified into one Streamlit source of truth tracking 5,200+ leads and a $10K/month media budget.' },
+  { t: 'CRM architecture',
+    d: 'Full GoHighLevel builds: normalised field schema, one canonical pipeline, lifecycle automations, calendars per consultant, and the governance that keeps it clean.' },
+  { t: 'Tracking and measurement',
+    d: 'GTM containers and GA4 event models built or audited, with offline conversions fed back to the ad platforms so they optimise toward paying clients.' },
+  { t: 'Predictive models',
+    d: 'Lead scoring and churn models, every feature audited for leakage. The honest build scores 77% against a 62% baseline â€” and I report that rather than the flattering number.' },
+  { t: 'Automated reporting',
+    d: 'Recurring reports pulled, reconciled and delivered on schedule. One took an hour by hand; it now takes fourteen seconds and is right every time.' },
+  { t: 'Executive reporting',
+    d: 'Board-ready packages and per-agent performance reviews â€” the numbers leadership actually plans budget and coaching around.' },
+];
 
-// A chart per featured project, keyed by its case-study URL.
-// Every figure below is a real measured result except where `note` says otherwise.
-const charts: Record<string, { title: string; rows: { label: string; pct: number; display: string; hi?: boolean }[]; note?: string }> = {
-  '/projects/marketing-intelligence-platform/': {
-    title: 'Funnel, tracked end to end',
-    rows: [
-      { label: 'Leads', pct: 100, display: '5,200+' },
-      { label: 'Appointments', pct: 63, display: '3,300+' },
-      { label: 'Conversions', pct: 8, display: '395', hi: true },
-    ],
-  },
-  '/projects/show-rate-recovery/': {
-    title: 'Show rate, before → after',
-    rows: [
-      { label: 'Before', pct: 68, display: '68%' },
-      { label: 'After', pct: 82, display: '82%', hi: true },
-    ],
-  },
-  '/projects/lead-conversion-model/': {
-    title: 'Accuracy vs baseline',
-    rows: [
-      { label: 'Leaking model', pct: 100, display: '100%' },
-      { label: 'Honest model', pct: 77, display: '77%', hi: true },
-      { label: 'Baseline guess', pct: 62, display: '62%' },
-    ],
-  },
-  '/projects/ghl-crm-architecture/': {
-    title: 'Record completeness after rebuild',
-    rows: [
-      { label: 'Outcome recorded', pct: 100, display: '100%', hi: true },
-      { label: 'Owner assigned', pct: 99, display: '99%' },
-      { label: 'Source attributed', pct: 96, display: '96%' },
-      { label: 'Stage valid', pct: 94, display: '94%' },
-    ],
-    note: 'Illustrative — shows the direction and scale of the change.',
-  },
-};
-
-
-const posts = (await getCollection('articles', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
-
-const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month: 'short', day: 'numeric' });
+const steps = [
+  { n: 1, t: 'Audit', d: 'I map every source and write down exactly where your definitions conflict. Most businesses have never seen that list.' },
+  { n: 2, t: 'Build', d: 'Tracking fixed, then one reconciled dataset and the dashboard your team actually opens.' },
+  { n: 3, t: 'Automate', d: 'It pulls, reconciles and delivers on schedule â€” and tells you when a number cannot be trusted yet.' },
+  { n: 4, t: 'Decide', d: 'You get the "so what", not a data dump. What changed, what it means, what I would do next.' },
+];
 ---
 
 <BaseLayout>
-  <div id="progress"></div>
-  <div id="cursor" aria-hidden="true"></div>
 
-  <!-- ============ HERO ============ -->
-  <section class="hero" id="top">
-    <div class="smoke" aria-hidden="true"></div>
-    <span class="shape diamond" aria-hidden="true"></span>
-    <span class="shape ring" aria-hidden="true"></span>
-
+  <!-- ============ 1. HERO ============ -->
+  <section class="hero">
     <div class="wrap hero-in">
-      <span class="pill reveal">Data Analyst</span>
-      <h1 class="reveal">
-        Turning Messy Data Into<br />
-        <em class="cy">High-Impact</em> <em class="pu">Decisions</em>
-      </h1>
-      <p class="typer reveal">
-        <span class="tw-static">I'm a</span>
-        <span class="tw" data-words="Marketing Intelligence Analyst|Data Storyteller|Pipeline Builder|Published Researcher"></span><span class="caret">|</span>
+      <ul class="pills">
+        {site.positioning.map((t) => <li>{t}</li>)}
+      </ul>
+
+      <h1>Your ads, CRM and analytics all tell you different numbers.</h1>
+      <p class="deck">
+        I reconcile them into one you can spend against â€” so you know what a paying
+        client actually costs, by channel, and where the money is leaking.
       </p>
-      <p class="lede reveal">
-        From ETL pipelines to attribution platforms — the data layer marketing teams actually run on.
-      </p>
-      <div class="cta reveal">
-        <a class="btn primary" href="#work">
-          <svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><path d="M5 3l14 9-14 9z" fill="currentColor"/></svg>
-          View My Work
-        </a>
-        <a class="btn ghost" href="#contact">Let's Collaborate</a>
+
+      <div class="cta">
+        <a class="btn primary" href={BOOK} rel="noopener">Book a free 20-min audit</a>
+        <a class="btn ghost" href="/projects/">See the work</a>
       </div>
-      <a class="scroll-hint" href="#stats" aria-label="Scroll down">
-        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-      </a>
-    </div>
-  </section>
 
-  <!-- ============ SKILL MARQUEE ============ -->
-  <div class="marquee" aria-hidden="true">
-    <div class="mq-track">
-      {[0, 1, 2].map(() => skills.map((s) => <span class="mq-item">{s}</span>))}
-    </div>
-  </div>
-
-  <!-- ============ STATS ============ -->
-  <section class="sec stats-sec" id="stats">
-    <div class="wrap stats">
-      {stats.map((s) => (
-        <div class="glass stat reveal">
-          <svg class="stat-ico" viewBox="0 0 24 24" width="26" height="26" aria-hidden="true">
-            <path d={s.icon} fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+      <!-- convergence: three conflicting answers, one reconciled number -->
+      <figure class="converge">
+        <figcaption>"How many leads did we get last month?"</figcaption>
+        <div class="conv-row">
+          <div class="conv-in">
+            {conflict.map((c) => (
+              <div class="conv-card">
+                <span class="conv-src">{c.src}</span>
+                <span class="conv-n">{c.n}</span>
+              </div>
+            ))}
+          </div>
+          <svg class="conv-arrow" viewBox="0 0 60 120" aria-hidden="true">
+            <path d="M2 18 C34 18, 34 60, 56 60" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M2 60 H56" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M2 102 C34 102, 34 60, 56 60" fill="none" stroke="currentColor" stroke-width="1.5" />
+            <path d="M50 55 l6 5 -6 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
-          <div
-            class="stat-num counter"
-            data-to={s.value}
-            data-prefix={s.prefix ?? ''}
-            data-suffix={s.suffix ?? ''}
-            data-decimals={s.decimals ?? 0}
-          >{s.prefix ?? ''}0{s.suffix ?? ''}</div>
-          <div class="stat-lab">{s.label}</div>
+          <div class="conv-out">
+            <span class="conv-src">One reconciled number</span>
+            <span class="conv-n big">412</span>
+            <span class="conv-note">and what each one cost you</span>
+          </div>
         </div>
-      ))}
+        <p class="illus">Illustrative â€” the numbers three systems typically return for the same question.</p>
+      </figure>
     </div>
   </section>
 
-  <!-- ============ PORTFOLIO ============ -->
-  <section class="sec" id="work">
-    <canvas class="blueprint" aria-hidden="true"></canvas>
+  <!-- ============ 2. PAIN ============ -->
+  <section class="sec alt">
     <div class="wrap">
-      <h2 class="reveal">My <em class="grad-og">Portfolio</em></h2>
-      <p class="sub reveal">Pipelines, attribution platforms, dashboards and models — each one with the number it moved.</p>
+      <h2>Does this sound like you?</h2>
+      <div class="grid4">
+        {pains.map((p) => (
+          <article class="card">
+            <h3>{p.t}</h3>
+            <p>{p.d}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
 
-      <div class="work-grid">
-        {featured.map((p) => (
-          <a class="glass work reveal" href={p.href}>
-            <span class="work-kind">{p.year} · {p.org}</span>
-            <h3>{p.title}</h3>
-            <p>{p.summary}</p>
-            {p.outcome && <p class="work-out">{p.outcome}</p>}
-            {p.href && charts[p.href] && (
-              <MiniChart
-                title={charts[p.href].title}
-                rows={charts[p.href].rows}
-                note={charts[p.href].note}
-              />
-            )}
-            <span class="work-go">Read the case study →</span>
+  <!-- ============ 3. PRESCRIPTION ============ -->
+  <section class="sec">
+    <div class="wrap">
+      <h2>What you actually need</h2>
+      <p class="sub">Four things, in this order. Skipping the first is why most reporting projects fail.</p>
+      <ol class="grid4 rx">
+        {fixes.map((f, i) => (
+          <li class="card">
+            <span class="rx-n">{i + 1}</span>
+            <h3>{f.t}</h3>
+            <p>{f.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 4. PROOF ============ -->
+  <section class="sec alt">
+    <div class="wrap">
+      <h2>Results from real work</h2>
+      <p class="sub">Every number below is measured, not modelled. Each one links to how it was done.</p>
+      <div class="proof">
+        {proof.map((s) => (
+          <a class="pstat" href={s.href}>
+            {/* Rendered as the final value, so it is correct with or without JS.
+                The count-up only ever animates from 0 up to what is already here. */}
+            <span class="pbig" data-count={s.big}>{s.big}</span>
+            <span class="plab">{s.label}</span>
           </a>
         ))}
       </div>
-
-      <div class="mid-cta reveal">
-        <a class="btn ghost" href="/projects/">All 9 projects</a>
-        <a class="btn primary" href="/dashboard/">Open the live dashboard</a>
-      </div>
     </div>
   </section>
 
-  <!-- ============ RESULTS ============ -->
-  <section class="sec" id="results">
+  <!-- ============ 5. CASE STUDIES ============ -->
+  <section class="sec">
     <div class="wrap">
-      <div class="div-dot" aria-hidden="true"></div>
-      <h2 class="reveal">Proven <em class="grad-cg">Results</em></h2>
-      <p class="sub reveal">Numbers from real work, each linked to how it was done.</p>
-      <div class="div-dot" aria-hidden="true"></div>
-    </div>
+      <h2>Case studies</h2>
 
-    <div class="conveyor">
-      <div class="cv-track">
-        {[0, 1].map(() => results.map((r) => (
-          <a class="glass rcard" href={r.href}>
-            <span class="rmetric">{r.metric}</span>
-            <h3>{r.title}</h3>
-            <p>{r.body}</p>
+      <a class="flagship" href={flagship.href}>
+        <div>
+          <span class="tagline">{flagship.org}</span>
+          <h3>{flagship.title}</h3>
+          <p class="out">{flagship.outcome}</p>
+          <p>{flagship.summary}</p>
+          <span class="more">Read the case study</span>
+        </div>
+        <dl class="fstats">
+          <div><dt>Leads tracked</dt><dd>5,200+</dd></div>
+          <div><dt>Appointments</dt><dd>3,300+</dd></div>
+          <div><dt>Cost per lead</dt><dd>$7.45</dd></div>
+          <div><dt>Platforms unified</dt><dd>6 â†’ 1</dd></div>
+        </dl>
+      </a>
+
+      <div class="grid2">
+        {alsoCases.map((c) => (
+          <a class="card" href={c.href}>
+            <span class="tagline">{c.org}</span>
+            <h3>{c.title}</h3>
+            <p class="out">{c.outcome}</p>
+            <span class="more">Read the case study</span>
           </a>
-        )))}
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ PROCESS ============ -->
-  <section class="sec" id="process">
+  <!-- ============ 6. SERVICES ============ -->
+  <section class="sec alt">
     <div class="wrap">
-      <h2 class="reveal">How I <em class="grad-cg">Work</em></h2>
-      <p class="sub reveal">Make it measurable, then move it. In that order — it is the part everyone skips.</p>
+      <h2>Services</h2>
+      <p class="sub">Fixed scopes, prices up front. The dashboard starts with a free month.</p>
 
-      <ol class="timeline">
-        {process.map((s, i) => (
-          <li class={`tl-item reveal ${i % 2 ? 'right' : 'left'}`}>
-            <span class="tl-dot" aria-hidden="true"></span>
-            <div class="glass tl-card">
-              <span class="tl-n">{s.n}</span>
+      <ul class="svc-list">
+        {services.map((sv) => (
+          <li class:list={['svc-row', sv.featured && 'is-flag']}>
+            <a href={`/services/#${sv.id}`}>
+              <span class="svc-main">
+                <span class="svc-title">
+                  {sv.title}
+                  {sv.featured && <span class="flag">Most popular</span>}
+                </span>
+                <span class="svc-sum">{sv.summary}</span>
+              </span>
+              <span class="svc-price">
+                <b>{sv.price}</b>
+                <em>{sv.priceNote}</em>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <p class="cta-line">
+        <a class="btn primary" href={BOOK} rel="noopener">Book a free 20-min audit</a>
+        <a class="btn ghost" href="/services/">Full pricing and scope</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- ============ 7. HOW IT WORKS ============ -->
+  <section class="sec">
+    <div class="wrap">
+      <h2>How it works</h2>
+      <ol class="steps">
+        {steps.map((s) => (
+          <li>
+            <span class="step-n">{s.n}</span>
+            <div>
               <h3>{s.t}</h3>
               <p>{s.d}</p>
             </div>
@@ -238,551 +274,222 @@ const fmt = (d: Date) => d.toLocaleDateString('en-AU', { year: 'numeric', month:
     </div>
   </section>
 
-  <!-- ============ ABOUT ============ -->
-  <section class="sec" id="about">
-    <div class="wrap about">
-      <div class="about-id reveal">
-        <p class="eyebrow">About Me</p>
-        <h2 class="name-big">Hafsa Saleh</h2>
-        <p class="spaced">Marketing Intelligence · ETL &amp; Attribution · Predictive Modelling</p>
-        <div class="tagrow">
-          {['Python', 'SQL', 'Streamlit', 'Power BI', 'Attribution', 'Data Governance'].map((t) => (
-            <span class="tag-pill">{t}</span>
-          ))}
-        </div>
-        <div class="cta" style="margin-top:1.8rem;">
-          <a class="btn primary" href={site.cv}>Download CV</a>
-          <a class="btn ghost" href="/about/">Full background</a>
-        </div>
-      </div>
-      <div class="about-body reveal">
-        <p>
-          I build the unglamorous infrastructure that decisions rest on. At <strong>The Migration</strong>,
-          I engineered the cross-platform integration layer unifying Meta Ads, GoHighLevel, GA4 and
-          Search Console into one Streamlit source of truth — tracking 5,200+ leads against a
-          USD 10K/month media budget, adopted by the CEO as the primary strategic decision tool.
-        </p>
-        <p>
-          I came to this from statistics rather than marketing. My degree is in Statistics from the
-          University of the Punjab, my first analyst role was on a factory floor, and I've published
-          peer-reviewed research in <em>Acta Geophysica</em>. That's where the rigour comes from — and
-          why I care more about a number being true than impressive.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ TOOLS ============ -->
-  <section class="sec" id="tools">
+  <!-- ============ 8. WHAT I HAVE DELIVERED ============ -->
+  <section class="sec alt">
     <div class="wrap">
-      <h2 class="reveal">Tools I Use for the <em class="grad-og">Hard Part</em></h2>
-      <p class="sub reveal">Hover a card to see how each one earns its place.</p>
-      <div class="tools">
-        {tools.map((t) => (
-          <div class="flip reveal" tabindex="0">
-            <div class="flip-in">
-              <div class="glass face front">
-                <span class="t-ico" aria-hidden="true">{t.icon}</span>
-                <span class="t-name">{t.name}</span>
-                <span class={`t-lvl l-${t.level.toLowerCase()}`}>{t.level}</span>
-              </div>
-              <div class="glass face back"><p>{t.use}</p></div>
-            </div>
+      <h2>What I&rsquo;ve delivered</h2>
+      <p class="sub">The work itself, not the biography. Every line below is something I have built and handed over.</p>
+      <dl class="delivered">
+        {delivered.map((x) => (
+          <div>
+            <dt>{x.t}</dt>
+            <dd>{x.d}</dd>
           </div>
         ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ RESEARCH + WRITING ============ -->
-  <section class="sec" id="insights">
-    <div class="wrap">
-      <h2 class="reveal">Research &amp; <em class="grad-cg">Writing</em></h2>
-      <p class="sub reveal">Peer-reviewed work, and notes on turning data into decisions.</p>
-
-      {publications.map((pub) => (
-        <a class="glass paper reveal" href={pub.links?.[0]?.href ?? '/research/'} rel="noopener">
-          <span class="paper-venue">{pub.venue} · {pub.year}</span>
-          <h3>{pub.title}</h3>
-          <p>{pub.abstract}</p>
-          <span class="work-go">Read the paper →</span>
-        </a>
-      ))}
-
-      <div class="posts">
-        {posts.map((p) => (
-          <a class="glass post reveal" href={`/articles/${p.id}/`}>
-            <span class="post-date">{fmt(p.data.pubDate)}</span>
-            <h3>{p.data.title}</h3>
-            <p>{p.data.description}</p>
-            <span class="work-go">Read →</span>
-          </a>
-        ))}
-      </div>
-      <div class="mid-cta reveal"><a class="btn ghost" href="/articles/">All articles</a></div>
-    </div>
-  </section>
-
-  <!-- ============ SERVICES ============ -->
-  <section class="sec" id="services">
-    <div class="wrap">
-      <h2 class="reveal">What I <em class="grad-og">Offer</em></h2>
-      <p class="sub reveal">
-        Five fixed-scope services, priced up front. The dashboard starts with a free month.
+      </dl>
+      <p class="cta-line">
+        <a class="btn ghost" href="/projects/">See the case studies</a>
       </p>
-
-      <div class="svc-grid">
-        {services.map((sv) => (
-          <a class="glass svc reveal" href={`/services/#${sv.id}`}>
-            <span class="svc-kind">{sv.kind}</span>
-            <h3>{sv.title}</h3>
-            <p>{sv.summary}</p>
-            <span class="svc-price">{sv.price} <em>{sv.priceNote}</em></span>
-          </a>
-        ))}
-      </div>
-
-      <div class="mid-cta reveal">
-        <a class="btn primary" href="/services/">See full pricing</a>
-      </div>
     </div>
   </section>
 
-  <!-- ============ CONTACT ============ -->
-  <section class="sec" id="contact">
-    <div class="wrap contact">
-      <h2 class="reveal">Let's Build Something <em class="cy">Measurable.</em></h2>
-      <p class="sub reveal">Open to analytics roles, freelance work on attribution and reporting infrastructure, and research collaboration.</p>
-      <div class="channels">
-        <a class="glass ch reveal" href={`mailto:${site.email}`}>
-          <span class="ch-ico" aria-hidden="true">✉</span><span class="ch-l">Email</span><span class="ch-v">{site.email}</span>
-        </a>
-        <a class="glass ch reveal" href={`https://wa.me/${WHATSAPP}`} rel="noopener">
-          <span class="ch-ico" aria-hidden="true">💬</span><span class="ch-l">WhatsApp</span><span class="ch-v">Message me directly</span>
-        </a>
-        <a class="glass ch reveal" href={site.socials.linkedin} rel="noopener">
-          <span class="ch-ico" aria-hidden="true">in</span><span class="ch-l">LinkedIn</span><span class="ch-v">Connect</span>
-        </a>
-        <a class="glass ch reveal" href={site.socials.upwork} rel="noopener">
-          <span class="ch-ico" aria-hidden="true">↗</span><span class="ch-l">Upwork</span><span class="ch-v">Hire me</span>
-        </a>
-      </div>
+  <!-- ============ 9. FINAL CTA ============ -->
+  <section class="sec final">
+    <div class="wrap">
+      <h2>Book a free audit call</h2>
+      <p class="sub center">
+        Twenty minutes. I look at what you're running and tell you where your biggest
+        measurement gap is â€” whether or not you work with me afterwards.
+      </p>
+      <p class="cta-line center">
+        <a class="btn primary big" href={BOOK} rel="noopener">Book a free audit call</a>
+      </p>
+      <p class="micro">No pitch deck, no obligation. If I can't help, I'll say so on the call.</p>
     </div>
   </section>
-
-  <a class="wa" href={`https://wa.me/${WHATSAPP}`} rel="noopener" aria-label="Chat on WhatsApp">
-    <svg viewBox="0 0 24 24" width="27" height="27" fill="currentColor" aria-hidden="true">
-      <path d="M12 2a10 10 0 00-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1012 2zm0 18a8 8 0 01-4.1-1.1l-.3-.2-2.9.8.8-2.8-.2-.3A8 8 0 1112 20zm4.4-6c-.2-.1-1.4-.7-1.7-.8s-.4-.1-.5.1-.6.8-.7.9-.3.2-.5 0a6.6 6.6 0 01-1.9-1.2 7.3 7.3 0 01-1.4-1.7c-.1-.3 0-.4.1-.5l.4-.5.2-.4v-.4l-.7-1.7c-.2-.4-.4-.4-.5-.4h-.5a1 1 0 00-.7.3 3 3 0 00-.9 2.2 5.2 5.2 0 001.1 2.7 11.8 11.8 0 004.5 4 4.7 4.7 0 002.9.6 2.6 2.6 0 001.7-1.2 2.1 2.1 0 00.1-1.2z"/>
-    </svg>
-  </a>
 </BaseLayout>
 
-<style is:global>
-  /* ===== cinematic home page — themed through tokens, both modes ===== */
-  :root {
-    --bg: #f7f8fa;
-    --fg: #101319;
-    --mut: #5d6572;
-    --cy: #0091a8;
-    --og: #a86c05;
-    --pu: #6b39a0;
-    --glass: rgba(255, 255, 255, .72);
-    --hair: rgba(16, 19, 25, .12);
-    --smoke-1: rgba(0, 145, 168, .16);
-    --smoke-2: rgba(107, 57, 160, .14);
-    --smoke-3: rgba(168, 108, 5, .08);
-    --shape: rgba(16, 19, 25, .12);
-    --btn-ink: #ffffff;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-    --bg: #080808;
-    --fg: #f2f2f2;
-    --mut: #8c8c8c;
-    --cy: #00e1ff;
-    --og: #f39912;
-    --pu: #a06fd8;
-    --glass: rgba(255, 255, 255, .035);
-    --hair: rgba(255, 255, 255, .09);
-    --smoke-1: rgba(0, 225, 255, .17);
-    --smoke-2: rgba(160, 111, 216, .20);
-    --smoke-3: rgba(243, 153, 18, .09);
-    --shape: rgba(255, 255, 255, .10);
-    --btn-ink: #04121a;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #080808;
-    --fg: #f2f2f2;
-    --mut: #8c8c8c;
-    --cy: #00e1ff;
-    --og: #f39912;
-    --pu: #a06fd8;
-    --glass: rgba(255, 255, 255, .035);
-    --hair: rgba(255, 255, 255, .09);
-    --smoke-1: rgba(0, 225, 255, .17);
-    --smoke-2: rgba(160, 111, 216, .20);
-    --smoke-3: rgba(243, 153, 18, .09);
-    --shape: rgba(255, 255, 255, .10);
-    --btn-ink: #04121a;
-  }
-
-  body {
-    background: var(--bg);
-    color: var(--fg);
-    font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  }
-  .site-header {
-    background: color-mix(in srgb, var(--bg) 80%, transparent);
-    border-bottom: 1px solid var(--hair);
-  }
-  .site-header .brand { color: var(--fg); font-weight: 800; }
-  .site-header .brand span { color: var(--cy); }
-  .nav a { color: var(--mut); font-weight: 500; }
-  .nav a:hover, .nav a[aria-current='page'] { color: var(--fg); }
-  .site-footer { border-top: 1px solid var(--hair); color: var(--mut); background: var(--bg); }
-  .site-footer a:hover { color: var(--cy); }
-  main { overflow-x: clip; }
-</style>
-
 <style>
-  /* ---------- chrome ---------- */
-  #progress {
-    position: fixed; inset: 0 auto auto 0; height: 3px; width: 0; z-index: 999;
-    background: linear-gradient(90deg, var(--cy), var(--pu) 60%, var(--og));
-    box-shadow: 0 0 12px rgba(0, 225, 255, .6);
-  }
-  #cursor {
-    position: fixed; top: 0; left: 0; width: 26px; height: 26px; border-radius: 50%;
-    border: 1px solid rgba(0, 225, 255, .7); background: rgba(0, 225, 255, .07);
-    box-shadow: 0 0 18px rgba(0, 225, 255, .35);
-    pointer-events: none; z-index: 998; opacity: 0;
-    transform: translate(-50%, -50%); transition: opacity .25s, width .18s, height .18s;
-  }
-  .wa {
-    position: fixed; right: 1.25rem; bottom: 1.25rem; z-index: 900;
-    width: 54px; height: 54px; border-radius: 50%; display: grid; place-items: center;
-    background: #25d366; color: #04220c; box-shadow: 0 8px 30px rgba(37, 211, 102, .38);
-    transition: transform .18s;
-  }
-  .wa:hover { transform: scale(1.07); }
-
   /* ---------- shared ---------- */
-  .wrap { width: 100%; max-width: 74rem; margin-inline: auto; padding-inline: 1.5rem; }
-  .sec { position: relative; padding-block: clamp(4.5rem, 11vw, 8rem); }
-  h1, h2, h3 { font-family: 'Inter', sans-serif; letter-spacing: -.035em; line-height: 1.05; text-wrap: balance; }
-  h1 { font-size: clamp(2.6rem, 7.4vw, 5.4rem); font-weight: 900; }
-  h2 { font-size: clamp(2rem, 4.6vw, 3.3rem); font-weight: 900; }
-  h3 { font-size: 1.12rem; font-weight: 700; letter-spacing: -.02em; }
-  em { font-style: normal; }
-  .cy { color: var(--cy); } .pu { color: var(--pu); }
-  .grad-cg { background: linear-gradient(90deg, var(--cy), var(--og)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .grad-og { background: linear-gradient(90deg, var(--og), var(--pu)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .sub { color: var(--mut); max-width: 46rem; margin-top: 1rem; font-size: 1.02rem; }
-  .eyebrow { font-size: .74rem; letter-spacing: .22em; text-transform: uppercase; color: var(--cy); font-weight: 600; }
+  .wrap { width: 100%; max-width: 66rem; margin-inline: auto; padding-inline: 1.5rem; }
+  .sec { padding-block: clamp(4rem, 9vw, 7rem); }
+  .sec.alt { background: var(--surface-2); }
+  h1 { font-size: clamp(2.1rem, 5.2vw, 3.6rem); font-weight: 800; letter-spacing: -.035em; line-height: 1.08; max-width: 20ch; }
+  h2 { font-size: clamp(1.6rem, 3.4vw, 2.3rem); font-weight: 800; letter-spacing: -.03em; }
+  h3 { font-size: 1.05rem; font-weight: 700; letter-spacing: -.015em; }
+  .sub { color: var(--muted); margin-top: .7rem; max-width: 46rem; }
+  .sub.center, .center { text-align: center; margin-inline: auto; }
 
-  .glass {
-    background: var(--glass); border: 1px solid var(--hair); border-radius: 16px;
-    backdrop-filter: blur(10px);
-    transition: border-color .25s, box-shadow .25s, transform .25s;
+  .cta { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 2rem; }
+  .cta-line { display: flex; gap: .7rem; flex-wrap: wrap; margin-top: 2.2rem; }
+  .btn { border-radius: 8px; }
+  .btn.primary { background: var(--accent); color: var(--paper); font-weight: 600; padding: .8rem 1.5rem; }
+  .btn.primary:hover { background: var(--accent-2); }
+  .btn.ghost { border: 1px solid var(--line); color: var(--ink); padding: .8rem 1.4rem; }
+  .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.big { padding: 1rem 2rem; font-size: 1.02rem; }
+
+  .card {
+    background: var(--surface); border: 0;
+    border-radius: 10px; padding: 1.6rem;
+    display: flex; flex-direction: column; gap: .5rem;
   }
-  a.glass, .glass.work, .glass.rcard, .glass.ch, .glass.post, .glass.paper { text-decoration: none; color: inherit; display: block; }
-  .glass:hover { border-color: rgba(0, 225, 255, .45); box-shadow: 0 0 0 1px rgba(0,225,255,.1), 0 18px 50px -22px rgba(0, 225, 255, .5); }
+  a.card { text-decoration: none; color: inherit; transition: background .18s; }
+  a.card:hover { background: var(--surface-2); }
+  .card p { color: var(--muted); font-size: .92rem; }
+  .grid4 { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); list-style: none; padding: 0; }
+  .grid2 { display: grid; gap: 1rem; margin-top: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
 
-  .btn {
-    display: inline-flex; align-items: center; gap: .55rem; padding: .8rem 1.5rem;
-    border-radius: 999px; font-size: .93rem; font-weight: 600; text-decoration: none;
-    border: 1px solid transparent; transition: transform .16s, box-shadow .2s, background .2s;
+  /* ---------- 1. hero ---------- */
+  /* No gradient, no glow, no entrance animation. The restraint is the design. */
+  .hero { padding-block: clamp(4rem, 10vw, 7rem) clamp(3.5rem, 8vw, 5.5rem); }
+
+  .pills { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin-bottom: 1.4rem; }
+  .pills li {
+    font-size: .76rem; font-weight: 500; color: var(--ink-2);
+    border: 1px solid var(--line); border-radius: 999px; padding: .28rem .8rem;
+    background: var(--surface);
   }
-  .btn:hover { transform: translateY(-2px); }
-  .btn.primary { background: var(--cy); color: var(--btn-ink); box-shadow: 0 8px 30px -10px rgba(0, 225, 255, .8); }
-  .btn.ghost { border-color: var(--hair); color: var(--fg); }
-  .btn.ghost:hover { border-color: var(--cy); color: var(--cy); }
-  .cta { display: flex; gap: .8rem; flex-wrap: wrap; }
-  .mid-cta { display: flex; gap: .8rem; flex-wrap: wrap; margin-top: 2.5rem; }
+  .deck { font-size: clamp(1rem, 1.7vw, 1.16rem); color: var(--ink-2); margin-top: 1.1rem; max-width: 44rem; line-height: 1.65; }
 
-  .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1); }
-  .reveal.in { opacity: 1; transform: none; }
+  .converge { margin: 3.2rem 0 0; padding: 1.7rem; border-radius: 10px; background: var(--surface); }
+  .converge figcaption { font-size: .9rem; color: var(--ink-2); font-weight: 600; margin-bottom: 1.1rem; }
+  .conv-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; }
+  .conv-in { display: flex; flex-direction: column; gap: .5rem; }
+  .conv-card { display: flex; justify-content: space-between; align-items: baseline; gap: .8rem; padding: .6rem .85rem; border-radius: 7px; background: var(--surface-2); }
+  .conv-src { font-size: .78rem; color: var(--muted); }
+  .conv-n { font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .conv-arrow { width: 3.4rem; height: 7rem; color: var(--line); flex: none; }
+  .conv-out { padding: 1.2rem; border-radius: 7px; background: var(--surface-2); display: flex; flex-direction: column; gap: .2rem; }
+  .conv-n.big { font-size: 2.2rem; color: var(--accent); letter-spacing: -.03em; line-height: 1.1; }
+  .conv-note { font-size: .78rem; color: var(--muted); }
+  .illus { font-size: .74rem; color: var(--muted); font-style: italic; margin-top: 1rem; }
 
-  /* ---------- hero ---------- */
-  .hero { position: relative; min-height: 92vh; display: grid; align-items: center; overflow: hidden; }
-  .smoke {
-    position: absolute; inset: -20%;
-    background:
-      radial-gradient(48% 40% at 50% 42%, var(--smoke-1), transparent 70%),
-      radial-gradient(38% 34% at 76% 66%, var(--smoke-2), transparent 72%),
-      radial-gradient(42% 36% at 20% 70%, var(--smoke-3), transparent 72%),
-      var(--bg);
-    filter: blur(28px);
+  /* ---------- 3. prescriptions ---------- */
+  .rx-n { font-size: .78rem; font-weight: 700; color: var(--accent); }
+
+  /* ---------- 4. proof ---------- */
+  .proof { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+  .pstat {
+    text-decoration: none; color: inherit; padding: 1.6rem 0;
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: .4rem; transition: opacity .18s;
   }
-  .hero-in { position: relative; padding-block: 6rem 4rem; }
-  .shape { position: absolute; border: 1px solid var(--shape); pointer-events: none; }
-  .diamond { width: 190px; height: 190px; left: 2%; top: 22%; transform: rotate(45deg); animation: float 13s ease-in-out infinite; }
-  .ring { width: 240px; height: 240px; right: 4%; bottom: 14%; border-radius: 50%; animation: float 17s ease-in-out infinite reverse; }
-  @keyframes float { 0%,100% { transform: translateY(0) rotate(45deg); } 50% { transform: translateY(-26px) rotate(45deg); } }
-  .ring { animation-name: floatR; }
-  @keyframes floatR { 0%,100% { transform: translateY(0); } 50% { transform: translateY(28px); } }
+  .pstat:hover { opacity: .72; }
+  .pbig { font-size: clamp(1.5rem, 3vw, 1.95rem); font-weight: 800; letter-spacing: -.035em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .plab { font-size: .84rem; color: var(--muted); line-height: 1.45; }
 
-  .pill {
-    display: inline-block; padding: .4rem 1.1rem; border-radius: 999px;
-    border: 1px solid rgba(0, 225, 255, .4); color: var(--cy);
-    font-size: .82rem; font-weight: 600; letter-spacing: .04em; margin-bottom: 1.6rem;
+  /* ---------- 5. case studies ---------- */
+  .flagship {
+    display: grid; grid-template-columns: 1fr 15rem; gap: 2.2rem;
+    margin-top: 2rem; padding: 1.8rem;
+    border-radius: 10px; background: var(--surface);
+    text-decoration: none; color: inherit; transition: background .18s;
   }
-  .typer { margin-top: 1.5rem; font-size: clamp(1.1rem, 2.4vw, 1.5rem); font-weight: 700; }
-  .tw-static { color: var(--mut); font-weight: 500; }
-  .tw { color: var(--cy); }
-  .caret { color: var(--cy); animation: blink 1s steps(1) infinite; }
-  @keyframes blink { 50% { opacity: 0; } }
-  .lede { color: var(--mut); margin-top: 1rem; max-width: 40rem; font-size: 1.05rem; }
-  .hero .cta { margin-top: 2.4rem; }
-  .scroll-hint { position: absolute; left: 50%; bottom: -1rem; translate: -50% 0; color: var(--mut); animation: bob 2.2s ease-in-out infinite; }
-  @keyframes bob { 0%,100% { transform: translateY(0); } 50% { transform: translateY(7px); } }
+  .flagship:hover { background: var(--surface-2); }
+  .tagline { font-size: .78rem; color: var(--muted); }
+  .flagship h3 { font-size: 1.35rem; margin-top: .3rem; }
+  .out { color: var(--accent); font-weight: 600; font-size: .94rem; margin-top: .6rem; }
+  .flagship p:not(.out) { color: var(--muted); font-size: .93rem; margin-top: .6rem; }
+  .more { display: inline-block; margin-top: 1rem; color: var(--accent); font-weight: 600; font-size: .88rem; }
+  .fstats { margin: 0; display: flex; flex-direction: column; gap: .7rem; align-self: center; }
+  .fstats div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .5rem; }
+  .fstats dt { font-size: .82rem; color: var(--muted); }
+  .fstats dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
 
-  /* ---------- marquee ---------- */
-  .marquee { overflow: hidden; border-block: 1px solid var(--hair); padding-block: .95rem; background: color-mix(in srgb, var(--fg) 2%, transparent); }
-  .mq-track { display: flex; gap: 2.6rem; width: max-content; animation: mq 42s linear infinite; }
-  .mq-item { color: var(--mut); font-size: .85rem; font-weight: 600; letter-spacing: .05em; white-space: nowrap; }
-  .mq-item::after { content: '✦'; color: var(--cy); margin-left: 2.6rem; opacity: .5; }
-  @keyframes mq { to { transform: translateX(-33.333%); } }
+  /* ---------- 6. services ---------- */
+  .svc-list { list-style: none; padding: 0; margin-top: 2rem; border-top: 1px solid var(--line); }
+  .svc-row { border-bottom: 1px solid var(--line); }
+  .svc-row a {
+    display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: center;
+    padding: 1.1rem .6rem; text-decoration: none; color: inherit; transition: background .15s;
+  }
+  .svc-row a:hover { background: var(--surface); }
+  .svc-row.is-flag { background: var(--surface); border-radius: 8px; }
+  .svc-title { font-weight: 700; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
+  .flag { font-size: .66rem; font-weight: 700; color: var(--paper); background: var(--accent); border-radius: 999px; padding: .16rem .5rem; }
+  .svc-sum { display: block; color: var(--muted); font-size: .88rem; margin-top: .3rem; max-width: 46rem; }
+  .svc-price { text-align: right; white-space: nowrap; }
+  .svc-price b { display: block; font-size: 1.1rem; font-weight: 800; color: var(--accent); letter-spacing: -.02em; }
+  .svc-price em { font-style: normal; font-size: .74rem; color: var(--muted); }
 
-  /* ---------- stats ---------- */
-  .stats-sec { padding-block: clamp(3rem, 6vw, 4.5rem); }
-  .stats { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
-  .stat { padding: 1.7rem 1.4rem; text-align: center; }
-  .stat-ico { color: var(--cy); margin-inline: auto; opacity: .8; }
-  .stat-num { font-size: clamp(2rem, 4vw, 2.7rem); font-weight: 900; color: var(--cy); letter-spacing: -.04em; margin-top: .7rem; font-variant-numeric: tabular-nums; }
-  .stat-lab { color: var(--mut); font-size: .85rem; margin-top: .35rem; }
+  /* ---------- 7. steps ---------- */
+  .steps { list-style: none; padding: 0; margin-top: 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .steps li { display: flex; gap: .9rem; align-items: flex-start; }
+  .step-n {
+    flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%;
+    display: grid; place-items: center; font-size: .82rem; font-weight: 700;
+    color: var(--accent); border: 1px solid var(--accent);
+  }
+  .steps h3 { font-size: 1rem; }
+  .steps p { color: var(--muted); font-size: .88rem; margin-top: .3rem; }
 
-  /* ---------- portfolio ---------- */
-  .blueprint { position: absolute; inset: 0; width: 100%; height: 100%; opacity: .35; pointer-events: none; }
-  .work-grid { display: grid; gap: 1.1rem; margin-top: 2.8rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 21rem), 1fr)); }
-  .work { padding: 1.6rem; }
-  .work-kind { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--mut); }
-  .work h3 { margin-top: .6rem; }
-  .work p { color: var(--mut); font-size: .92rem; margin-top: .6rem; }
-  .work-out { color: var(--cy) !important; font-weight: 500; }
-  .work-go { display: inline-block; margin-top: 1rem; color: var(--cy); font-size: .86rem; font-weight: 600; }
-
-  /* ---------- results conveyor ---------- */
-  .div-dot { height: 1px; background: var(--hair); margin-block: 1.6rem; position: relative; }
-  .div-dot::after { content: ''; position: absolute; left: 50%; top: 50%; width: 7px; height: 7px; border-radius: 50%; background: var(--cy); translate: -50% -50%; box-shadow: 0 0 14px var(--cy); }
-  .conveyor { overflow: hidden; margin-top: 2.6rem; -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent); }
-  .cv-track { display: flex; gap: 1.1rem; width: max-content; animation: mq 56s linear infinite; }
-  .cv-track:hover { animation-play-state: paused; }
-  .rcard { width: 21rem; flex: none; padding: 1.6rem; }
-  .rmetric { font-size: 1.6rem; font-weight: 900; color: var(--cy); letter-spacing: -.03em; }
-  .rcard h3 { margin-top: .5rem; }
-  .rcard p { color: var(--mut); font-size: .89rem; margin-top: .55rem; }
-
-  /* ---------- timeline ---------- */
-  .timeline { list-style: none; padding: 0; margin-top: 3rem; position: relative; }
-  .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1px; translate: -50% 0; background: linear-gradient(180deg, transparent, var(--cy), var(--pu), transparent); opacity: .55; }
-  .tl-item { position: relative; width: 50%; padding-inline: 2.4rem; margin-bottom: 1.6rem; }
-  .tl-item.left { left: 0; text-align: right; }
-  .tl-item.right { left: 50%; }
-  .tl-dot { position: absolute; top: 1.8rem; width: 13px; height: 13px; border-radius: 50%; background: var(--cy); box-shadow: 0 0 16px var(--cy); }
-  .tl-item.left .tl-dot { right: -6.5px; }
-  .tl-item.right .tl-dot { left: -6.5px; }
-  .tl-card { padding: 1.5rem; }
-  .tl-n { font-size: 1.9rem; font-weight: 900; color: color-mix(in srgb, var(--fg) 16%, transparent); letter-spacing: -.05em; }
-  .tl-card h3 { margin-top: -.4rem; }
-  .tl-card p { color: var(--mut); font-size: .9rem; margin-top: .5rem; }
-
-  /* ---------- about ---------- */
-  .about { display: grid; grid-template-columns: 22rem 1fr; gap: 3.6rem; align-items: start; }
-  .about-id { position: sticky; top: 6rem; }
-  .name-big { margin-top: .5rem; }
-  .spaced { letter-spacing: .12em; font-size: .76rem; text-transform: uppercase; color: var(--mut); margin-block: 1.1rem 1.6rem; }
-  .about-body p { color: var(--mut); line-height: 1.8; margin-bottom: 1.15rem; font-size: 1.02rem; }
-  .about-body p:last-child { margin-bottom: 0; }
-  .about strong { color: var(--fg); }
-  .tagrow { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.4rem; }
-  .tag-pill { border: 1px solid rgba(0,225,255,.35); color: var(--cy); border-radius: 999px; padding: .3rem .85rem; font-size: .78rem; font-weight: 500; }
-
-  /* ---------- tools ---------- */
-  .tools { display: grid; gap: .9rem; margin-top: 2.6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
-  .flip { perspective: 1000px; height: 11rem; }
-  .flip-in { position: relative; width: 100%; height: 100%; transition: transform .6s cubic-bezier(.3,.7,.3,1); transform-style: preserve-3d; }
-  .flip:hover .flip-in, .flip:focus-visible .flip-in { transform: rotateY(180deg); }
-  .face { position: absolute; inset: 0; backface-visibility: hidden; display: grid; place-content: center; text-align: center; padding: 1rem; gap: .45rem; }
-  .back { transform: rotateY(180deg); }
-  .back p { color: var(--mut); font-size: .84rem; line-height: 1.5; }
-  .t-ico { font-size: 1.9rem; }
-  .t-name { font-weight: 700; font-size: .95rem; }
-  .t-lvl { font-size: .74rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
-  .l-expert { color: var(--cy); } .l-advanced { color: var(--og); } .l-intermediate { color: var(--mut); }
-
-  /* ---------- insights ---------- */
-  .paper { padding: 1.8rem; margin-top: 2.6rem; border-color: rgba(243,153,18,.28); }
-  .paper-venue { font-size: .74rem; letter-spacing: .12em; text-transform: uppercase; color: var(--og); }
-  .paper h3 { margin-top: .6rem; font-size: 1.25rem; }
-  .paper p { color: var(--mut); font-size: .93rem; margin-top: .7rem; }
-  .posts { display: grid; gap: 1.1rem; margin-top: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
-  .post { padding: 1.5rem; }
-  .post-date { font-size: .74rem; letter-spacing: .1em; text-transform: uppercase; color: var(--mut); }
-  .post h3 { margin-top: .55rem; font-size: 1.02rem; }
-  .post p { color: var(--mut); font-size: .87rem; margin-top: .5rem; }
-
-  /* ---------- services ---------- */
-  .svc-grid { display: grid; gap: 1.1rem; margin-top: 2.6rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
-  .svc { padding: 1.5rem; display: flex !important; flex-direction: column; gap: .5rem; }
-  .svc-kind { font-size: .68rem; letter-spacing: .14em; text-transform: uppercase; color: var(--mut); }
-  .svc h3 { font-size: 1.02rem; }
-  .svc p { color: var(--mut); font-size: .87rem; flex: 1; }
-  .svc-price { font-size: 1.35rem; font-weight: 800; letter-spacing: -.03em; color: var(--cy); margin-top: .6rem; }
-  .svc-price em { font-style: normal; font-size: .74rem; font-weight: 500; color: var(--mut); letter-spacing: 0; display: block; margin-top: .15rem; }
-
-  /* ---------- contact ---------- */
-  .contact { text-align: center; }
-  .contact .sub { margin-inline: auto; }
-  .channels { display: grid; gap: 1rem; margin-top: 3rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
-  .ch { padding: 1.7rem 1.2rem; display: grid !important; gap: .35rem; justify-items: center; }
-  .ch-ico { font-size: 1.4rem; color: var(--cy); font-weight: 700; }
-  .ch-l { font-weight: 700; font-size: .95rem; }
-  .ch-v { color: var(--mut); font-size: .84rem; overflow-wrap: anywhere; }
+  /* ---------- 8/9 ---------- */
+  .delivered { margin-top: 2.4rem; }
+  .delivered > div {
+    display: grid; grid-template-columns: 15rem 1fr; gap: 2rem;
+    padding-block: 1.5rem; border-top: 1px solid var(--line);
+  }
+  .delivered > div:last-child { border-bottom: 1px solid var(--line); }
+  .delivered dt { font-weight: 700; font-size: 1rem; }
+  .delivered dd { margin: 0; color: var(--muted); font-size: .94rem; line-height: 1.7; }
+  @media (max-width: 46rem) {
+    .delivered > div { grid-template-columns: 1fr; gap: .4rem; }
+  }
+  .final { text-align: center; }
+  .final .cta-line { justify-content: center; }
+  .micro { font-size: .82rem; color: var(--muted); margin-top: 1rem; }
 
   /* ---------- responsive ---------- */
-  @media (max-width: 62rem) {
-    .about { grid-template-columns: 1fr; gap: 2rem; }
-    .about-id { position: static; }
-  }
-  @media (max-width: 48rem) {
-    .timeline::before { left: 8px; }
-    .tl-item { width: 100%; left: 0 !important; text-align: left !important; padding-inline: 2.2rem 0; }
-    .tl-item .tl-dot { left: 2px !important; right: auto !important; }
-    .rcard { width: 17rem; }
-    .diamond, .ring { display: none; }
-    #cursor { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .reveal { opacity: 1 !important; transform: none !important; }
-    .mq-track, .cv-track, .diamond, .ring, .scroll-hint, .caret { animation: none !important; }
+  @media (max-width: 54rem) {
+    .flagship { grid-template-columns: 1fr; gap: 1.4rem; }
+    .conv-row { grid-template-columns: 1fr; }
+    .conv-arrow { transform: rotate(90deg); width: 100%; height: 2.6rem; justify-self: center; }
   }
 </style>
 
 <script>
-  // ---- scroll progress ----
-  const bar = document.getElementById('progress');
-  const onScroll = () => {
-    const h = document.documentElement;
-    const pct = h.scrollTop / (h.scrollHeight - h.clientHeight || 1);
-    if (bar) bar.style.width = `${Math.min(1, Math.max(0, pct)) * 100}%`;
-  };
-  addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
+  // Count-up on the proof stats.
+  // The final value is already in the HTML, so if this never runs â€” no JS, no
+  // IntersectionObserver, reduced motion â€” the correct number is what shows.
+  // Nothing here can leave a 0 on screen.
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const animate = (el: HTMLElement) => {
+      const final = el.dataset.count ?? el.textContent ?? '';
+      // Animate only the numeric runs, leaving arrows, %, $ and words in place.
+      const parts = final.split(/(\d[\d,.]*)/);
+      const nums = parts.map((p) => (/^\d/.test(p) ? parseFloat(p.replace(/,/g, '')) : null));
+      if (!nums.some((n) => n !== null)) return;
 
-  // ---- glowing cursor ----
-  const cur = document.getElementById('cursor');
-  if (cur && matchMedia('(pointer: fine)').matches) {
-    let x = innerWidth / 2, y = innerHeight / 2, tx = x, ty = y;
-    addEventListener('mousemove', (e) => { tx = e.clientX; ty = e.clientY; cur.style.opacity = '1'; });
-    addEventListener('mouseout', () => { cur.style.opacity = '0'; });
-    const loop = () => {
-      x += (tx - x) * 0.18; y += (ty - y) * 0.18;
-      cur.style.transform = `translate(${x}px, ${y}px) translate(-50%, -50%)`;
-      requestAnimationFrame(loop);
-    };
-    loop();
-    document.querySelectorAll('a, button, .flip').forEach((el) => {
-      el.addEventListener('mouseenter', () => { cur.style.width = '46px'; cur.style.height = '46px'; });
-      el.addEventListener('mouseleave', () => { cur.style.width = '26px'; cur.style.height = '26px'; });
-    });
-  }
-
-  // ---- reveal on scroll ----
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((en) => { if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); } });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px' });
-  document.querySelectorAll('.reveal').forEach((el, i) => {
-    (el as HTMLElement).style.transitionDelay = `${(i % 4) * 70}ms`;
-    io.observe(el);
-  });
-
-  // ---- count-up stats ----
-  const fmtNum = (n: number, dec: number) =>
-    dec > 0 ? n.toFixed(dec) : Math.round(n).toLocaleString('en-US');
-
-  const counters = new IntersectionObserver((entries) => {
-    entries.forEach((en) => {
-      if (!en.isIntersecting) return;
-      const el = en.target as HTMLElement;
-      counters.unobserve(el);
-      const dec = Number(el.dataset.decimals || 0);
-      const to = Number(el.dataset.to || 0) / (dec > 0 ? Math.pow(10, dec) : 1);
-      const pre = el.dataset.prefix || '', suf = el.dataset.suffix || '';
-      const dur = 1700, t0 = performance.now();
+      const dur = 900;
+      const t0 = performance.now();
       const step = (now: number) => {
-        const p = Math.min(1, (now - t0) / dur);
-        const eased = 1 - Math.pow(1 - p, 3);
-        el.textContent = pre + fmtNum(to * eased, dec) + suf;
-        if (p < 1) requestAnimationFrame(step);
+        const prog = Math.min(1, (now - t0) / dur);
+        const eased = 1 - Math.pow(1 - prog, 3);
+        el.textContent = parts
+          .map((p, i) => {
+            const n = nums[i];
+            if (n === null) return p;
+            const v = n * eased;
+            const dec = p.includes('.') ? 1 : 0;
+            return (dec ? v.toFixed(1) : Math.round(v).toLocaleString('en-US'));
+          })
+          .join('');
+        if (prog < 1) requestAnimationFrame(step);
+        else el.textContent = final; // always land exactly on the real value
       };
       requestAnimationFrame(step);
-    });
-  }, { threshold: 0.5 });
-  document.querySelectorAll('.counter').forEach((el) => counters.observe(el));
-
-  // ---- typewriter ----
-  const tw = document.querySelector('.tw') as HTMLElement | null;
-  if (tw) {
-    const words = (tw.dataset.words || '').split('|').filter(Boolean);
-    let wi = 0, ci = 0, deleting = false;
-    const tick = () => {
-      const w = words[wi];
-      ci += deleting ? -1 : 1;
-      tw.textContent = w.slice(0, ci);
-      let wait = deleting ? 45 : 85;
-      if (!deleting && ci === w.length) { wait = 1500; deleting = true; }
-      else if (deleting && ci === 0) { deleting = false; wi = (wi + 1) % words.length; wait = 320; }
-      setTimeout(tick, wait);
     };
-    tick();
-  }
 
-  // ---- blueprint: faint automation flow behind the portfolio ----
-  const cv = document.querySelector('.blueprint') as HTMLCanvasElement | null;
-  if (cv && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    const ctx = cv.getContext('2d')!;
-    const NODES = [
-      { x: .08, y: .22, l: 'Meta Ads' }, { x: .26, y: .12, l: 'GHL' },
-      { x: .30, y: .42, l: 'GA4' }, { x: .13, y: .62, l: 'Search Console' },
-      { x: .52, y: .28, l: 'ETL' }, { x: .55, y: .60, l: 'Reconcile' },
-      { x: .76, y: .18, l: 'Model' }, { x: .80, y: .48, l: 'Dashboard' },
-      { x: .92, y: .74, l: 'Decision' },
-    ];
-    const EDGES = [[0,4],[1,4],[2,4],[3,5],[4,5],[4,6],[5,7],[6,7],[7,8],[5,8]];
-    let dash = 0;
-    const draw = () => {
-      const r = cv.getBoundingClientRect();
-      cv.width = r.width * devicePixelRatio; cv.height = r.height * devicePixelRatio;
-      ctx.setTransform(devicePixelRatio, 0, 0, devicePixelRatio, 0, 0);
-      ctx.clearRect(0, 0, r.width, r.height);
-      const P = (n: {x:number;y:number}) => ({ x: n.x * r.width, y: n.y * r.height });
-      ctx.lineWidth = 1;
-      const CY = getComputedStyle(document.documentElement).getPropertyValue('--cy').trim() || '#00e1ff';
-      ctx.strokeStyle = CY; ctx.globalAlpha = .30;
-      ctx.setLineDash([5, 7]); ctx.lineDashOffset = -dash;
-      EDGES.forEach(([a, b]) => {
-        const p = P(NODES[a]), q = P(NODES[b]);
-        ctx.beginPath(); ctx.moveTo(p.x, p.y);
-        ctx.bezierCurveTo((p.x + q.x) / 2, p.y, (p.x + q.x) / 2, q.y, q.x, q.y);
-        ctx.stroke();
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        io.unobserve(en.target);
+        animate(en.target as HTMLElement);
       });
-      ctx.globalAlpha = 1;
-      ctx.setLineDash([]);
-      ctx.font = '11px Inter, sans-serif';
-      NODES.forEach((n) => {
-        const p = P(n);
-        ctx.beginPath(); ctx.arc(p.x, p.y, 5, 0, Math.PI * 2);
-        ctx.fillStyle = CY; ctx.globalAlpha = .5; ctx.fill(); ctx.globalAlpha = 1;
-        ctx.beginPath(); ctx.arc(p.x, p.y, 11, 0, Math.PI * 2);
-        ctx.strokeStyle = CY; ctx.globalAlpha = .22; ctx.stroke(); ctx.globalAlpha = 1;
-        ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--mut').trim() || '#8c8c8c';
-        ctx.fillText(n.l, p.x + 16, p.y + 4);
-      });
-      dash = (dash + 0.35) % 12;
-      requestAnimationFrame(draw);
-    };
-    draw();
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll<HTMLElement>('.pbig').forEach((el) => io.observe(el));
   }
 </script>

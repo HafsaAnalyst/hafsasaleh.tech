@@ -9,6 +9,13 @@ export const site = {
   url: 'https://hafsasaleh.tech',
 
   role: 'Marketing Intelligence Analyst',
+  // Shown as pills in the hero — kept short so they read as capabilities,
+  // not as a job title. GTM here means Google Tag Manager (measurement),
+  // never go-to-market.
+  positioning: ['Attribution', 'GTM & GA4 tracking', 'Dashboards', 'Predictive models'],
+
+  // TODO: replace with your real Calendly link once the event type exists.
+  booking: 'https://calendly.com/REPLACE-ME',
 
   // Your positioning statement — the most important sentence on the site.
   tagline:
@@ -35,19 +42,21 @@ export const site = {
     scholar: '',
   },
 
-  // Drop the PDF into /public with this exact filename.
-  cv: '/hafsa-saleh-cv.pdf',
-
   location: 'Lahore, Pakistan',
 };
 
+// Primary nav is deliberately short — a buyer needs three choices and one CTA.
+// The booking button lives in the header, so it is not repeated here.
 export const nav = [
-  { href: '/', label: 'Home' },
-  { href: '/about/', label: 'About' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/dashboard/', label: 'Dashboard' },
+  { href: '/projects/', label: 'Work' },
   { href: '/services/', label: 'Services' },
-  { href: '/research/', label: 'Research' },
+  { href: '/about/', label: 'About' },
+];
+
+// Everything else is still a real page, reachable from the footer.
+export const moreNav = [
+  { href: '/dashboard/', label: 'Live dashboard' },
   { href: '/articles/', label: 'Articles' },
-  // Contact is the CONTACT button in the header, so it is not repeated here.
+  { href: '/research/', label: 'Research' },
+  { href: '/contact/', label: 'Contact' },
 ];

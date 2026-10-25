@@ -102,8 +102,6 @@ const training = [
             from the University of the Punjab, and my first analyst role was on a factory
             floor at Sapphire Finishing Mills — where I learned that the fastest way to earn
             trust is to take something that takes an hour and make it take fourteen seconds.
-            I've also published peer-reviewed research modelling air quality in Islamabad,
-            which is where the statistical rigour comes from.
           </p>
           <p>
             The thread running through all of it: <strong>a model nobody deploys is a hobby</strong>.
@@ -114,8 +112,19 @@ const training = [
           </p>
         </div>
 
+        <aside class="credibility">
+          <p>
+            <strong>Peer-reviewed:</strong> my regression study on air-quality prediction
+            in Islamabad was published in <em>Acta Geophysica</em> (Springer, 2025). It is
+            not marketing work, but it is where the habit comes from &mdash; showing the
+            confidence interval, and saying so when a number is not yet knowable.
+          </p>
+          <p class="cred-link"><a href="/research/">Read the paper</a></p>
+        </aside>
+
         <p style="margin-top:2rem;">
-          <a class="btn btn-primary" href={site.cv}>Download my CV</a>
+          <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-min audit</a>
+          <a class="btn btn-ghost" href="/services/">See services and pricing</a>
         </p>
       </div>
     </div>
@@ -174,4 +183,18 @@ const training = [
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .credibility {
+    margin-top: 2.2rem;
+    padding: 1.3rem 1.5rem;
+    border-left: 3px solid var(--accent);
+    background: var(--surface-2);
+    border-radius: 0 10px 10px 0;
+  }
+  .credibility p { color: var(--ink-2); font-size: .95rem; }
+  .credibility strong { color: var(--ink); }
+  .cred-link { margin-top: .7rem; }
+  .cred-link a { color: var(--accent); font-weight: 600; font-size: .9rem; }
+</style>
 

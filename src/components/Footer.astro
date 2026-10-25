@@ -1,5 +1,5 @@
 ---
-import { site } from '../site';
+import { site, moreNav } from '../site';
 
 const year = new Date().getFullYear();
 
@@ -17,6 +17,11 @@ const links = [
 ---
 
 <footer class="site-footer">
+  <div class="wrap foot-top">
+    <nav class="more" aria-label="More pages">
+      {moreNav.map((m) => <a href={m.href}>{m.label}</a>)}
+    </nav>
+  </div>
   <div class="wrap">
     <p>&copy; {year} {site.name}. Built with Astro.</p>
     <div class="social">
@@ -26,3 +31,15 @@ const links = [
     </div>
   </div>
 </footer>
+
+<style>
+  .foot-top {
+    display: flex; flex-wrap: wrap; gap: 1rem 2rem;
+    align-items: center;
+    padding-bottom: 1.4rem; margin-bottom: 1.4rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .more { display: flex; flex-wrap: wrap; gap: 1.2rem; }
+  .more a { text-decoration: none; font-size: .86rem; color: var(--muted); }
+  .more a:hover { color: var(--accent); }
+</style>
