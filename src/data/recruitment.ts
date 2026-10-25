@@ -70,7 +70,7 @@ export const proof = [
     big: '1 hr → 14 s',
     label: 'A recurring report, once it was automated',
     from: 'Manufacturing operations reporting',
-    href: '/projects/',
+    href: '/about/',
   },
   {
     big: '77% vs 62%',

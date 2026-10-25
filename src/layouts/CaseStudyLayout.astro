@@ -39,7 +39,10 @@ const { title, eyebrow, hook, description, org, year, stack = [] } = Astro.props
       <slot />
 
       <hr style="border:0; border-top:1px solid var(--line); margin-block:3rem;" />
-      <a class="btn btn-ghost" href="/projects/">← All projects</a>
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
+        <a class="btn btn-primary" href="/recruitment-agencies/">What I build for recruitment agencies</a>
+        <a class="btn btn-ghost" href="/">← Home</a>
+      </div>
     </div>
   </section>
 </BaseLayout>

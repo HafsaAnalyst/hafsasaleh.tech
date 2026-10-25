@@ -51,18 +51,15 @@ export const site = {
 };
 
 // The booking button lives in the header, so Contact is not repeated here.
+// The site serves one niche: recruitment agency owners. Case studies are
+// reachable from the proof cards, not from the nav.
 export const nav = [
   { href: '/', label: 'Home' },
   { href: '/recruitment-agencies/', label: 'Recruitment Agencies' },
-  { href: '/dashboard/', label: 'Dashboard' },
-  { href: '/projects/', label: 'Projects' },
   { href: '/about/', label: 'About' },
-  { href: '/articles/', label: 'Articles' },
 ];
 
-// Everything else is still a real page, reachable from the footer.
 export const moreNav = [
-  { href: '/services/', label: 'Services' },
-  { href: '/research/', label: 'Research' },
+  { href: '/recruitment-agencies/#pricing', label: 'Packages' },
   { href: '/contact/', label: 'Contact' },
 ];
