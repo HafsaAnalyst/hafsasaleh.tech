@@ -19,22 +19,25 @@ export const TBC = '[HAFSA TO CONFIRM]';
 export const DEMO_URL: string | null = null;
 export const demoHref = DEMO_URL ?? '/recruitment-agencies/#demo';
 
-export const problems = [
-  { t: 'Monday reports built by hand', d: 'Hours of exports, and nobody fully trusts the result.' },
-  { t: "Recruiter performance you can't see", d: 'Billings, activity and pipeline live in different places.' },
-  { t: 'Placements leaking from the pipeline', d: "You don't know if candidates drop at CV sent, interview or offer." },
+export const problems: { thumb: 'sheet' | 'bars' | 'funnel'; t: string; d: string }[] = [
+  { thumb: 'sheet', t: 'Monday reports built by hand', d: 'Hours of exports, and nobody fully trusts the result.' },
+  { thumb: 'bars', t: "Recruiter performance you can't see", d: 'Billings, activity and pipeline live in different places.' },
+  { thumb: 'funnel', t: 'Placements leaking from the pipeline', d: "You don't know if candidates drop at CV sent, interview or offer." },
 ];
 
-export const builds = [
+export const builds: { thumb: 'dashboard' | 'report' | 'alert'; t: string; d: string }[] = [
   {
+    thumb: 'dashboard',
     t: 'Owner dashboard',
     d: 'Billings, placements, recruiter performance and pipeline conversion (CV sent → interview → offer → placement) in one live view.',
   },
   {
+    thumb: 'report',
     t: 'Automated weekly report',
     d: 'Delivered by email or Slack/Teams every Monday morning. No manual exports, no rebuilding numbers in Excel.',
   },
   {
+    thumb: 'alert',
     t: 'Pipeline and follow-up automation',
     d: 'Follow-up reminders, "client gone quiet" alerts, timesheet chasers for contract desks, and database clean-up.',
   },

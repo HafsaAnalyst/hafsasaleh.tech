@@ -1,0 +1,27 @@
+---
+// One list row: optional thumbnail on the left, then date-style label → title → text.
+// Put a <Thumb slot="thumb" /> inside to show a thumbnail; leave it out for text-only rows.
+interface Props {
+  title: string;
+  /** Small uppercase line above the title */
+  label?: string;
+  href?: string;
+  text?: string;
+}
+const { title, label, href, text } = Astro.props;
+const hasThumb = Astro.slots.has('thumb');
+---
+
+<li class="row">
+  {hasThumb && (
+    href
+      ? <a class="row-thumb" href={href} tabindex="-1" aria-hidden="true"><slot name="thumb" /></a>
+      : <div class="row-thumb"><slot name="thumb" /></div>
+  )}
+  <div class="row-body">
+    {label && <p class="date">{label}</p>}
+    {href ? <a class="row-title" href={href}>{title}</a> : <h3 class="row-title">{title}</h3>}
+    {text && <p class="row-text">{text}</p>}
+    <slot />
+  </div>
+</li>

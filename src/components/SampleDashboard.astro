@@ -36,16 +36,16 @@ const stages = ['CV sent', 'Interview', 'Offer', 'Placement'];
 </figure>
 
 <style>
-  .sd { margin: 2rem 0 0; padding: 1.5rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
+  .sd { margin: 30px 0 0; padding: 28px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--card-line); }
   .sd-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
-  .sd-title { font-weight: 700; font-size: .95rem; }
+  .sd-title { font-family: var(--font-display); font-weight: 700; font-size: 17px; color: var(--title); }
   .sd-badge {
-    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: .2rem .6rem;
+    font-size: 11px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--accent-ink); border: 1px solid var(--accent); border-radius: 999px; padding: 3px 10px;
   }
-  .sd-tiles { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
-  .sd-tile { background: var(--surface-2); border-radius: 7px; padding: .8rem .9rem; display: flex; flex-direction: column; gap: .55rem; }
-  .sd-tile span { font-size: .76rem; color: var(--muted); }
+  .sd-tiles { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 8.5rem), 1fr)); }
+  .sd-tile { background: var(--paper); border: 1px solid var(--card-line); border-radius: 8px; padding: 12px 14px; display: flex; flex-direction: column; gap: 9px; }
+  .sd-tile span { font-size: 12px; color: var(--muted); }
   .sd-tile b { display: block; height: .9rem; width: 55%; border-radius: 4px; background: var(--line); }
   .sd-funnel { display: flex; flex-direction: column; gap: .45rem; margin-top: 1.2rem; }
   .sd-stage {

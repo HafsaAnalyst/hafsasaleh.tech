@@ -7,48 +7,46 @@ const isCurrent = (href: string) =>
 ---
 
 <header class="site-header">
-  <div class="wrap">
-    <a class="brand" href="/">{site.name.split(' ')[0]}<span>{site.name.split(' ').slice(1).join(' ') ? ' ' + site.name.split(' ').slice(1).join(' ') : ''}</span></a>
-    <nav class="nav" aria-label="Main">
-      {nav.map((item) => (
-        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
-          {item.label}
-        </a>
-      ))}
+  <div class="topbar-inner">
+    <a class="brand" href="/">
+      <img src="/favicon.svg" alt="" width="34" height="34" />
+      {site.name}
+    </a>
+
+    <div class="top-right">
+      <nav class="nav" aria-label="Main">
+        {nav.map((item) => (
+          <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>
+            {item.label}
+          </a>
+        ))}
+      </nav>
 
       <button id="theme-toggle" class="theme-btn" type="button" aria-label="Switch theme" title="Switch theme">
-        <svg class="i-sun" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+        <svg class="i-sun" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <circle cx="12" cy="12" r="4.2" fill="currentColor" />
           <g stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
             <path d="M12 2.4v2.2M12 19.4v2.2M2.4 12h2.2M19.4 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6" />
           </g>
         </svg>
-        <svg class="i-moon" viewBox="0 0 24 24" width="17" height="17" aria-hidden="true">
+        <svg class="i-moon" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true">
           <path d="M20 14.5A8.2 8.2 0 019.6 4a8.5 8.5 0 102.9 16.5A8.2 8.2 0 0120 14.5z" fill="currentColor" />
         </svg>
       </button>
 
-      <a class="hire" href={site.booking} rel="noopener">Book a reporting check</a>
-    </nav>
+      <a class="btn btn-primary btn-sm hire" href={site.booking} rel="noopener">Book a reporting check</a>
+    </div>
   </div>
 </header>
 
 <style>
   .theme-btn {
-    display: inline-grid;
-    place-items: center;
-    width: 2.1rem;
-    height: 2.1rem;
-    margin-left: .35rem;
-    padding: 0;
-    cursor: pointer;
-    color: var(--muted);
-    background: transparent;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    transition: color .15s, border-color .15s, background .15s;
+    display: inline-grid; place-items: center;
+    width: 32px; height: 32px; padding: 0;
+    cursor: pointer; color: var(--faint);
+    background: transparent; border: 1px solid var(--line); border-radius: 999px;
   }
-  .theme-btn:hover { color: var(--accent); border-color: var(--accent); background: var(--surface-2); }
+  .theme-btn:hover { color: var(--accent); border-color: var(--accent); }
   .theme-btn svg { grid-area: 1 / 1; }
 
   /* Show the icon for the theme you'd switch TO, so the control reads as an action */
@@ -63,17 +61,17 @@ const isCurrent = (href: string) =>
   :root[data-theme="light"] .i-sun { display: none; }
   :root[data-theme="light"] .i-moon { display: block; }
 
-  .hire {
-    background: var(--accent);
-    color: var(--paper) !important;
-    font-weight: 600;
-    font-size: .82rem;
-    padding: .48rem 1.05rem !important;
-    border-radius: 999px !important;
-    margin-left: .4rem;
-    transition: background .15s;
+  .hire { margin-left: 6px; white-space: nowrap; }
+
+  /* Phones: brand, toggle and button on the first line, nav links on the second */
+  @media (max-width: 640px) {
+    .topbar-inner { flex-wrap: wrap; padding-block: 12px; row-gap: 6px; }
+    .brand { font-size: 0; gap: 0; }
+    .top-right { display: contents; }
+    .theme-btn { margin-left: auto; }
+    .nav { order: 3; width: 100%; margin-left: -8px; }
+    .hire { padding: 9px 12px; font-size: 13px; }
   }
-  .hire:hover { background: var(--accent-2) !important; }
 </style>
 
 <script>

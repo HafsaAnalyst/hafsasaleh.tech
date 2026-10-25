@@ -1,22 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SampleDashboard from '../components/SampleDashboard.astro';
+import Row from '../components/Row.astro';
+import Thumb from '../components/Thumb.astro';
+import CtaCard from '../components/CtaCard.astro';
 import { site } from '../site';
 import { builds, metrics, packages, privacy, faq, steps, TBC } from '../data/recruitment';
-
-const BOOK = site.booking;
 ---
 
 <BaseLayout
   fullTitle="Dashboards for Recruitment Agencies: Billings, Pipeline & Recruiter Performance"
   description="Recruitment agency dashboards and staffing agency reporting automation: billings per recruiter, CV sent to placement conversion, fill rate and fall-offs, built from your ATS data."
 >
-  <!-- ============ HERO ============ -->
-  <section class="section">
-    <div class="wrap">
+  <div class="index">
+    <!-- ============ HEADER ============ -->
+    <header class="index-header">
       <p class="eyebrow">For recruitment &amp; staffing agency owners</p>
       <h1>Know which recruiters, clients and candidates actually make you money.</h1>
-      <p class="lead" style="margin-top:1.1rem; max-width:46rem;">
+      <p class="intro">
         Your ATS already holds the answers. I turn it into a live owner dashboard and an
         automated Monday report, so you can see billings, recruiter performance and where
         placements leak, without anyone rebuilding numbers in Excel.
@@ -26,28 +27,23 @@ const BOOK = site.booking;
         the US. Works with data from tools like JobAdder and Bullhorn (via exports or API).
       </p>
       <div class="actions">
-        <a class="btn btn-primary" href={BOOK} rel="noopener">Book a free 20-minute reporting check</a>
-        <a class="btn btn-ghost" href="#pricing">See the packages</a>
+        <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-minute reporting check</a>
+        <a class="text-link" href="#pricing">See the packages →</a>
       </div>
+    </header>
 
-      <div class="grid grid-3" style="margin-top:3rem;">
-        {builds.map((b) => (
-          <article class="card">
-            <h3>{b.t}</h3>
-            <p>{b.d}</p>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
+    <ul class="rows">
+      {builds.map((b) => (
+        <Row label="What you get" title={b.t} text={b.d}>
+          <Thumb slot="thumb" kind={b.thumb} />
+        </Row>
+      ))}
+    </ul>
 
-  <!-- ============ METRICS ============ -->
-  <section class="section">
-    <div class="wrap">
+    <!-- ============ METRICS ============ -->
+    <section class="section">
       <h2>The recruitment KPIs I put in front of owners</h2>
-      <p class="lead" style="margin-top:.7rem; max-width:44rem;">
-        Six numbers that answer the questions owners actually ask on a Monday.
-      </p>
+      <p class="section-intro">Six numbers that answer the questions owners actually ask on a Monday.</p>
       <div class="table-wrap">
         <table class="kpis">
           <thead>
@@ -60,79 +56,61 @@ const BOOK = site.booking;
           </tbody>
         </table>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ DEMO ============ -->
-  <section class="section" id="demo">
-    <div class="wrap">
+    <!-- ============ DEMO ============ -->
+    <section class="section" id="demo">
       <h2>Sample dashboard</h2>
-      <p class="lead" style="margin-top:.7rem; max-width:44rem;">
+      <p class="section-intro">
         What an owner dashboard looks like: headline numbers up top, the pipeline from CV sent
         to placement below, and a breakdown by recruiter and client behind each one.
       </p>
       <SampleDashboard />
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ HOW IT WORKS ============ -->
-  <section class="section">
-    <div class="wrap">
+    <!-- ============ HOW IT WORKS ============ -->
+    <section class="section">
       <h2>How it works</h2>
-      <ol class="flow">
+      <ul class="rows compact">
         {steps.map((s) => (
-          <li>
-            <span class="flow-n">{s.n}</span>
-            <strong>{s.t}</strong>
-            <span>{s.d}</span>
-          </li>
+          <Row label={`Step ${s.n}`} title={s.t} text={s.d}>
+            <Thumb slot="thumb" kind="text" value={String(s.n).padStart(2, '0')} />
+          </Row>
         ))}
-      </ol>
-    </div>
-  </section>
+        <CtaCard inList />
+      </ul>
+    </section>
 
-  <!-- ============ PRICING ============ -->
-  <section class="section" id="pricing">
-    <div class="wrap">
+    <!-- ============ PRICING ============ -->
+    <section class="section" id="pricing">
       <h2>Packages</h2>
-      <p class="lead" style="margin-top:.7rem; max-width:44rem;">
+      <p class="section-intro">
         Start with the free check. Everything after it is a fixed scope at a fixed price,
         agreed before any work starts.
       </p>
-      <div class="pkgs">
+      <ul class="rows">
         {packages.map((p) => (
-          <article class:list={['card', 'pkg', p.featured && 'is-flag']}>
-            <h3>{p.t}</h3>
-            <p class:list={['pkg-price', p.price === TBC && 'tbc']}>{p.price}</p>
-            <p class="pkg-note">{p.note}</p>
-            <p>{p.d}</p>
-          </article>
+          <Row
+            label={p.price === TBC ? `${p.note} · price ${TBC}` : `${p.price} · ${p.note}`}
+            title={p.featured ? `${p.t} (most complete)` : p.t}
+            text={p.d}
+          >
+            <Thumb slot="thumb" kind="text" value={p.price === TBC ? 'TBC' : p.price} sub={p.note.split(',')[0]} />
+          </Row>
         ))}
-      </div>
-      <div class="actions">
-        <a class="btn btn-primary" href={BOOK} rel="noopener">Book a free 20-minute reporting check</a>
-      </div>
-    </div>
-  </section>
+      </ul>
+    </section>
 
-  <!-- ============ PRIVACY ============ -->
-  <section class="section">
-    <div class="wrap">
+    <!-- ============ PRIVACY ============ -->
+    <section class="section">
       <h2>Data and privacy</h2>
-      <div class="pkgs">
-        {privacy.map((x) => (
-          <div class="card">
-            <h3>{x.t}</h3>
-            <p>{x.d}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
+      <ul class="rows compact">
+        {privacy.map((x) => <Row title={x.t} text={x.d} />)}
+      </ul>
+    </section>
 
-  <!-- ============ FAQ ============ -->
-  <section class="section">
-    <div class="wrap prose-wrap">
+    <!-- ============ FAQ ============ -->
+    <section class="section">
       <h2>FAQ</h2>
       <div class="faq">
         {faq.map((f) => (
@@ -142,60 +120,25 @@ const BOOK = site.booking;
           </details>
         ))}
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ============ CTA ============ -->
-  <section class="section">
-    <div class="wrap prose-wrap" style="text-align:center;">
-      <h2>If your weekly reporting takes more than an hour, let&rsquo;s talk.</h2>
-      <p class="lead" style="margin-top:.8rem;">
-        Twenty minutes, no obligation. If I can't help, I'll say so on the call.
-      </p>
-      <div class="actions" style="justify-content:center;">
-        <a class="btn btn-primary" href={BOOK} rel="noopener">Book a free 20-minute reporting check</a>
-      </div>
-    </div>
-  </section>
+    <CtaCard heading="If your weekly reporting takes more than an hour, let's talk." button="Book a free 20-minute reporting check" />
+  </div>
 </BaseLayout>
 
 <style>
-  .fit { color: var(--muted); font-size: .92rem; margin-top: 1rem; max-width: 46rem; }
-  .actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 2rem; }
+  .fit { color: var(--faint); font-size: 14px; margin-top: 12px; }
 
-  .table-wrap { margin-top: 1.8rem; overflow-x: auto; }
-  .kpis { width: 100%; border-collapse: collapse; font-size: .95rem; }
-  .kpis th, .kpis td { text-align: left; padding: .85rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .kpis th { font-weight: 600; background: var(--surface-2); font-size: .85rem; }
-  .kpis td:first-child { font-weight: 600; color: var(--ink); }
-  .kpis td:last-child { color: var(--ink-2); }
-
-  .flow { list-style: none; padding: 0; margin-top: 1.8rem; display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr)); }
-  .flow li { display: flex; flex-direction: column; gap: .35rem; }
-  .flow-n {
-    width: 1.9rem; height: 1.9rem; border-radius: 50%;
-    display: grid; place-items: center; font-size: .82rem; font-weight: 700;
-    color: var(--accent); border: 1px solid var(--accent); margin-bottom: .3rem;
+  .table-wrap { margin-top: 30px; overflow-x: auto; }
+  .kpis { width: 100%; border-collapse: collapse; }
+  .kpis th, .kpis td { text-align: left; padding: 16px 14px 16px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .kpis thead th {
+    font-family: var(--font-body); font-size: 12px; font-weight: 400; letter-spacing: 1px;
+    text-transform: uppercase; color: var(--faint); border-top: 1px solid var(--line);
   }
-  .flow span:last-child { color: var(--muted); font-size: .9rem; }
-
-  .pkgs { display: grid; gap: 1.1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
-  .pkg { gap: .4rem; }
-  .pkg.is-flag { box-shadow: inset 0 0 0 1px var(--accent); }
-  .pkg .pkg-price { font-size: 1.7rem; font-weight: 800; letter-spacing: -.03em; color: var(--accent); line-height: 1.1; margin-top: .4rem; }
-  /* Unpriced packages read as a to-do, not as a price */
-  .pkg .pkg-price.tbc { font-size: .95rem; font-family: var(--font-mono); color: var(--gold); }
-  .pkg .pkg-note { font-size: .8rem; color: var(--muted); margin-bottom: .4rem; }
-
-  .faq { margin-top: 1.6rem; border-top: 1px solid var(--line); }
-  .faq details { border-bottom: 1px solid var(--line); }
-  .faq summary { cursor: pointer; list-style: none; padding: 1.1rem 2rem 1.1rem 0; position: relative; font-weight: 600; }
-  .faq summary::-webkit-details-marker { display: none; }
-  .faq summary::after {
-    content: '+'; position: absolute; right: .2rem; top: 50%; transform: translateY(-50%);
-    color: var(--accent); font-size: 1.3rem; font-weight: 400;
+  .kpis td:first-child { font-family: var(--font-display); font-weight: 700; color: var(--title); width: 52%; }
+  .kpis td:last-child { color: var(--muted); }
+  @media (max-width: 640px) {
+    .kpis td { font-size: 14px; padding-block: 12px; }
   }
-  .faq details[open] summary::after { content: '−'; }
-  .faq p { color: var(--muted); font-size: .95rem; padding-bottom: 1.2rem; }
-  .faq a { color: var(--accent); font-weight: 600; }
 </style>

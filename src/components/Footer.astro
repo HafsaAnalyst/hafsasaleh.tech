@@ -4,41 +4,20 @@ import { site, moreNav } from '../site';
 const year = new Date().getFullYear();
 
 const links = [
-  { href: site.socials.github, label: 'GitHub' },
   { href: site.socials.linkedin, label: 'LinkedIn' },
   { href: site.socials.upwork, label: 'Upwork' },
   { href: site.socials.fiverr, label: 'Fiverr' },
-  { href: site.socials.x, label: 'X' },
-  { href: site.socials.kaggle, label: 'Kaggle' },
-  { href: site.socials.scholar, label: 'Scholar' },
+  { href: site.socials.github, label: 'GitHub' },
   { href: `mailto:${site.email}`, label: 'Email' },
 ].filter((l) => Boolean(l.href));
 ---
 
 <footer class="site-footer">
-  <div class="wrap foot-top">
-    <nav class="more" aria-label="More pages">
-      {moreNav.map((m) => <a href={m.href}>{m.label}</a>)}
-    </nav>
-  </div>
-  <div class="wrap">
-    <p>&copy; {year} {site.name}. Built with Astro.</p>
-    <div class="social">
-      {links.map((l) => (
-        <a href={l.href} rel={l.href.startsWith('http') ? 'me noopener' : undefined}>{l.label}</a>
-      ))}
-    </div>
-  </div>
+  <nav aria-label="More">
+    {moreNav.map((m) => <a href={m.href}>{m.label}</a>)}
+    {links.map((l) => (
+      <a href={l.href} rel={l.href.startsWith('http') ? 'me noopener' : undefined}>{l.label}</a>
+    ))}
+  </nav>
+  <p>Copyright &copy; {year} {site.name} · <a href="/">{site.domain}</a></p>
 </footer>
-
-<style>
-  .foot-top {
-    display: flex; flex-wrap: wrap; gap: 1rem 2rem;
-    align-items: center;
-    padding-bottom: 1.4rem; margin-bottom: 1.4rem;
-    border-bottom: 1px solid var(--line);
-  }
-  .more { display: flex; flex-wrap: wrap; gap: 1.2rem; }
-  .more a { text-decoration: none; font-size: .86rem; color: var(--muted); }
-  .more a:hover { color: var(--accent); }
-</style>

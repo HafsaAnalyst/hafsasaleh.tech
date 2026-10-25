@@ -1,19 +1,23 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Row from '../components/Row.astro';
+import Thumb from '../components/Thumb.astro';
+import CtaCard from '../components/CtaCard.astro';
 import { site } from '../site';
+import { builds } from '../data/recruitment';
 
 const services = [
-  { t: 'Owner dashboard', d: 'Billings, placements, recruiter performance and pipeline conversion in one live view.' },
-  { t: 'Automated weekly report', d: 'Delivered every Monday, with no manual exports.' },
-  { t: 'Follow-up automations', d: "Reminders and alerts so candidates and clients don't go quiet." },
-];
+  { thumb: 'dashboard', t: 'Owner dashboard', d: 'Billings, placements, recruiter performance and pipeline conversion in one live view.' },
+  { thumb: 'report', t: 'Automated weekly report', d: 'Delivered every Monday, with no manual exports.' },
+  { thumb: 'alert', t: 'Follow-up automations', d: "Reminders and alerts so candidates and clients don't go quiet." },
+] satisfies { thumb: (typeof builds)[number]['thumb']; t: string; d: string }[];
 
 const steps = [
-  { t: 'Listen first.', d: 'A 20-minute call about how you report today.' },
-  { t: 'Check the data.', d: "Find out what's in your ATS and spreadsheets, and what can be trusted." },
-  { t: 'Build fast.', d: 'I use Python, Streamlit and AI-assisted development to ship in days, not months.' },
-  { t: 'Validate.', d: 'Check the numbers against what you already know.' },
-  { t: 'Hand over.', d: 'Your report runs on its own, and your team knows how to use it.' },
+  { t: 'Listen first', d: 'A 20-minute call about how you report today.' },
+  { t: 'Check the data', d: "Find out what's in your ATS and spreadsheets, and what can be trusted." },
+  { t: 'Build fast', d: 'I use Python, Streamlit and AI-assisted development to ship in days, not months.' },
+  { t: 'Validate', d: 'Check the numbers against what you already know.' },
+  { t: 'Hand over', d: 'Your report runs on its own, and your team knows how to use it.' },
 ];
 
 const expect = [
@@ -34,28 +38,29 @@ const facts = [
   title="About"
   description="Hafsa Saleh is a statistics-trained data analyst who builds live dashboards and automated reports for small recruitment agencies, so owners can see which recruiters, clients and candidates turn into placements and fees."
 >
-  <section class="section">
-    <div class="wrap prose-wrap">
+  <div class="index">
+    <header class="index-header">
       <p class="eyebrow">About</p>
       <h1>I help recruitment agency owners see where their money comes from.</h1>
-      <p class="lead" style="margin-top:1.4rem;">
+      <p class="intro">
         I'm Hafsa, a data analyst with a statistics degree and a habit of asking "can we trust
         this number?" before anyone acts on it. I build live dashboards and automated reports for
         small recruitment agencies, so owners can see which recruiters, clients and candidates
         turn into placements and fees, without rebuilding numbers in Excel every Monday.
       </p>
-    </div>
-  </section>
+      <div class="actions">
+        <a class="btn btn-primary" href={site.booking} rel="noopener">Book a reporting check</a>
+      </div>
+    </header>
 
-  <section class="section">
-    <div class="wrap prose-wrap">
+    <section class="section">
       <h2>My story</h2>
-      <div class="prose" style="margin-top:1.2rem;">
+      <div class="prose story">
         <p>
           I started at Sapphire Finishing Mills as a Management Trainee Officer, working as a data
-          analyst on reporting and forecasting from SAP data. That's where I learned that a number is only useful if someone trusts it
-          enough to act on it. One recurring report there took an hour to build by hand; I
-          automated it down to 14 seconds.
+          analyst on reporting and forecasting from SAP data. That's where I learned that a number
+          is only useful if someone trusts it enough to act on it. One recurring report there took
+          an hour to build by hand; I automated it down to 14 seconds.
         </p>
         <p>
           Since 2022 I've also worked as a freelance analyst for research clients, and I've
@@ -75,70 +80,72 @@ const facts = [
           <strong>That's the gap I close.</strong>
         </p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="wrap">
+    <section class="section">
       <h2>What I do for recruitment agencies</h2>
-      <div class="grid grid-3" style="margin-top:1.6rem;">
+      <ul class="rows">
         {services.map((s) => (
-          <a class="card" href="/recruitment-agencies/" style="text-decoration:none;">
-            <h3>{s.t}</h3>
-            <p>{s.d}</p>
-          </a>
+          <Row label="What you get" title={s.t} text={s.d} href="/recruitment-agencies/">
+            <Thumb slot="thumb" kind={s.thumb} />
+          </Row>
         ))}
-      </div>
-    </div>
-  </section>
+      </ul>
+    </section>
 
-  <section class="section">
-    <div class="wrap prose-wrap">
+    <section class="section">
       <h2>How I work</h2>
-      <ol class="steps">
-        {steps.map((s) => <li><strong>{s.t}</strong> {s.d}</li>)}
-      </ol>
+      <ul class="rows compact">
+        {steps.map((s, i) => (
+          <Row label={`Step ${i + 1}`} title={s.t} text={s.d}>
+            <Thumb slot="thumb" kind="text" value={String(i + 1).padStart(2, '0')} />
+          </Row>
+        ))}
+      </ul>
+    </section>
 
-      <h2 style="margin-top:3.2rem;">What you can expect from me</h2>
+    <section class="section">
+      <h2>What you can expect from me</h2>
       <ul class="ticks">
         {expect.map((e) => <li>{e}</li>)}
       </ul>
+    </section>
 
-      <h2 style="margin-top:3.2rem;">Quick facts</h2>
+    <section class="section">
+      <h2>Quick facts</h2>
       <ul class="facts">
         {facts.map((f) => <li>{f}</li>)}
       </ul>
-    </div>
-  </section>
+    </section>
 
-  <section class="section">
-    <div class="wrap prose-wrap" style="text-align:center;">
-      <h2>If your weekly reporting takes more than an hour, let&rsquo;s talk.</h2>
-      <p style="margin-top:1.6rem;">
-        <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-minute reporting check</a>
-      </p>
-      <p class="cv">
-        Want the formal version? <a href={site.cv} download>Download my CV (PDF)</a>
-      </p>
-    </div>
-  </section>
+    <CtaCard
+      heading="If your weekly reporting takes more than an hour, let's talk."
+      button="Book a free 20-minute reporting check"
+      fine=""
+    >
+      <p class="cv">Want the formal version? <a href={site.cv} download>Download my CV (PDF)</a></p>
+    </CtaCard>
+  </div>
 </BaseLayout>
 
 <style>
-  .steps { padding-left: 1.3rem; margin-top: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
-  .steps li { color: var(--ink-2); }
-  .steps strong { color: var(--ink); }
+  .story { margin-top: 20px; color: var(--ink); }
+  .story strong { font-weight: 700; }
 
-  .ticks, .facts { list-style: none; padding: 0; margin-top: 1.4rem; display: flex; flex-direction: column; gap: .8rem; }
-  .ticks li, .facts li { position: relative; padding-left: 1.5rem; color: var(--ink-2); }
+  .ticks, .facts { list-style: none; padding: 0; margin-top: 24px; border-top: 1px solid var(--line); }
+  .ticks li, .facts li {
+    position: relative; padding: 18px 0 18px 30px;
+    border-bottom: 1px solid var(--line); color: var(--ink);
+  }
   .ticks li::before {
-    content: '✓'; position: absolute; left: 0; color: var(--accent); font-weight: 700;
+    content: '✓'; position: absolute; left: 2px; top: 18px;
+    color: var(--accent-ink); font-weight: 700;
   }
   .facts li::before {
-    content: ''; position: absolute; left: .2rem; top: .62em;
-    width: 6px; height: 6px; border-radius: 50%; background: var(--accent);
+    content: ''; position: absolute; left: 4px; top: 29px;
+    width: 7px; height: 7px; border-radius: 50%; background: var(--accent);
   }
 
-  .cv { margin-top: 2.4rem; font-size: .88rem; color: var(--muted); }
-  .cv a { color: var(--accent); font-weight: 600; }
+  .cv { font-size: 13px; margin-top: 16px; }
+  .cv a { color: var(--accent-ink); font-weight: 700; }
 </style>

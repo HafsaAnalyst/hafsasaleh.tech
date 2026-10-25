@@ -1,10 +1,11 @@
 ---
 import BaseLayout from './BaseLayout.astro';
+import CtaCard from '../components/CtaCard.astro';
 import '../styles/charts.css';
 
 interface Props {
   title: string;
-  /** Small mono line above the title, e.g. "IMPACT STORY · ANALYTICS → REVENUE" */
+  /** Small uppercase line above the title, e.g. "IMPACT STORY · ANALYTICS → REVENUE" */
   eyebrow: string;
   /** One sentence under the title */
   hook: string;
@@ -18,63 +19,34 @@ const { title, eyebrow, hook, description, org, year, stack = [] } = Astro.props
 ---
 
 <BaseLayout title={title} description={description}>
-  <div class="cs-hero">
-    <div class="wrap">
-      <p class="cs-eyebrow">{eyebrow}</p>
+  <article class="index">
+    <header class="index-header">
+      <p class="eyebrow">{eyebrow}</p>
       <h1>{title}</h1>
-      <p class="cs-hook">{hook}</p>
+      <p class="intro">{hook}</p>
       {(org || year) && (
-        <p class="cs-meta">{[org, year].filter(Boolean).join(' · ')}</p>
+        <p class="date" style="margin-top:14px;">{[org, year].filter(Boolean).join(' · ')}</p>
       )}
-    </div>
-  </div>
-
-  <section class="section" style="padding-top:2.8rem;">
-    <div class="wrap prose-wrap">
       {stack.length > 0 && (
-        <div class="tags" style="margin-bottom:2.2rem;">
+        <div class="tags" style="margin-top:20px;">
           {stack.map((s) => <span class="tag">{s}</span>)}
         </div>
       )}
-      <slot />
+    </header>
 
-      <hr style="border:0; border-top:1px solid var(--line); margin-block:3rem;" />
-      <div style="display:flex; gap:.75rem; flex-wrap:wrap;">
-        <a class="btn btn-primary" href="/recruitment-agencies/">What I build for recruitment agencies</a>
-        <a class="btn btn-ghost" href="/">← Home</a>
-      </div>
+    <div class="cs-body">
+      <slot />
     </div>
-  </section>
+
+    <CtaCard
+      heading="Want this kind of clarity for your recruitment pipeline?"
+      text="The same approach, applied to CVs sent, interviews, offers and placements. Start with a free 20-minute reporting check."
+    />
+    <p class="back"><a class="text-link" href="/recruitment-agencies/">What I build for recruitment agencies →</a></p>
+  </article>
 </BaseLayout>
 
 <style>
-  .cs-hero {
-    background: var(--surface-2);
-    border-bottom: 1px solid var(--line);
-    color: var(--ink);
-    padding-block: clamp(3rem, 8vw, 4.5rem);
-  }
-  .cs-eyebrow {
-    font-family: var(--font-mono);
-    font-size: .7rem;
-    letter-spacing: .18em;
-    text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 1rem;
-  }
-  .cs-hero h1 { color: #ffffff; max-width: 22ch; }
-  .cs-hook {
-    margin-top: 1.1rem;
-    font-size: 1.12rem;
-    line-height: 1.6;
-    color: var(--ink-2);
-    max-width: 52ch;
-  }
-  .cs-meta {
-    margin-top: 1.4rem;
-    font-family: var(--font-mono);
-    font-size: .76rem;
-    color: var(--muted);
-    letter-spacing: .02em;
-  }
+  .cs-body { border-top: 1px solid var(--line); padding-top: 40px; margin-top: 30px; }
+  .back { text-align: center; margin-top: 24px; }
 </style>

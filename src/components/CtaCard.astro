@@ -1,0 +1,31 @@
+---
+// The booking card, repeated between sections like the spec's subscribe card.
+// inList renders it as an <li> break inside a .rows list.
+import { site } from '../site';
+
+interface Props {
+  heading?: string;
+  text?: string;
+  button?: string;
+  fine?: string;
+  inList?: boolean;
+}
+const {
+  heading = 'Book a free 20-minute reporting check',
+  text = "Twenty minutes on how your agency reports today. You leave knowing where your numbers are weakest, whether or not we work together.",
+  button = 'Book a reporting check',
+  fine = "No pitch deck, no obligation. If I can't help, I'll say so on the call.",
+  inList = false,
+} = Astro.props;
+const Tag = inList ? 'li' : 'div';
+---
+
+<Tag class={inList ? 'cta-break' : undefined}>
+  <div class="cta-card">
+    <h4>{heading}</h4>
+    <p>{text}</p>
+    <a class="btn btn-primary" href={site.booking} rel="noopener">{button}</a>
+    {fine && <p class="fine">{fine}</p>}
+    <slot />
+  </div>
+</Tag>
