@@ -6,6 +6,8 @@ import '../styles/global.css';
 
 interface Props {
   title?: string;
+  /** Used verbatim as the <title>, skipping the " — Hafsa Saleh" suffix */
+  fullTitle?: string;
   description?: string;
   /** Set true on article pages so JSON-LD/OG switch to article type */
   article?: boolean;
@@ -14,12 +16,13 @@ interface Props {
 
 const {
   title,
+  fullTitle,
   description = site.description,
   article = false,
   publishedDate,
 } = Astro.props;
 
-const pageTitle = title ? `${title} — ${site.shortName}` : `${site.name} — ${site.role}`;
+const pageTitle = fullTitle ?? (title ? `${title} — ${site.shortName}` : `${site.name} — ${site.role}`);
 const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
 const ogImage = new URL('/og.png', Astro.site ?? site.url).href;
 

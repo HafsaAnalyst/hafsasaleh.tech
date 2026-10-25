@@ -1,0 +1,57 @@
+---
+// Stand-in for the recruitment demo until it exists. Deliberately shows labels
+// and no values: there are no recruitment numbers to show yet, sample or real.
+// Once DEMO_URL is set, this links straight to the demo.
+import { DEMO_URL } from '../data/recruitment';
+
+const tiles = ['Billings this month', 'Placements', 'CVs sent', 'Fill rate'];
+const stages = ['CV sent', 'Interview', 'Offer', 'Placement'];
+---
+
+<figure class="sd">
+  <div class="sd-head">
+    <span class="sd-title">Owner dashboard</span>
+    <span class="sd-badge">Sample data</span>
+  </div>
+
+  <div class="sd-tiles" aria-hidden="true">
+    {tiles.map((t) => (
+      <div class="sd-tile"><span>{t}</span><b></b></div>
+    ))}
+  </div>
+
+  <div class="sd-funnel" aria-hidden="true">
+    {stages.map((s, i) => (
+      <div class="sd-stage" style={`--w:${100 - i * 22}%`}><span>{s}</span></div>
+    ))}
+  </div>
+
+  <figcaption>
+    {DEMO_URL ? (
+      <a href={DEMO_URL} rel="noopener">Open the demo, built with sample data ↗</a>
+    ) : (
+      <>Demo built with sample data, coming soon. Ask for a walkthrough on the reporting check.</>
+    )}
+  </figcaption>
+</figure>
+
+<style>
+  .sd { margin: 2rem 0 0; padding: 1.5rem; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); }
+  .sd-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-bottom: 1.2rem; }
+  .sd-title { font-weight: 700; font-size: .95rem; }
+  .sd-badge {
+    font-family: var(--font-mono); font-size: .68rem; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: .2rem .6rem;
+  }
+  .sd-tiles { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+  .sd-tile { background: var(--surface-2); border-radius: 7px; padding: .8rem .9rem; display: flex; flex-direction: column; gap: .55rem; }
+  .sd-tile span { font-size: .76rem; color: var(--muted); }
+  .sd-tile b { display: block; height: .9rem; width: 55%; border-radius: 4px; background: var(--line); }
+  .sd-funnel { display: flex; flex-direction: column; gap: .45rem; margin-top: 1.2rem; }
+  .sd-stage {
+    width: var(--w); min-width: 8rem; padding: .5rem .8rem; border-radius: 6px;
+    background: var(--accent-tint); font-size: .8rem; color: var(--ink-2);
+  }
+  figcaption { margin-top: 1.1rem; font-size: .82rem; color: var(--muted); }
+  figcaption a { color: var(--accent); font-weight: 600; }
+</style>

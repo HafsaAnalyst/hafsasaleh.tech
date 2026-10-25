@@ -1,4 +1,4 @@
-﻿---
+---
 import { site, nav } from '../site';
 
 const path = Astro.url.pathname;
@@ -28,7 +28,7 @@ const isCurrent = (href: string) =>
         </svg>
       </button>
 
-      <a class="hire" href={site.booking} rel="noopener">Book a free audit</a>
+      <a class="hire" href={site.booking} rel="noopener">Book a reporting check</a>
     </nav>
   </div>
 </header>
@@ -80,7 +80,7 @@ const isCurrent = (href: string) =>
   const btn = document.getElementById('theme-toggle');
   btn?.addEventListener('click', () => {
     const root = document.documentElement;
-    // Whatever is on screen right now â€” whether it came from a stamp or the OS
+    // Whatever is on screen right now — whether it came from a stamp or the OS
     const showing =
       root.dataset.theme ??
       (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');

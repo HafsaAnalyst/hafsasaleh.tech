@@ -73,7 +73,7 @@ const training = [
 
 <BaseLayout
   title="About"
-  description="Marketing Intelligence Analyst engineering ETL pipelines, multi-touch attribution platforms and AI-assisted reporting systems."
+  description="Hafsa Saleh builds recruitment agency dashboards and reporting automation, with a statistics background and experience tracking long people-pipelines at an Australian consultancy."
 >
   <section class="section">
     <div class="wrap">
@@ -112,6 +112,18 @@ const training = [
           </p>
         </div>
 
+        <section class="why-rec">
+          <h2>Why recruitment agencies?</h2>
+          <p>
+            At an Australian migration consultancy I track people through a long pipeline, from
+            first enquiry to final outcome, and I've seen how much money hides in the stages
+            nobody measures. Recruitment works the same way: CVs sent, interviews, offers,
+            placements. Most agencies already hold the data. They just can't get a straight
+            answer out of it. That's the gap I close.
+          </p>
+          <p class="cred-link"><a href="/recruitment-agencies/">What I build for recruitment agencies</a></p>
+        </section>
+
         <aside class="credibility">
           <p>
             <strong>Peer-reviewed:</strong> my regression study on air-quality prediction
@@ -123,8 +135,8 @@ const training = [
         </aside>
 
         <p style="margin-top:2rem;">
-          <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-min audit</a>
-          <a class="btn btn-ghost" href="/services/">See services and pricing</a>
+          <a class="btn btn-primary" href={site.booking} rel="noopener">Book a reporting check</a>
+          <a class="btn btn-ghost" href={site.cv} download>Download my CV (PDF)</a>
         </p>
       </div>
     </div>
@@ -185,6 +197,11 @@ const training = [
 </BaseLayout>
 
 <style>
+  .why-rec { margin-top: 2.6rem; }
+  .why-rec h2 { font-size: 1.4rem; }
+  .why-rec p { color: var(--ink-2); font-size: 1.05rem; margin-top: .8rem; }
+  .why-rec .cred-link { font-size: .95rem; }
+
   .credibility {
     margin-top: 2.2rem;
     padding: 1.3rem 1.5rem;

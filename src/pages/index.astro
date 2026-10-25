@@ -1,150 +1,41 @@
 ﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SampleDashboard from '../components/SampleDashboard.astro';
 import { site } from '../site';
-import { projects } from '../data/projects';
-import { services } from '../data/services';
+import { problems, builds, steps, proof, whyMe, faq, demoHref } from '../data/recruitment';
 
 const BOOK = site.booking;
-
-// Illustrative, and labelled as such on the page: three systems asked the same
-// question, three answers. Not a claim about any client's account.
-const conflict = [
-  { src: 'Ad platform', n: '587' },
-  { src: 'Website analytics', n: '1,204' },
-  { src: 'CRM', n: '412' },
-];
-
-const pains = [
-  {
-    t: 'Nobody can agree on the numbers',
-    d: 'Your ad platform, your analytics and your CRM each report a different lead count. The Monday meeting becomes an argument about whose figure to believe instead of a decision about the business.',
-  },
-  {
-    t: 'You know cost per lead, not cost per client',
-    d: 'So you scale whichever channel looks cheapest â€” which is often the one producing enquiries that never book, never show, and never pay.',
-  },
-  {
-    t: 'Reporting eats a day you never get back',
-    d: 'Someone exports from four tools into a spreadsheet every week, and the result is already stale by the time anyone reads it. And still nobody fully trusts it.',
-  },
-  {
-    t: 'You find out too late',
-    d: 'The no-show, the lapsed client, the campaign quietly burning budget â€” all visible in your data weeks before you noticed, if anything had been watching.',
-  },
-];
-
-const fixes = [
-  {
-    t: 'Tracking you can trust',
-    d: 'Google Tag Manager and GA4 configured so the events you report on are the events that actually happened. Everything else is built on this.',
-  },
-  {
-    t: 'One source of truth',
-    d: 'Every platform reconciled into one dataset with one agreed definition per metric â€” so the argument ends and the deciding starts.',
-  },
-  {
-    t: 'Attribution through to revenue',
-    d: 'The full journey joined up: impression, click, enquiry, booking, showed up, paid. Cost per paying client by channel, not cost per click.',
-  },
-  {
-    t: 'Reporting that runs itself',
-    d: 'Pulled, reconciled and delivered on schedule, with a flag when a number is not reliable yet. No one exports anything by hand again.',
-  },
-];
-
-// Every figure here is a real measured result. Nothing on this page is invented.
-const proof = [
-  { big: '68% â†’ 82%', label: 'Show rate, after fixing the measurement first', href: '/projects/show-rate-recovery/' },
-  { big: '6 â†’ 1', label: 'Platforms reconciled into one source of truth', href: '/projects/marketing-intelligence-platform/' },
-  { big: '1 hr â†’ 14 s', label: 'Recurring report, once it was automated', href: '/projects/' },
-  { big: '90% vs 26%', label: 'Referral against paid social conversion', href: '/projects/lead-conversion-model/' },
-];
-
-const flagship = projects.find((p) => p.href === '/projects/marketing-intelligence-platform/')!;
-const alsoCases = projects.filter(
-  (p) => p.href && p.href !== flagship.href && p.href !== '/projects/ghl-crm-architecture/'
-).slice(0, 2);
-
-// The About section answers "what has she actually done for people", not
-// "who is she" â€” the buyer cares about the former.
-const delivered = [
-  { t: 'Attribution platforms',
-    d: 'Six systems â€” Meta Ads, GoHighLevel, GA4, Search Console, Stripe and Google Sheets â€” unified into one Streamlit source of truth tracking 5,200+ leads and a $10K/month media budget.' },
-  { t: 'CRM architecture',
-    d: 'Full GoHighLevel builds: normalised field schema, one canonical pipeline, lifecycle automations, calendars per consultant, and the governance that keeps it clean.' },
-  { t: 'Tracking and measurement',
-    d: 'GTM containers and GA4 event models built or audited, with offline conversions fed back to the ad platforms so they optimise toward paying clients.' },
-  { t: 'Predictive models',
-    d: 'Lead scoring and churn models, every feature audited for leakage. The honest build scores 77% against a 62% baseline â€” and I report that rather than the flattering number.' },
-  { t: 'Automated reporting',
-    d: 'Recurring reports pulled, reconciled and delivered on schedule. One took an hour by hand; it now takes fourteen seconds and is right every time.' },
-  { t: 'Executive reporting',
-    d: 'Board-ready packages and per-agent performance reviews â€” the numbers leadership actually plans budget and coaching around.' },
-];
-
-const steps = [
-  { n: 1, t: 'Audit', d: 'I map every source and write down exactly where your definitions conflict. Most businesses have never seen that list.' },
-  { n: 2, t: 'Build', d: 'Tracking fixed, then one reconciled dataset and the dashboard your team actually opens.' },
-  { n: 3, t: 'Automate', d: 'It pulls, reconciles and delivers on schedule â€” and tells you when a number cannot be trusted yet.' },
-  { n: 4, t: 'Decide', d: 'You get the "so what", not a data dump. What changed, what it means, what I would do next.' },
-];
 ---
 
-<BaseLayout>
+<BaseLayout
+  fullTitle="Recruitment Agency Dashboards & Reporting Automation | Hafsa Saleh"
+  description={site.description}
+>
 
   <!-- ============ 1. HERO ============ -->
   <section class="hero">
     <div class="wrap hero-in">
-      <ul class="pills">
-        {site.positioning.map((t) => <li>{t}</li>)}
-      </ul>
+      <p class="eyebrow">Dashboards &amp; reporting automation for recruitment agencies</p>
 
-      <h1>Your ads, CRM and analytics all tell you different numbers.</h1>
+      <h1>Know which recruiters, clients and candidates actually make you money.</h1>
       <p class="deck">
-        I reconcile them into one you can spend against â€” so you know what a paying
-        client actually costs, by channel, and where the money is leaking.
+        Your ATS already holds the answers. I turn it into a live dashboard and an automated
+        Monday report, so you stop rebuilding numbers in Excel.
       </p>
 
       <div class="cta">
-        <a class="btn primary" href={BOOK} rel="noopener">Book a free 20-min audit</a>
-        <a class="btn ghost" href="/projects/">See the work</a>
+        <a class="btn primary" href={BOOK} rel="noopener">Book a free 20-minute reporting check</a>
+        <a class="btn ghost" href={demoHref}>See a sample dashboard</a>
       </div>
-
-      <!-- convergence: three conflicting answers, one reconciled number -->
-      <figure class="converge">
-        <figcaption>"How many leads did we get last month?"</figcaption>
-        <div class="conv-row">
-          <div class="conv-in">
-            {conflict.map((c) => (
-              <div class="conv-card">
-                <span class="conv-src">{c.src}</span>
-                <span class="conv-n">{c.n}</span>
-              </div>
-            ))}
-          </div>
-          <svg class="conv-arrow" viewBox="0 0 60 120" aria-hidden="true">
-            <path d="M2 18 C34 18, 34 60, 56 60" fill="none" stroke="currentColor" stroke-width="1.5" />
-            <path d="M2 60 H56" fill="none" stroke="currentColor" stroke-width="1.5" />
-            <path d="M2 102 C34 102, 34 60, 56 60" fill="none" stroke="currentColor" stroke-width="1.5" />
-            <path d="M50 55 l6 5 -6 5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-          </svg>
-          <div class="conv-out">
-            <span class="conv-src">One reconciled number</span>
-            <span class="conv-n big">412</span>
-            <span class="conv-note">and what each one cost you</span>
-          </div>
-        </div>
-        <p class="illus">Illustrative â€” the numbers three systems typically return for the same question.</p>
-      </figure>
     </div>
   </section>
 
-  <!-- ============ 2. PAIN ============ -->
+  <!-- ============ 2. PROBLEMS ============ -->
   <section class="sec alt">
     <div class="wrap">
-      <h2>Does this sound like you?</h2>
-      <div class="grid4">
-        {pains.map((p) => (
+      <h2>Sound familiar?</h2>
+      <div class="grid3">
+        {problems.map((p) => (
           <article class="card">
             <h3>{p.t}</h3>
             <p>{p.d}</p>
@@ -154,109 +45,39 @@ const steps = [
     </div>
   </section>
 
-  <!-- ============ 3. PRESCRIPTION ============ -->
+  <!-- ============ 3. WHAT I BUILD ============ -->
   <section class="sec">
     <div class="wrap">
-      <h2>What you actually need</h2>
-      <p class="sub">Four things, in this order. Skipping the first is why most reporting projects fail.</p>
-      <ol class="grid4 rx">
-        {fixes.map((f, i) => (
-          <li class="card">
-            <span class="rx-n">{i + 1}</span>
-            <h3>{f.t}</h3>
-            <p>{f.d}</p>
-          </li>
-        ))}
-      </ol>
-    </div>
-  </section>
-
-  <!-- ============ 4. PROOF ============ -->
-  <section class="sec alt">
-    <div class="wrap">
-      <h2>Results from real work</h2>
-      <p class="sub">Every number below is measured, not modelled. Each one links to how it was done.</p>
-      <div class="proof">
-        {proof.map((s) => (
-          <a class="pstat" href={s.href}>
-            {/* Rendered as the final value, so it is correct with or without JS.
-                The count-up only ever animates from 0 up to what is already here. */}
-            <span class="pbig" data-count={s.big}>{s.big}</span>
-            <span class="plab">{s.label}</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 5. CASE STUDIES ============ -->
-  <section class="sec">
-    <div class="wrap">
-      <h2>Case studies</h2>
-
-      <a class="flagship" href={flagship.href}>
-        <div>
-          <span class="tagline">{flagship.org}</span>
-          <h3>{flagship.title}</h3>
-          <p class="out">{flagship.outcome}</p>
-          <p>{flagship.summary}</p>
-          <span class="more">Read the case study</span>
-        </div>
-        <dl class="fstats">
-          <div><dt>Leads tracked</dt><dd>5,200+</dd></div>
-          <div><dt>Appointments</dt><dd>3,300+</dd></div>
-          <div><dt>Cost per lead</dt><dd>$7.45</dd></div>
-          <div><dt>Platforms unified</dt><dd>6 â†’ 1</dd></div>
-        </dl>
-      </a>
-
-      <div class="grid2">
-        {alsoCases.map((c) => (
-          <a class="card" href={c.href}>
-            <span class="tagline">{c.org}</span>
-            <h3>{c.title}</h3>
-            <p class="out">{c.outcome}</p>
-            <span class="more">Read the case study</span>
-          </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ 6. SERVICES ============ -->
-  <section class="sec alt">
-    <div class="wrap">
-      <h2>Services</h2>
-      <p class="sub">Fixed scopes, prices up front. The dashboard starts with a free month.</p>
-
-      <ul class="svc-list">
-        {services.map((sv) => (
-          <li class:list={['svc-row', sv.featured && 'is-flag']}>
-            <a href={`/services/#${sv.id}`}>
-              <span class="svc-main">
-                <span class="svc-title">
-                  {sv.title}
-                  {sv.featured && <span class="flag">Most popular</span>}
-                </span>
-                <span class="svc-sum">{sv.summary}</span>
-              </span>
-              <span class="svc-price">
-                <b>{sv.price}</b>
-                <em>{sv.priceNote}</em>
-              </span>
-            </a>
-          </li>
-        ))}
-      </ul>
-
-      <p class="cta-line">
-        <a class="btn primary" href={BOOK} rel="noopener">Book a free 20-min audit</a>
-        <a class="btn ghost" href="/services/">Full pricing and scope</a>
+      <h2>What I build for recruitment agencies</h2>
+      <p class="sub">
+        A recruitment agency dashboard and the reporting around it, built from the data
+        already in your ATS and spreadsheets.
       </p>
+      <div class="grid3">
+        {builds.map((b) => (
+          <a class="card" href="/recruitment-agencies/">
+            <h3>{b.t}</h3>
+            <p>{b.d}</p>
+            <span class="more">How it works</span>
+          </a>
+        ))}
+      </div>
     </div>
   </section>
 
-  <!-- ============ 7. HOW IT WORKS ============ -->
+  <!-- ============ 4. SAMPLE DASHBOARD ============ -->
+  <section class="sec alt">
+    <div class="wrap">
+      <h2>A recruiter performance dashboard, at a glance</h2>
+      <p class="sub">
+        Billings, placements and pipeline conversion on one screen, refreshed without
+        anyone exporting a thing.
+      </p>
+      <SampleDashboard />
+    </div>
+  </section>
+
+  <!-- ============ 5. HOW IT WORKS ============ -->
   <section class="sec">
     <div class="wrap">
       <h2>How it works</h2>
@@ -274,13 +95,35 @@ const steps = [
     </div>
   </section>
 
-  <!-- ============ 8. WHAT I HAVE DELIVERED ============ -->
+  <!-- ============ 6. PROOF ============ -->
   <section class="sec alt">
     <div class="wrap">
-      <h2>What I&rsquo;ve delivered</h2>
-      <p class="sub">The work itself, not the biography. Every line below is something I have built and handed over.</p>
+      <h2>Results from other pipelines like yours</h2>
+      <p class="sub">
+        Measured results from a migration consultancy and a manufacturer, not from recruitment
+        agencies. Same shape of problem: people or orders moving through stages, and reporting
+        nobody trusted. Each links to how it was done.
+      </p>
+      <div class="proof">
+        {proof.map((s) => (
+          <a class="pstat" href={s.href}>
+            {/* Rendered as the final value, so it is correct with or without JS.
+                The count-up only ever animates from 0 up to what is already here. */}
+            <span class="pbig" data-count={s.big}>{s.big}</span>
+            <span class="plab">{s.label}</span>
+            <span class="pfrom">{s.from}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ 7. WHY ME ============ -->
+  <section class="sec">
+    <div class="wrap">
+      <h2>Why me</h2>
       <dl class="delivered">
-        {delivered.map((x) => (
+        {whyMe.map((x) => (
           <div>
             <dt>{x.t}</dt>
             <dd>{x.d}</dd>
@@ -288,21 +131,37 @@ const steps = [
         ))}
       </dl>
       <p class="cta-line">
+        <a class="btn ghost" href="/about/">More about me</a>
         <a class="btn ghost" href="/projects/">See the case studies</a>
       </p>
+    </div>
+  </section>
+
+  <!-- ============ 8. FAQ ============ -->
+  <section class="sec alt">
+    <div class="wrap">
+      <h2>Questions owners ask</h2>
+      <div class="faq">
+        {faq.map((f) => (
+          <details>
+            <summary>{f.q}</summary>
+            <p>{f.a} {f.href && <a href={f.href}>See the packages</a>}</p>
+          </details>
+        ))}
+      </div>
     </div>
   </section>
 
   <!-- ============ 9. FINAL CTA ============ -->
   <section class="sec final">
     <div class="wrap">
-      <h2>Book a free audit call</h2>
+      <h2>If your weekly reporting takes more than an hour, let&rsquo;s talk.</h2>
       <p class="sub center">
-        Twenty minutes. I look at what you're running and tell you where your biggest
-        measurement gap is â€” whether or not you work with me afterwards.
+        Twenty minutes on how you report today. You leave knowing where your numbers are
+        weakest, whether or not you work with me afterwards.
       </p>
       <p class="cta-line center">
-        <a class="btn primary big" href={BOOK} rel="noopener">Book a free audit call</a>
+        <a class="btn primary big" href={BOOK} rel="noopener">Book a free 20-minute reporting check</a>
       </p>
       <p class="micro">No pitch deck, no obligation. If I can't help, I'll say so on the call.</p>
     </div>
@@ -336,85 +195,19 @@ const steps = [
   }
   a.card { text-decoration: none; color: inherit; transition: background .18s; }
   a.card:hover { background: var(--surface-2); }
+  .sec.alt a.card:hover { background: var(--paper); }
   .card p { color: var(--muted); font-size: .92rem; }
-  .grid4 { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); list-style: none; padding: 0; }
-  .grid2 { display: grid; gap: 1rem; margin-top: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr)); }
+  .grid3 { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr)); }
+  .more { margin-top: auto; padding-top: .6rem; color: var(--accent); font-weight: 600; font-size: .88rem; }
 
   /* ---------- 1. hero ---------- */
   /* No gradient, no glow, no entrance animation. The restraint is the design. */
   .hero { padding-block: clamp(4rem, 10vw, 7rem) clamp(3.5rem, 8vw, 5.5rem); }
-
-  .pills { display: flex; flex-wrap: wrap; gap: .4rem; list-style: none; padding: 0; margin-bottom: 1.4rem; }
-  .pills li {
-    font-size: .76rem; font-weight: 500; color: var(--ink-2);
-    border: 1px solid var(--line); border-radius: 999px; padding: .28rem .8rem;
-    background: var(--surface);
-  }
+  .hero .eyebrow { margin-bottom: 1.2rem; }
   .deck { font-size: clamp(1rem, 1.7vw, 1.16rem); color: var(--ink-2); margin-top: 1.1rem; max-width: 44rem; line-height: 1.65; }
 
-  .converge { margin: 3.2rem 0 0; padding: 1.7rem; border-radius: 10px; background: var(--surface); }
-  .converge figcaption { font-size: .9rem; color: var(--ink-2); font-weight: 600; margin-bottom: 1.1rem; }
-  .conv-row { display: grid; grid-template-columns: 1fr auto 1fr; gap: 1rem; align-items: center; }
-  .conv-in { display: flex; flex-direction: column; gap: .5rem; }
-  .conv-card { display: flex; justify-content: space-between; align-items: baseline; gap: .8rem; padding: .6rem .85rem; border-radius: 7px; background: var(--surface-2); }
-  .conv-src { font-size: .78rem; color: var(--muted); }
-  .conv-n { font-size: 1.05rem; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .conv-arrow { width: 3.4rem; height: 7rem; color: var(--line); flex: none; }
-  .conv-out { padding: 1.2rem; border-radius: 7px; background: var(--surface-2); display: flex; flex-direction: column; gap: .2rem; }
-  .conv-n.big { font-size: 2.2rem; color: var(--accent); letter-spacing: -.03em; line-height: 1.1; }
-  .conv-note { font-size: .78rem; color: var(--muted); }
-  .illus { font-size: .74rem; color: var(--muted); font-style: italic; margin-top: 1rem; }
-
-  /* ---------- 3. prescriptions ---------- */
-  .rx-n { font-size: .78rem; font-weight: 700; color: var(--accent); }
-
-  /* ---------- 4. proof ---------- */
-  .proof { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
-  .pstat {
-    text-decoration: none; color: inherit; padding: 1.6rem 0;
-    border-top: 1px solid var(--line);
-    display: flex; flex-direction: column; gap: .4rem; transition: opacity .18s;
-  }
-  .pstat:hover { opacity: .72; }
-  .pbig { font-size: clamp(1.5rem, 3vw, 1.95rem); font-weight: 800; letter-spacing: -.035em; color: var(--accent); font-variant-numeric: tabular-nums; }
-  .plab { font-size: .84rem; color: var(--muted); line-height: 1.45; }
-
-  /* ---------- 5. case studies ---------- */
-  .flagship {
-    display: grid; grid-template-columns: 1fr 15rem; gap: 2.2rem;
-    margin-top: 2rem; padding: 1.8rem;
-    border-radius: 10px; background: var(--surface);
-    text-decoration: none; color: inherit; transition: background .18s;
-  }
-  .flagship:hover { background: var(--surface-2); }
-  .tagline { font-size: .78rem; color: var(--muted); }
-  .flagship h3 { font-size: 1.35rem; margin-top: .3rem; }
-  .out { color: var(--accent); font-weight: 600; font-size: .94rem; margin-top: .6rem; }
-  .flagship p:not(.out) { color: var(--muted); font-size: .93rem; margin-top: .6rem; }
-  .more { display: inline-block; margin-top: 1rem; color: var(--accent); font-weight: 600; font-size: .88rem; }
-  .fstats { margin: 0; display: flex; flex-direction: column; gap: .7rem; align-self: center; }
-  .fstats div { display: flex; justify-content: space-between; gap: 1rem; border-bottom: 1px solid var(--line); padding-bottom: .5rem; }
-  .fstats dt { font-size: .82rem; color: var(--muted); }
-  .fstats dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
-
-  /* ---------- 6. services ---------- */
-  .svc-list { list-style: none; padding: 0; margin-top: 2rem; border-top: 1px solid var(--line); }
-  .svc-row { border-bottom: 1px solid var(--line); }
-  .svc-row a {
-    display: grid; grid-template-columns: 1fr auto; gap: 1.5rem; align-items: center;
-    padding: 1.1rem .6rem; text-decoration: none; color: inherit; transition: background .15s;
-  }
-  .svc-row a:hover { background: var(--surface); }
-  .svc-row.is-flag { background: var(--surface); border-radius: 8px; }
-  .svc-title { font-weight: 700; display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; }
-  .flag { font-size: .66rem; font-weight: 700; color: var(--paper); background: var(--accent); border-radius: 999px; padding: .16rem .5rem; }
-  .svc-sum { display: block; color: var(--muted); font-size: .88rem; margin-top: .3rem; max-width: 46rem; }
-  .svc-price { text-align: right; white-space: nowrap; }
-  .svc-price b { display: block; font-size: 1.1rem; font-weight: 800; color: var(--accent); letter-spacing: -.02em; }
-  .svc-price em { font-style: normal; font-size: .74rem; color: var(--muted); }
-
-  /* ---------- 7. steps ---------- */
-  .steps { list-style: none; padding: 0; margin-top: 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  /* ---------- 5. steps ---------- */
+  .steps { list-style: none; padding: 0; margin-top: 2rem; display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 11.5rem), 1fr)); }
   .steps li { display: flex; gap: .9rem; align-items: flex-start; }
   .step-n {
     flex: none; width: 1.9rem; height: 1.9rem; border-radius: 50%;
@@ -424,7 +217,19 @@ const steps = [
   .steps h3 { font-size: 1rem; }
   .steps p { color: var(--muted); font-size: .88rem; margin-top: .3rem; }
 
-  /* ---------- 8/9 ---------- */
+  /* ---------- 6. proof ---------- */
+  .proof { display: grid; gap: 1rem; margin-top: 2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr)); }
+  .pstat {
+    text-decoration: none; color: inherit; padding: 1.6rem 0;
+    border-top: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: .4rem; transition: opacity .18s;
+  }
+  .pstat:hover { opacity: .72; }
+  .pbig { font-size: clamp(1.5rem, 3vw, 1.95rem); font-weight: 800; letter-spacing: -.035em; color: var(--accent); font-variant-numeric: tabular-nums; }
+  .plab { font-size: .84rem; color: var(--ink-2); line-height: 1.45; }
+  .pfrom { font-family: var(--font-mono); font-size: .7rem; color: var(--muted); letter-spacing: .02em; }
+
+  /* ---------- 7. why me ---------- */
   .delivered { margin-top: 2.4rem; }
   .delivered > div {
     display: grid; grid-template-columns: 15rem 1fr; gap: 2rem;
@@ -436,22 +241,34 @@ const steps = [
   @media (max-width: 46rem) {
     .delivered > div { grid-template-columns: 1fr; gap: .4rem; }
   }
+
+  /* ---------- 8. faq ---------- */
+  .faq { margin-top: 2rem; border-top: 1px solid var(--line); max-width: 48rem; }
+  .faq details { border-bottom: 1px solid var(--line); }
+  .faq summary {
+    cursor: pointer; list-style: none; padding: 1.1rem 2rem 1.1rem 0; position: relative;
+    font-weight: 600;
+  }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after {
+    content: '+'; position: absolute; right: .2rem; top: 50%; transform: translateY(-50%);
+    color: var(--accent); font-size: 1.3rem; font-weight: 400;
+  }
+  .faq details[open] summary::after { content: '−'; }
+  .faq p { color: var(--muted); font-size: .94rem; padding-bottom: 1.2rem; max-width: 42rem; }
+  .faq a { color: var(--accent); font-weight: 600; }
+
+  /* ---------- 9. final ---------- */
   .final { text-align: center; }
+  .final h2 { max-width: 30ch; margin-inline: auto; }
   .final .cta-line { justify-content: center; }
   .micro { font-size: .82rem; color: var(--muted); margin-top: 1rem; }
-
-  /* ---------- responsive ---------- */
-  @media (max-width: 54rem) {
-    .flagship { grid-template-columns: 1fr; gap: 1.4rem; }
-    .conv-row { grid-template-columns: 1fr; }
-    .conv-arrow { transform: rotate(90deg); width: 100%; height: 2.6rem; justify-self: center; }
-  }
 </style>
 
 <script>
   // Count-up on the proof stats.
-  // The final value is already in the HTML, so if this never runs â€” no JS, no
-  // IntersectionObserver, reduced motion â€” the correct number is what shows.
+  // The final value is already in the HTML, so if this never runs (no JS, no
+  // IntersectionObserver, reduced motion) the correct number is what shows.
   // Nothing here can leave a 0 on screen.
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (!reduce && 'IntersectionObserver' in window) {

@@ -1,4 +1,4 @@
-﻿/* ---------- Design tokens ---------- */
+/* ---------- Design tokens ---------- */
 /* Three theme states: bare :root is light; the media query covers an OS set to
    dark (unless the viewer explicitly chose light); the [data-theme] scopes let
    the header toggle win in both directions. Components only ever read tokens. */

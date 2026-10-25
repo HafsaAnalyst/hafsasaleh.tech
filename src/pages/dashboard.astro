@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { DEMO_URL } from '../data/recruitment';
 
 // The Streamlit app itself. Community Cloud can't take a custom domain, so the
 // app is framed here instead — the visitor stays on hafsasaleh.tech.
@@ -47,6 +48,13 @@ const views = [
         up to a minute to wake. If the frame below stays blank,
         <a href={APP} target="_blank" rel="noopener">open it directly</a>.
       </p>
+
+      <p class="rec-note">
+        <strong>Run a recruitment agency?</strong>
+        {DEMO_URL
+          ? <>There is a recruitment version too, built with sample data. <a href={DEMO_URL} rel="noopener">Open the recruitment demo ↗</a></>
+          : <>A recruitment version, built with sample data, is on the way. <a href="/recruitment-agencies/#demo">See what it covers</a></>}
+      </p>
     </div>
   </section>
 
@@ -73,6 +81,12 @@ const views = [
     max-width: 44rem;
   }
   .note a { color: var(--accent); }
+  .rec-note {
+    margin-top: 1.2rem; max-width: 44rem; font-size: .9rem; color: var(--ink-2);
+    padding: .9rem 1.1rem; border-left: 3px solid var(--accent); background: var(--surface-2);
+    border-radius: 0 8px 8px 0;
+  }
+  .rec-note a { color: var(--accent); font-weight: 600; }
 
   .frame-shell {
     border: 1px solid var(--line);

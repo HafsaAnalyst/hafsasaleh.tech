@@ -3,25 +3,71 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { site } from '../site';
 import { services, HOURLY } from '../data/services';
 import ShotGallery from '../components/ShotGallery.astro';
+import { packages, TBC } from '../data/recruitment';
 
-const WHATSAPP = '923044762001';
+const WHATSAPP = site.whatsapp;
 const featured = services.filter((s) => s.featured);
 const rest = services.filter((s) => !s.featured);
+
+// Moved here from the old home page, so the marketing track record is kept.
+const delivered = [
+  { t: 'Attribution platforms',
+    d: 'Six systems (Meta Ads, GoHighLevel, GA4, Search Console, Stripe and Google Sheets) unified into one Streamlit source of truth tracking 5,200+ leads and a $10K/month media budget.' },
+  { t: 'CRM architecture',
+    d: 'Full GoHighLevel builds: normalised field schema, one canonical pipeline, lifecycle automations, calendars per consultant, and the governance that keeps it clean.' },
+  { t: 'Tracking and measurement',
+    d: 'GTM containers and GA4 event models built or audited, with offline conversions fed back to the ad platforms so they optimise toward paying clients.' },
+  { t: 'Predictive models',
+    d: 'Lead scoring and churn models, every feature audited for leakage. The honest build scores 77% against a 62% baseline, and I report that rather than the flattering number.' },
+];
 ---
 
 <BaseLayout
   title="Services"
-  description="Intelligence dashboards, predictive models, GoHighLevel builds and automated reporting systems — with transparent pricing."
+  description="Recruitment agency dashboards and automated weekly reporting, plus marketing analytics, tracking, predictive models and GoHighLevel builds."
 >
   <section class="section">
     <div class="wrap">
       <p class="eyebrow">Services</p>
       <h1>Work with me</h1>
       <p class="lead" style="margin-top:1rem; max-width:44rem;">
-        Five ways to close the gap between what your marketing costs and what it actually
-        returns. Prices below are starting points in USD — anything real gets quoted after
-        a short call, so you know the number before you commit.
+        My main offer is for recruitment and staffing agency owners: a live owner dashboard
+        and an automated Monday report, built from the data already in your ATS.
       </p>
+
+      <div class="rec-pkgs">
+        {packages.map((p) => (
+          <a class="card rec" href="/recruitment-agencies/#pricing">
+            <span class="kind hot">Recruitment agencies</span>
+            <h3>{p.t}</h3>
+            <span class:list={['price', 'sm', p.price === TBC && 'tbc']}>{p.price}</span>
+            <span class="price-note">{p.note}</span>
+            <p>{p.d}</p>
+          </a>
+        ))}
+      </div>
+      <div style="display:flex; gap:.75rem; flex-wrap:wrap; margin-top:1.8rem;">
+        <a class="btn btn-primary" href={site.booking} rel="noopener">Book a free 20-minute reporting check</a>
+        <a class="btn btn-ghost" href="/recruitment-agencies/">The full recruitment offer</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="other-work">
+    <div class="wrap">
+      <p class="eyebrow">Other work</p>
+      <h2>Marketing analytics, tracking and CRM</h2>
+      <p class="lead" style="margin-top:1rem; max-width:44rem;">
+        The work my track record comes from, still available for service businesses. Prices
+        below are starting points in USD. Anything real gets quoted after a short call, so
+        you know the number before you commit.
+      </p>
+
+      <dl class="delivered">
+        {delivered.map((x) => (
+          <div><dt>{x.t}</dt><dd>{x.d}</dd></div>
+        ))}
+      </dl>
 
       <div class="strip">
         <div><b>Free</b><span>first month on the dashboard</span></div>
@@ -67,7 +113,7 @@ const rest = services.filter((s) => !s.featured);
 
   <section class="section">
     <div class="wrap">
-      <h2>Everything else</h2>
+      <h2>More marketing services</h2>
       <p class="lead" style="margin-top:.6rem; max-width:42rem;">
         Fixed scopes with fixed starting prices. No hourly surprises.
       </p>
@@ -149,6 +195,24 @@ const rest = services.filter((s) => !s.featured);
     color: var(--muted);
   }
   .kind.hot { color: var(--accent); }
+
+  /* ---- recruitment packages ---- */
+  .rec-pkgs { display: grid; gap: 1.1rem; margin-top: 2.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr)); }
+  .rec { text-decoration: none; color: inherit; gap: .4rem; }
+  .rec h3 { font-size: 1.05rem; margin-top: .2rem; }
+  .rec p { font-size: .88rem; margin-top: .3rem; }
+  .price.tbc { font-size: .95rem; font-family: var(--font-mono); color: var(--gold); letter-spacing: 0; }
+
+  .delivered { margin-top: 2rem; }
+  .delivered > div {
+    display: grid; grid-template-columns: 13rem 1fr; gap: 1.5rem;
+    padding-block: 1.1rem; border-top: 1px solid var(--line);
+  }
+  .delivered dt { font-weight: 700; font-size: .95rem; }
+  .delivered dd { margin: 0; color: var(--muted); font-size: .9rem; line-height: 1.65; }
+  @media (max-width: 46rem) {
+    .delivered > div { grid-template-columns: 1fr; gap: .3rem; }
+  }
 
   /* ---- featured ---- */
   .svc-featured { border-top: 1px solid var(--line); }

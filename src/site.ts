@@ -8,22 +8,21 @@ export const site = {
   domain: 'hafsasaleh.tech',
   url: 'https://hafsasaleh.tech',
 
-  role: 'Marketing Intelligence Analyst',
-  // Shown as pills in the hero — kept short so they read as capabilities,
-  // not as a job title. GTM here means Google Tag Manager (measurement),
-  // never go-to-market.
-  positioning: ['Attribution', 'GTM & GA4 tracking', 'Dashboards', 'Predictive models'],
+  role: 'Dashboards & Reporting Automation for Recruitment Agencies',
 
-  // TODO: replace with your real Calendly link once the event type exists.
-  booking: 'https://calendly.com/REPLACE-ME',
+  // Every "Book a reporting check" button points here.
+  // [HAFSA TO CONFIRM: Calendly or Cal.com URL] — swap '/contact/' for the
+  // booking link once the event type exists. Until then the contact page
+  // carries the booking request form.
+  booking: '/contact/',
 
   // Your positioning statement — the most important sentence on the site.
   tagline:
-    'I build the data layer marketing teams actually run on — unifying ad platforms, CRM and analytics into one source of truth that leadership uses to decide where the money goes.',
+    'I help recruitment agency owners see which recruiters, clients and candidates turn into placements and fees, with live dashboards and automated reporting built on the data already in their ATS.',
 
   // Used for SEO meta descriptions and social sharing previews
   description:
-    'Hafsa Saleh is a Marketing Intelligence Analyst specialising in ETL pipelines, multi-touch attribution and AI-assisted reporting systems. Portfolio, research and writing on turning marketing data into decisions.',
+    'Live dashboards and automated weekly reports for recruitment agency owners. See billings, recruiter performance and where placements leak, from your ATS data.',
 
   // TODO: swap to hello@hafsasaleh.tech once you set up domain email (Zoho is free).
   email: 'hafsa.saleh1821@gmail.com',
@@ -42,21 +41,28 @@ export const site = {
     scholar: '',
   },
 
+  // International format, digits only, for wa.me links.
+  whatsapp: '923044762001',
+
+  // Linked from the About page only.
+  cv: '/hafsa-saleh-cv.pdf',
+
   location: 'Lahore, Pakistan',
 };
 
-// Primary nav is deliberately short — a buyer needs three choices and one CTA.
-// The booking button lives in the header, so it is not repeated here.
+// The booking button lives in the header, so Contact is not repeated here.
 export const nav = [
-  { href: '/projects/', label: 'Work' },
-  { href: '/services/', label: 'Services' },
+  { href: '/', label: 'Home' },
+  { href: '/recruitment-agencies/', label: 'Recruitment Agencies' },
+  { href: '/dashboard/', label: 'Dashboard' },
+  { href: '/projects/', label: 'Projects' },
   { href: '/about/', label: 'About' },
+  { href: '/articles/', label: 'Articles' },
 ];
 
 // Everything else is still a real page, reachable from the footer.
 export const moreNav = [
-  { href: '/dashboard/', label: 'Live dashboard' },
-  { href: '/articles/', label: 'Articles' },
+  { href: '/services/', label: 'Services' },
   { href: '/research/', label: 'Research' },
   { href: '/contact/', label: 'Contact' },
 ];

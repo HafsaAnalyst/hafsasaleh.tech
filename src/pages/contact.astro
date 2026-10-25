@@ -4,24 +4,48 @@ import { site } from '../site';
 
 const channels = [
   { label: 'Email', value: site.email, href: `mailto:${site.email}`, note: 'Fastest way to reach me' },
+  { label: 'WhatsApp', value: 'Message me', href: site.whatsapp ? `https://wa.me/${site.whatsapp}` : '', note: 'Quick questions and call scheduling' },
   { label: 'LinkedIn', value: 'Connect with me', href: site.socials.linkedin, note: 'Roles and professional enquiries' },
-  { label: 'GitHub', value: 'See my code', href: site.socials.github, note: 'Repositories and notebooks' },
   { label: 'Upwork', value: 'Hire me on Upwork', href: site.socials.upwork, note: 'Contract analytics and dashboard work' },
   { label: 'Fiverr', value: 'Hire me on Fiverr', href: site.socials.fiverr, note: 'Packaged, fixed-scope projects' },
+  { label: 'GitHub', value: 'See my code', href: site.socials.github, note: 'Repositories and notebooks' },
 ].filter((c) => Boolean(c.href));
 ---
 
-<BaseLayout title="Contact" description={`Get in touch with ${site.name}.`}>
+<BaseLayout
+  title="Book a reporting check"
+  description="Book a free 20-minute reporting check for your recruitment agency, or get in touch with Hafsa Saleh by email, WhatsApp or LinkedIn."
+>
   <section class="section">
     <div class="wrap prose-wrap">
       <p class="eyebrow">Contact</p>
-      <h1>Let's talk</h1>
+      <h1>Book a free 20-minute reporting check</h1>
       <p class="lead" style="margin-top:1rem;">
-        The quickest way to work out whether I can help is a short call. Otherwise
-        email me, or hire me directly through Upwork or Fiverr.
+        A short call on how your agency reports today: what you export, what you rebuild in
+        Excel, and which numbers you don't trust. You leave knowing where the biggest gap is,
+        whether or not we work together.
       </p>
 
-      <div class="grid grid-2" style="margin-top:2.5rem;">
+      {/* [HAFSA TO CONFIRM: Calendly or Cal.com URL] — once site.booking points at a
+          booking link, add it here as the primary button above the form. Until then,
+          the form drafts an email so the request still reaches you. */}
+      <form id="check-form" class="check" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+        <div class="row">
+          <label>Your name<input name="Name" autocomplete="name" required /></label>
+          <label>Email<input name="Email" type="email" autocomplete="email" required /></label>
+        </div>
+        <div class="row three">
+          <label>Agency name <em>optional</em><input name="Agency" autocomplete="organization" /></label>
+          <label>Number of recruiters <em>optional</em><input name="Recruiters" inputmode="numeric" /></label>
+          <label>ATS you use <em>optional</em><input name="ATS" placeholder="e.g. JobAdder, Bullhorn" /></label>
+        </div>
+        <label>How do you report today? <em>optional</em><textarea name="Message" rows="4"></textarea></label>
+        <button class="btn btn-primary" type="submit">Request my reporting check</button>
+        <p class="form-note">This opens a pre-filled email in your mail app. Nothing is sent until you press send.</p>
+      </form>
+
+      <h2 style="margin-top:3.5rem; font-size:1.3rem;">Or reach me directly</h2>
+      <div class="grid grid-2" style="margin-top:1.4rem;">
         {channels.map((c) => (
           <a class="card" href={c.href} style="text-decoration:none;" rel={c.href.startsWith('http') ? 'noopener' : undefined}>
             <span class="meta">{c.label}</span>
@@ -32,8 +56,47 @@ const channels = [
       </div>
 
       <p style="margin-top:2.5rem; color:var(--muted); font-size:.9rem;">
-        Based in {site.location}.
+        Based in {site.location} (UTC+5): overlaps with the UK afternoon and the Australian
+        morning. US calls in the evening, by arrangement.
       </p>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .check {
+    margin-top: 2.2rem; padding: 1.6rem; border-radius: 10px;
+    background: var(--surface); border: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 1rem;
+  }
+  .row { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 13rem), 1fr)); }
+  .row.three { grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr)); }
+  label { display: flex; flex-direction: column; gap: .35rem; font-size: .86rem; font-weight: 600; color: var(--ink); }
+  label em { font-style: normal; font-weight: 400; color: var(--muted); font-size: .78rem; }
+  input, textarea {
+    font: inherit; font-weight: 400; font-size: .95rem; color: var(--ink);
+    background: var(--paper); border: 1px solid var(--line); border-radius: 7px;
+    padding: .6rem .75rem; width: 100%;
+  }
+  input:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; border-color: transparent; }
+  textarea { resize: vertical; }
+  .check .btn { align-self: flex-start; cursor: pointer; font-weight: 600; }
+  .form-note { font-size: .8rem; color: var(--muted); }
+</style>
+
+<script>
+  // Build a readable email instead of relying on the browser's raw form-to-mailto
+  // encoding. Without JS the form's own mailto action still works.
+  const form = document.getElementById('check-form') as HTMLFormElement | null;
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const val = (k: string) => String(data.get(k) ?? '').trim();
+    const lines = ['Name', 'Email', 'Agency', 'Recruiters', 'ATS']
+      .map((k) => `${k}: ${val(k) || '-'}`);
+    const body = [...lines, '', 'How we report today:', val('Message') || '-'].join('\n');
+    const subject = `Reporting check request${val('Agency') ? ` - ${val('Agency')}` : ''}`;
+    const to = form.action.replace(/^mailto:/, '');
+    location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  });
+</script>
